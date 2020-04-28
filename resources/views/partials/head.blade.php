@@ -1,7 +1,9 @@
-<link href="{{ asset('assets') }}/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="{{ asset('assets') }}/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-<link href="{{ asset('assets') }}/vendors/themify-icons/css/themify-icons.css" rel="stylesheet" />
-<!-- PLUGINS STYLES-->
-<link href="{{ asset('assets') }}/vendors/jvectormap/jquery-jvectormap-2.0.3.css" rel="stylesheet" />
-<!-- THEME STYLES-->
-<link href="{{ asset('assets') }}/css/main.min.css" rel="stylesheet" />
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="{{ asset('adminlte') }}/bower_components/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="{{ asset('adminlte') }}/bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="{{ asset('adminlte') }}/bower_components/Ionicons/css/ionicons.min.css">
+<link rel="stylesheet" href="{{ asset('adminlte') }}/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="{{ asset('adminlte') }}/dist/css/skins/_all-skins.min.css">
+<!-- Google Font -->
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
