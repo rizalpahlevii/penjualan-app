@@ -38,4 +38,14 @@ Route::group(['middleware' => 'testing'], function ($app) use ($router) {
     $app->prefix('kategori')->name('kategori.')->group(function ($app) use ($router) {
         $router->get('/{id}/delete', 'KategoriController@destroy')->name('destroy');
     });
+
+    $app->resource('pelanggan', 'PelangganController')->except('show');
+    $app->prefix('pelanggan')->name('pelanggan.')->group(function ($app) use ($router) {
+        $router->get('/{id}/delete', 'PelangganController@destroy')->name('destroy');
+    });
+
+    $app->resource('user', 'UserController')->except('show');
+    $app->prefix('user')->name('user.')->group(function ($app) use ($router) {
+        $router->get('/{id}/delete', 'UserController@destroy')->name('destroy');
+    });
 });

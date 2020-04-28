@@ -41,7 +41,17 @@
             </li>
             <li class="{{ set_active(['barang.create','barang.index']) }}">
                 <a href="{{ route('barang.index') }}">
-                    <i class="fa fa-dashboard"></i> <span>Barang</span>
+                    <i class="fa fa-reorder"></i> <span>Barang</span>
+                </a>
+            </li>
+            <li class="{{ set_active(['pelanggan.create','pelanggan.index','pelanggan.edit']) }}">
+                <a href="{{ route('pelanggan.index') }}">
+                    <i class="fa fa-user"></i> <span>Pelanggan</span>
+                </a>
+            </li>
+            <li class="{{ set_active(['user.create','user.index','user.edit']) }}">
+                <a href="{{ route('user.index') }}">
+                    <i class="fa fa-users"></i> <span>User</span>
                 </a>
             </li>
         </ul>
