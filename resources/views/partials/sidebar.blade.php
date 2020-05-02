@@ -7,7 +7,7 @@
                 <img src="{{ asset('adminlte') }}/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p>{{ Auth::user()->nama }}</p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
@@ -19,29 +19,36 @@
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
+
             <li
-                class="treeview {{ set_active(['satuan.index','satuan.create','satuan.edit','kategori.index','kategori.create','kategori.edit']) }}">
+                class="treeview {{ set_active(['satuan.index','satuan.create','satuan.edit','kategori.index','kategori.create','kategori.edit','barang.create','barang.index','barang.edit','barang.masuk.index','barang.masuk.create']) }}">
                 <a href="#">
-                    <i class="fa fa-pie-chart"></i>
-                    <span>Master Data</span>
+                    <i class="fa fa-archive"></i>
+                    <span>Barang</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
                     <li class="{{ set_active(['satuan.index','satuan.create','satuan.edit']) }}">
-                        <a href="{{ route('satuan.index') }}"><i class="fa fa-circle-o"></i> Satuan Barang</a>
+                        <a href="{{ route('satuan.index') }}"><i class="fa fa-circle-o"></i> Satuan</a>
                     </li>
 
                     <li class="{{ set_active(['kategori.index','kategori.create','kategori.edit']) }}">
-                        <a href="{{ route('kategori.index') }}"><i class="fa fa-circle-o"></i> Kategori Barang</a>
+                        <a href="{{ route('kategori.index') }}"><i class="fa fa-circle-o"></i> Kategori</a>
                     </li>
 
+                    <li class="{{ set_active(['barang.index','barang.create','barang.edit']) }}">
+                        <a href="{{ route('barang.index') }}"><i class="fa fa-circle-o"></i> Barang</a>
+                    </li>
+                    <li class="{{ set_active(['barang.masuk.index']) }}">
+                        <a href="{{ route('barang.masuk.index') }}"><i class="fa fa-circle-o"></i> Stok Masuk</a>
+                    </li>
                 </ul>
             </li>
-            <li class="{{ set_active(['barang.create','barang.index']) }}">
-                <a href="{{ route('barang.index') }}">
-                    <i class="fa fa-reorder"></i> <span>Barang</span>
+            <li class="{{ set_active(['suplier.index','suplier.create','suplier.edit']) }}">
+                <a href="{{ route('suplier.index') }}">
+                    <i class="fa fa-truck"></i> <span>Suplier</span>
                 </a>
             </li>
             <li class="{{ set_active(['pelanggan.create','pelanggan.index','pelanggan.edit']) }}">
@@ -53,6 +60,38 @@
                 <a href="{{ route('user.index') }}">
                     <i class="fa fa-users"></i> <span>User</span>
                 </a>
+            </li>
+            <li class="{{ set_active(['kasir.index']) }}">
+                <a href="{{ route('kasir.index') }}">
+                    <i class="fa fa-th"></i> <span>Kasir</span>
+                </a>
+            </li>
+            <li class="treeview {{ set_active(['transaksi.piutang.index','transaksi.return.penjualan.index']) }}">
+                <a href="#">
+                    <i class="fa fa-pie-chart"></i>
+                    <span>Transaksi</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ set_active(['transaksi.piutang.index']) }}">
+                        <a href="{{ route('transaksi.piutang.index') }}"><i class="fa fa-calendar"></i> Piutang</a>
+                    </li>
+                    <li class="treeview {{ set_active(['transaksi.return.penjualan.index']) }}">
+                        <a href="#"><i class="fa fa-sticky-note"></i> Return
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ set_active('transaksi.return.penjualan.index') }}"><a
+                                    href="{{ route('transaksi.return.penjualan.index') }}"><i
+                                        class="fa fa-circle-o"></i>
+                                    Penjualan</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </li>
         </ul>
     </section>

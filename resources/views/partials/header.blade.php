@@ -21,7 +21,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="{{ asset('adminlte') }}/dist/img/user2-160x160.jpg" class="user-image"
                             alt="User Image">
-                        <span class="hidden-xs">Alexander Pierce</span>
+                        <span class="hidden-xs">{{ Auth::user()->nama }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->

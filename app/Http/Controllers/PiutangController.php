@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Pelanggan;
+use Illuminate\Http\Request;
+use App\Piutang;
+use Illuminate\Support\Facades\DB;
+use Saldo;
+
+class PiutangController extends Controller
+{
+    public function index()
+    {
+        $piutang = Piutang::with('transaksi', 'pelanggan')->get();
+        $pelanggan = Pelanggan::has('piutang')->get();
+        $total_piutang = Saldo::getTotalPiutang();
+        return view("pages.transaksi.piutang.index", compact('piutang', 'total_piutang', 'pelanggan'));
+    }
+    public function loadTable()
+    {
+        if (request()->get('filter')) {
+            $piutang = Piutang::with('transaksi', 'pelanggan');
+            if (request()->get('filter') == "belum_dibayar") {
+                $piutang->where("piutang_terbayar", "=", "0");
+            } elseif (request()->get('filter') == "lunas") {
+                $piutang->where("sisa_piutang", "=", "0");
+            } elseif (request()->get('filter') == "belum_lunas") {
+                $piutang->where("sisa_piutang", ">", "0");
+            } else {
+                $piutang = $piutang;
+            }
+        } else {
+            $piutang = Piutang::with('transaksi', 'pelanggan');
+            if (request()->get('tanggal_awal') != "all") {
+                $piutang = $piutang->whereDate('tanggal_piutang', ">=", request()->get('tanggal_awal'));
+            }
+            if (request()->get('tanggal_akhir') != "all") {
+                $piutang = $piutang->whereDate('tanggal_piutang', "<=", request()->get('tanggal_akhir'));
+            }
+            if (request()->get('pelanggan') != "all") {
+                $piutang = $piutang->where('pelanggan_id', request()->get('pelanggan'));
+            }
+        }
+        $piutang = $piutang->get();
+        return view("pages.transaksi.piutang.table_piutang", compact('piutang'));
+    }
+    public function loadModal($id)
+    {
+        $piutang = Piutang::with('pelanggan', 'transaksi.detail_transaksi.barang')->where('id', $id)->first();
+        return view("pages.transaksi.piutang.modal_piutang", compact('piutang'));
+    }
+    public function getPIutangById($id)
+    {
+        $piutang = Piutang::with('pelanggan', 'transaksi')->find($id);
+        return response()->json($piutang);
+    }
+    public function updatePiutang(Request $request)
+    {
+        $piutang = Piutang::find($request->piutang_id);
+        if ($request->bayar > $piutang->sisa_piutang) {
+            $piutang->piutang_terbayar = $piutang->total_hutang;
+            $piutang->sisa_piutang = 0;
+        } else {
+            $piutang->piutang_terbayar += $request->bayar;
+            $piutang->sisa_piutang -= $request->bayar;
+        }
+        if ($piutang->save()) {
+            return response()->json("berhasil");
+        } else {
+            return response()->json("gagal");
+        }
+    }
+    public function loadKotakAtas()
+    {
+        $total_piutang = Saldo::getTotalPiutang();
+        return view("pages.transaksi.return.penjualan.kotak_atas", compact('total_piutang'));
+    }
+}

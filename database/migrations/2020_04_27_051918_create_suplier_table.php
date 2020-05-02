@@ -17,10 +17,10 @@ class CreateSuplierTable extends Migration
             $table->id();
             $table->string('nama');
             $table->text('alamat');
-            $table->string('kote');
+            $table->string('kota');
             $table->string('no_hp');
-            $table->string('email')->unique();
-            $table->text('website');
+            $table->string('email')->unique()->nullable();
+            $table->text('website')->nullable();
             $table->timestamps();
         });
     }

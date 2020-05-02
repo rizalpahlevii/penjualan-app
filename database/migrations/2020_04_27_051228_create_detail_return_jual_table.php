@@ -16,7 +16,7 @@ class CreateDetailReturnJualTable extends Migration
         Schema::create('detail_return_jual', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('return_jual_id');
-            $table->unsignedInteger('barang_id');
+            $table->string('barang_id');
             $table->integer('jumlah_beli');
             $table->timestamps();
         });

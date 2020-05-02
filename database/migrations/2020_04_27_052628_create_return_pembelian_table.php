@@ -17,7 +17,7 @@ class CreateReturnPembelianTable extends Migration
             $table->id();
             $table->date('tanggal_pembelian');
             $table->date('tanggal_return_pembelian');
-            $table->decimal('total_bayar');
+            $table->integer('total_bayar');
             $table->timestamps();
         });
     }

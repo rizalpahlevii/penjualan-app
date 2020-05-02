@@ -15,9 +15,9 @@ class CreateDetailReturnPembelianTable extends Migration
     {
         Schema::create('detail_return_pembelian', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('barang_id');
+            $table->string('barang_id');
             $table->unsignedInteger('return_beli_id');
-            $table->decimal('jumlah_beli');
+            $table->integer('jumlah_beli');
             $table->timestamps();
         });
     }

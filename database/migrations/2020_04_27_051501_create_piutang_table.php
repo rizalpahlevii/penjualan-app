@@ -16,10 +16,10 @@ class CreatePiutangTable extends Migration
         Schema::create('piutang', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal_piutang');
-            $table->decimal('total_hutang');
-            $table->decimal('piutang_terbayar');
+            $table->integer('total_hutang');
+            $table->integer('piutang_terbayar');
             $table->date('tanggal_tempo');
-            $table->decimal('sisa_piutang');
+            $table->integer('sisa_piutang');
             $table->unsignedInteger('pelanggan_id');
             $table->unsignedInteger('transaksi_id');
             $table->timestamps();

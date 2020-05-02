@@ -14,7 +14,7 @@ class Barang extends Model
     {
         $cek = Barang::all();
         if ($cek->count() > 0) {
-            $peminjaman = Barang::orderBy('id', 'DESC')->first();
+            $peminjaman = Barang::orderBy('id', 'DESC')->withTrashed()->first();
             $nourut = (int) substr($peminjaman->id, -7, 7);
             $nourut++;
             $char = "BRG";
@@ -32,5 +32,9 @@ class Barang extends Model
     public function satuan()
     {
         return $this->belongsTo(Satuan::class, 'satuan_id', 'id');
+    }
+    public function detail_transaksi()
+    {
+        return $this->hasMany(Detail_transaksi::class, 'barang_id', 'id');
     }
 }

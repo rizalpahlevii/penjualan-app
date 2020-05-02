@@ -105,9 +105,15 @@ class SatuanController extends Controller
     public function destroy($id)
     {
         $satuan = Satuan::findOrFail($id);
-        if ($satuan->delete()) {
-            session()->flash('message', 'Data berhasil dihapus!');
-            return redirect()->route('satuan.index')->with('status', 'success');
+        $relasi = Satuan::with('barang')->find($id);
+        if (count($relasi->barang) < 1) {
+            if ($satuan->delete()) {
+                session()->flash('message', 'Data berhasil dihapus!');
+                return redirect()->route('satuan.index')->with('status', 'success');
+            } else {
+                session()->flash('message', 'Data gagal dihapus!');
+                return redirect()->route('satuan.index')->with('status', 'danger');
+            }
         } else {
             session()->flash('message', 'Data gagal dihapus!');
             return redirect()->route('satuan.index')->with('status', 'danger');

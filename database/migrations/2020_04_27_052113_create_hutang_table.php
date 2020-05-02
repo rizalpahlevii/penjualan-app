@@ -17,11 +17,11 @@ class CreateHutangTable extends Migration
             $table->id();
             $table->date('tanggal_hutang');
             $table->date('tanggal_tempo');
-            $table->unsignedInteger('supplier_id');
+            $table->unsignedInteger('suplier_id');
             $table->unsignedInteger('pembelian_id');
-            $table->decimal('total_hutang');
-            $table->decimal('pembayaran_hutang');
-            $table->decimal('sisa_hutang');
+            $table->integer('total_hutang');
+            $table->integer('pembayaran_hutang');
+            $table->integer('sisa_hutang');
             $table->timestamps();
         });
     }

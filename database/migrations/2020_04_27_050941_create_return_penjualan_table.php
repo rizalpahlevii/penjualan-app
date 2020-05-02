@@ -17,7 +17,8 @@ class CreateReturnPenjualanTable extends Migration
             $table->id();
             $table->date('tanggal_return_jual');
             $table->unsignedInteger('transaksi_id');
-            $table->decimal('total_bayar');
+            $table->integer('total_bayar');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
         });
     }

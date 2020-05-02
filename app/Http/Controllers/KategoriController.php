@@ -106,12 +106,18 @@ class KategoriController extends Controller
     public function destroy($id)
     {
         $kategori = Kategori::findOrFail($id);
-        if ($kategori->delete()) {
-            session()->flash('message', 'Data berhasil dihapus!');
-            return redirect()->route('kategori.index')->with('status', 'success');
+        $relasi = Kategori::with('barang')->find($id);
+        if (count($relasi->barang) < 1) {
+            if ($kategori->delete()) {
+                session()->flash('message', 'Data berhasil dihapus!');
+                return redirect()->route('kategori.index')->with('status', 'success');
+            } else {
+                session()->flash('message', 'Data gagal dihapus!');
+                return redirect()->route('kategori.index')->with('status', 'danger');
+            }
         } else {
             session()->flash('message', 'Data gagal dihapus!');
-            return redirect()->route('kategori.index')->with('status', 'danger');
+            return redirect()->route('satuan.index')->with('status', 'danger');
         }
     }
 }

@@ -17,7 +17,7 @@ class CreatePembelianTable extends Migration
             $table->id();
             $table->date('tanggal_pembelian');
             $table->unsignedInteger('suplier_id');
-            $table->decimal('total');
+            $table->integer('total');
             $table->string('status');
             $table->timestamps();
         });

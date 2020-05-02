@@ -64,8 +64,8 @@
                                     <td>{{ $row->satuan->nama }}</td>
                                     <td>{{ $row->kategori->nama }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-info btn-sm tmb-stok" data-id="{{ $row->id }}">Tambah
-                                            Stok</a>
+                                        {{-- <a href="#" class="btn btn-info btn-sm tmb-stok" data-id="{{ $row->id }}">Tambah
+                                        Stok</a> --}}
                                         <a href="{{ route('barang.edit',$row->id) }}"
                                             class="btn btn-sm btn-warning">Edit</a>
                                         <a href="{{ route('barang.destroy',$row->id) }}" class="btn btn-sm btn-danger"

@@ -17,11 +17,11 @@ class CreateTransaksiTable extends Migration
             $table->id();
             $table->string('kode')->unique();
             $table->date('tanggal_transaksi');
-            $table->decimal('total');
+            $table->integer('total');
             $table->integer('diskon');
             $table->integer('ppn');
             $table->integer('pph');
-            $table->enum('status', ['kredit', 'tunai']);
+            $table->enum('status', ['hutang', 'tunai']);
             $table->unsignedInteger('pelanggan_id');
             $table->unsignedInteger('user_id');
             $table->timestamps();
