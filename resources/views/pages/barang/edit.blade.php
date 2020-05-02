@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <div class="box box-primary">
+        <div class="box box-danger">
             <div class="box-header with-border">
                 <div class="ibox-title">@yield('page')</div>
             </div>

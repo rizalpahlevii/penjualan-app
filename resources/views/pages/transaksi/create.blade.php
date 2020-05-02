@@ -8,88 +8,220 @@
 <input type="hidden" name="kode" id="kode" value="{{ $kode }}">
 <div class="row">
     <div class="col-md-3">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12">
-                        <div class="form-group">
-                            <label for="tanggal">Tanggal Transaksi</label>
-                            <input type="text" name="tangal" class="form-control" id="tangal" readonly
-                                style="cursor:no-drop" value="{{ date('Y-m-d H:i:s') }}">
-                        </div>
+        <div class="box box-primary>
+            <div class=" box-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="tanggal">Tanggal Transaksi</label>
+                        <input type="text" name="tangal" class="form-control" id="tangal" readonly
+                            style="cursor:no-drop" value="{{ date('Y-m-d H:i:s') }}">
                     </div>
-                    <div class="col-md-12 col-sm-12">
-                        <div class="form-group">
-                            <label for="kasir">Tanggal Transaksi</label>
-                            <input type="text" name="kasir" class="form-control" id="kasir" readonly
-                                style="cursor:no-drop" value="Testing">
-                        </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="kasir">Tanggal Transaksi</label>
+                        <input type="text" name="kasir" class="form-control" id="kasir" readonly style="cursor:no-drop"
+                            value="Testing">
                     </div>
-                    <div class="col-md-12 col-sm-12">
-                        <div class="form-group">
-                            <label for="pelanggan">Pelanggan</label>
-                            <select name="pelanggan" id="pelanggan" class="form-control select2" style="width: 100%;">
-                                @foreach ($pelanggan as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="pelanggan">Pelanggan</label>
+                        <select name="pelanggan" id="pelanggan" class="form-control select2" style="width: 100%;">
+                            @foreach ($pelanggan as $item)
+                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-5">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="kode_barang">Kode Barang</label>
-                            <input type="text" name="kode_barang" id="kode_barang" class="form-control" autofocus>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="nama_barang">Nama Barang</label>
-                            <input type="text" name="nama_barang" id="nama_barang" class="form-control" readonly>
-                        </div>
-                    </div>
+</div>
+<div class="col-md-5">
+    <div class="box box-primary>
+            <div class=" box-body">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="kode_barang">Kode Barang</label>
+                    <input type="text" name="kode_barang" id="kode_barang" class="form-control" autofocus>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="harga">Harga</label>
-                            <input type="text" name="harga" id="harga" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="satuan">Satuan Barang</label>
-                            <input type="text" name="satuan" id="satuan" class="form-control" readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="qty">Quantity</label>
-                            <input type="text" name="qty" id="qty" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-primary btn-add mt-3">Tambah <i class="fa fa-shopping-cart"></i></button>
-                    </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="nama_barang">Nama Barang</label>
+                    <input type="text" name="nama_barang" id="nama_barang" class="form-control" readonly>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="harga">Harga</label>
+                    <input type="text" name="harga" id="harga" class="form-control" readonly>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="satuan">Satuan Barang</label>
+                    <input type="text" name="satuan" id="satuan" class="form-control" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="qty">Quantity</label>
+                    <input type="text" name="qty" id="qty" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-add mt-3">Tambah <i class="fa fa-shopping-cart"></i></button>
+            </div>
+        </div>
     </div>
+</div>
+</div>
+<div class="col-md-4">
+    <div class="box box-primary>
+            <div class=" box-body">
+        <div align="right">
+            <h4>Invoice <b><span id="invoice">{{ $kode }}</span></b></h4>
+            <h1><b><span id="grand_total2" style="font-size:50pt;">0</span></b></h1>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary>
+            <div class=" box-body">
+            <div class="table-responsive">
+                <table class="table table-bordered stripped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Barcode</th>
+                            <th>Barang</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th width="15%">Total</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart_table">
+                        @include('pages.transaksi.partials.table_cart')
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="row">
     <div class="col-md-4">
-        <div class="box box-primary">
-            <div class="box-body">
+        <div class="box box-primary>
+            <div class=" box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="pembayaran">Metode Pembayaran</label>
+                    <select name="pembayaran" id="pembayaran" class="form-control select2">
+                        <option value="tunai">Tunai</option>
+                        <option value="hutang">Hutang</option>
+                    </select>
+                </div>
+                <div class="col-md-12 kotak-jatuh-tempo" style="display:none">
+                    <label for="jatuh_tempo">Jatuh Tempo</label>
+                    <input type="date" name="jatuh_tempo" id="jatuh_tempo" class="form-control"
+                        min="{{ date('Y-m-d',strtotime("+1 day")) }}">
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="subtotal">Subtotal</label>
+                        <input type="number" class="form-control" name="subtotal" id="subtotal" readonly
+                            style="cursor:no-drop">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="diskon">Diskon</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="diskon" id="diskon" min="1" max="100">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="box box-primary>
+            <div class=" box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ppn">PPN</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><input type="checkbox" id="cek-ppn" value="1"></span>
+                        <input type="number" class="form-control" name="ppn" id="ppn" readonly value="10">
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="pph">PPH</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><input type="checkbox" id="cek-pph"></span>
+                        <input type="number" class="form-control" name="pph" id="pph" readonly value="15">
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="grandtotal">Grandtotal</label>
+                    <input type="number" class="form-control" name="grandtotal" id="grandtotal" readonly
+                        style="cursor:no-drop">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="bayar">Dibayar</label>
+                <input type="number" class="form-control" name="bayar" id="bayar">
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-default btn-uang-pass">Uang Pas [F7]</button>
+                <button class="btn btn-default mt-2 btn-kosongkan">Kosongkan [F8]</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="kembali">Kembali</label>
+                <input type="text" class="form-control" name="kembali" id="kembali" readonly>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<div class="col-md-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary>
+                    <div class=" box-body">
                 <div align="right">
-                    <h4>Invoice <b><span id="invoice">{{ $kode }}</span></b></h4>
-                    <h1><b><span id="grand_total2" style="font-size:50pt;">0</span></b></h1>
+                    <h1><b id="kembali2">0</b></h1>
+                    <h4><b><span id="alert-kembali2"></span></b></h4>
                 </div>
             </div>
         </div>
@@ -97,149 +229,17 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered stripped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Barcode</th>
-                                <th>Barang</th>
-                                <th>Price</th>
-                                <th>Qty</th>
-                                <th width="15%">Total</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cart_table">
-                            @include('pages.transaksi.partials.table_cart')
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <button class="btn btn-warning btn-cancel"><i class="fa fa-refresh"></i> Cancel</button>
+    </div>
+    <div class="col-md-12 mt-2">
+        <button class="btn btn-success btn-proses">
+            <i class="fa fa-spinner fa-spin pull-left" style="display: none"></i>
+            <i class="fa fa-location-arrow"></i>
+            Proses
+            Pembayaran</button>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-4">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <label for="pembayaran">Metode Pembayaran</label>
-                        <select name="pembayaran" id="pembayaran" class="form-control select2">
-                            <option value="tunai">Tunai</option>
-                            <option value="hutang">Hutang</option>
-                        </select>
-                    </div>
-                    <div class="col-md-12 kotak-jatuh-tempo" style="display:none">
-                        <label for="jatuh_tempo">Jatuh Tempo</label>
-                        <input type="date" name="jatuh_tempo" id="jatuh_tempo" class="form-control"
-                            min="{{ date('Y-m-d',strtotime("+1 day")) }}">
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="subtotal">Subtotal</label>
-                            <input type="number" class="form-control" name="subtotal" id="subtotal" readonly
-                                style="cursor:no-drop">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="diskon">Diskon</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" name="diskon" id="diskon" min="1" max="100">
-                                <span class="input-group-addon">%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="ppn">PPN</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><input type="checkbox" id="cek-ppn" value="1"></span>
-                                <input type="number" class="form-control" name="ppn" id="ppn" readonly value="10">
-                                <span class="input-group-addon">%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="pph">PPH</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><input type="checkbox" id="cek-pph"></span>
-                                <input type="number" class="form-control" name="pph" id="pph" readonly value="15">
-                                <span class="input-group-addon">%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="grandtotal">Grandtotal</label>
-                            <input type="number" class="form-control" name="grandtotal" id="grandtotal" readonly
-                                style="cursor:no-drop">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="bayar">Dibayar</label>
-                        <input type="number" class="form-control" name="bayar" id="bayar">
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-default btn-uang-pass">Uang Pas [F7]</button>
-                        <button class="btn btn-default mt-2 btn-kosongkan">Kosongkan [F8]</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <label for="kembali">Kembali</label>
-                        <input type="text" class="form-control" name="kembali" id="kembali" readonly>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box box-primary">
-                    <div class="box-body">
-                        <div align="right">
-                            <h1><b id="kembali2">0</b></h1>
-                            <h4><b><span id="alert-kembali2"></span></b></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <button class="btn btn-warning btn-cancel"><i class="fa fa-refresh"></i> Cancel</button>
-            </div>
-            <div class="col-md-12 mt-2">
-                <button class="btn btn-success btn-proses">
-                    <i class="fa fa-spinner fa-spin pull-left" style="display: none"></i>
-                    <i class="fa fa-location-arrow"></i>
-                    Proses
-                    Pembayaran</button>
-            </div>
-        </div>
-    </div>
+</div>
 </div>
 <div class="modal fade" id="modal-selesai">
     <div class="modal-dialog">

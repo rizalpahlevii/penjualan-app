@@ -8,8 +8,8 @@
 <input type="hidden" name="kode" id="kode" value="{{ $kode }}">
 <div class="row">
     <div class="col-md-3">
-        <div class="box box-primary">
-            <div class="box-body">
+        <div class="box box-danger">
+            <div class=" box-body">
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                         <div class="form-group">
@@ -40,8 +40,8 @@
         </div>
     </div>
     <div class="col-md-5">
-        <div class="box box-primary">
-            <div class="box-body">
+        <div class="box box-danger">
+            <div class=" box-body">
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
@@ -85,8 +85,8 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="box box-primary">
-            <div class="box-body">
+        <div class="box box-danger">
+            <div class=" box-body">
                 <div align="right">
                     <h4>Invoice <b><span id="invoice">{{ $kode }}</span></b></h4>
                     <h1><b><span id="grand_total2" style="font-size:50pt;">0</span></b></h1>
@@ -97,8 +97,8 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="box box-primary">
-            <div class="box-body">
+        <div class="box box-danger">
+            <div class=" box-body">
                 <div class="table-responsive">
                     <table class="table table-bordered stripped">
                         <thead>
@@ -123,8 +123,8 @@
 </div>
 <div class="row">
     <div class="col-md-4">
-        <div class="box box-primary">
-            <div class="box-body">
+        <div class="box box-danger">
+            <div class=" box-body">
                 <div class="row">
                     <div class="col-md-12">
                         <label for="pembayaran">Metode Pembayaran</label>
@@ -161,8 +161,8 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="box box-primary">
-            <div class="box-body">
+        <div class="box box-danger">
+            <div class=" box-body">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -217,8 +217,8 @@
     <div class="col-md-4">
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary">
-                    <div class="box-body">
+                <div class="box box-danger">
+                    <div class=" box-body">
                         <div align="right">
                             <h1><b id="kembali2">0</b></h1>
                             <h4><b><span id="alert-kembali2"></span></b></h4>

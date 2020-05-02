@@ -8,43 +8,43 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <i class="fa fa-bar-chart-o"></i>
-                <h3 class="box-title">@yield('page')</h3>
+        <div class="box box-danger">
+            <div class=" box-header with-border">
+            <i class="fa fa-bar-chart-o"></i>
+            <h3 class="box-title">@yield('page')</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    @if (Session::get('status'))
+                    <div class="alert alert-{{ Session::get('status') }}">
+                        {{Session::get('message')}}</div>
+                    @endif
+                </div>
             </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        @if (Session::get('status'))
-                        <div class="alert alert-{{ Session::get('status') }}">
-                            {{Session::get('message')}}</div>
-                        @endif
-                    </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-warning btn-filter" data-filter="refresh"><i class="fa fa-refresh"></i>
+                        Refresh</button>
+                    <button class="btn btn-success btn-filter" data-filter="lunas"><i class="fa fa-check-square"></i>
+                        Lunas</button>
+                    <button class="btn btn-warning btn-filter" data-filter="belum_lunas"><i
+                            class="fa fa-window-close"></i> Belum
+                        Lunas</button>
+                    <button class="btn btn-danger btn-filter" data-filter="belum_dibayar"><i class="fa fa-remove"></i>
+                        Belum Dibayar</button>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <button class="btn btn-warning btn-filter" data-filter="refresh"><i class="fa fa-refresh"></i>
-                            Refresh</button>
-                        <button class="btn btn-success btn-filter" data-filter="lunas"><i
-                                class="fa fa-check-square"></i> Lunas</button>
-                        <button class="btn btn-warning btn-filter" data-filter="belum_lunas"><i
-                                class="fa fa-window-close"></i> Belum
-                            Lunas</button>
-                        <button class="btn btn-danger btn-filter" data-filter="belum_dibayar"><i
-                                class="fa fa-remove"></i> Belum Dibayar</button>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12">
-                        <div class="table-responsive">
-                            @include('pages.transaksi.piutang.table_piutang')
-                        </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        @include('pages.transaksi.piutang.table_piutang')
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 

@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ asset('adminlte') }}/dist/css/AdminLTE.min.css">
     <!-- iCheck -->
     <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/iCheck/square/blue.css">
-
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

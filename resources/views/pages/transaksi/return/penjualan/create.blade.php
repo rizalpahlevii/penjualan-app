@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-3">
-        <div class="box box-primary">
+        <div class="box box-danger"">
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="box box-primary">
+        <div class="box box-danger"">
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -64,7 +64,7 @@
         </div>
     </div>
     <div class="col-md-5">
-        <div class="box box-primary">
+        <div class="box box-danger"">
             <div class="box-body">
                 <div align="right">
                     <h1><b><span id="grand_total2" style="font-size:50pt;">@rupiah(123719)</span></b></h1>
@@ -75,95 +75,95 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nama Barang</th>
-                                        <th>Harga</th>
-                                        <th>Qty</th>
-                                        <th>Subtotal</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="loadDataTransaksi">
-                                    <tr>
-                                        <td colspan="6" class="text-danger">
-                                            <center>Tidak ada data</center>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <table style="background:#ccc;padding:5px;width:100%">
-                            <tbody>
+        <div class="box box-danger">
+            <div class=" box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        <div class="input-group">
-                                            <input type="hidden" name="qty_akhir" id="qty_akhir">
-                                            <input type="hidden" name="detail_transaksi_id" id="detail_transaksi_id">
-                                            <input type="hidden" name="qty_detail" id="qty_detail">
-                                            <span class="input-group-btn"><button class="btn " type="button">Kode Barang
-                                                </button></span>
-                                            <input class="form-control" type="text" id="kodeBarang" title="kode barang">
-
-                                            <span class="input-group-btn"><button class="btn " type="button">Nama Barang
-                                                </button></span>
-                                            <input class="form-control" type="text" id="namaBarang" title="nama barang">
-
-
-                                            <span class="input-group-btn"><button class="btn "
-                                                    type="button">Qty</button></span>
-                                            <input style="text-align:center" class="form-control" type="number" id="qty"
-                                                title="jumlah barang">
-
-
-                                            <span class="input-group-btn"><button class="btn btn-primary" type="button"
-                                                    id="addCart"><i class="fa fa-check-square-o"></i>
-                                                    Tambah</button></span>
-                                        </div>
-
+                                    <th>#</th>
+                                    <th>Nama Barang</th>
+                                    <th>Harga</th>
+                                    <th>Qty</th>
+                                    <th>Subtotal</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="loadDataTransaksi">
+                                <tr>
+                                    <td colspan="6" class="text-danger">
+                                        <center>Tidak ada data</center>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div class="col-md-12">
-                        <h3>Data Return</h3>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover tableReturn">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nama Barang</th>
-                                    <th>Harga</th>
-                                    <th>Jumlah Dikembalikan</th>
-                                    <th>Subtotal</th>
-                                    <th>Aksi</th>
-                                </tr>
-                                <tbody id="loadDataReturn"></tbody>
-                            </table>
-                        </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table style="background:#ccc;padding:5px;width:100%">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="hidden" name="qty_akhir" id="qty_akhir">
+                                        <input type="hidden" name="detail_transaksi_id" id="detail_transaksi_id">
+                                        <input type="hidden" name="qty_detail" id="qty_detail">
+                                        <span class="input-group-btn"><button class="btn " type="button">Kode Barang
+                                            </button></span>
+                                        <input class="form-control" type="text" id="kodeBarang" title="kode barang">
+
+                                        <span class="input-group-btn"><button class="btn " type="button">Nama Barang
+                                            </button></span>
+                                        <input class="form-control" type="text" id="namaBarang" title="nama barang">
+
+
+                                        <span class="input-group-btn"><button class="btn "
+                                                type="button">Qty</button></span>
+                                        <input style="text-align:center" class="form-control" type="number" id="qty"
+                                            title="jumlah barang">
+
+
+                                        <span class="input-group-btn"><button class="btn btn-primary" type="button"
+                                                id="addCart"><i class="fa fa-check-square-o"></i>
+                                                Tambah</button></span>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h3>Data Return</h3>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover tableReturn">
+                            <tr>
+                                <th>#</th>
+                                <th>Nama Barang</th>
+                                <th>Harga</th>
+                                <th>Jumlah Dikembalikan</th>
+                                <th>Subtotal</th>
+                                <th>Aksi</th>
+                            </tr>
+                            <tbody id="loadDataReturn"></tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <button class="btn btn-primary pull-right btn-submit">Submit</button>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-primary pull-right btn-submit">Submit</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 
