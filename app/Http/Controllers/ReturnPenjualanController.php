@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Detail_return_jual;
 use App\Detail_transaksi;
+use App\Pembelian;
 use App\Piutang;
 use App\Return_penjualan;
 use App\Transaksi;
@@ -33,10 +34,20 @@ class ReturnPenjualanController extends Controller
     }
     public function create()
     {
-        $transaksi = Transaksi::with('pelanggan')->get();
+        $pmb = Return_penjualan::select('transaksi_id')->where('status', 'finish')->get()->toArray();
+        $transaksi_id = [];
+        foreach ($pmb as $row) {
+            $transaksi_id[] = $row['transaksi_id'];
+        }
+        $transaksi = Transaksi::with('pelanggan')->whereNotIn('id', $transaksi_id)->get();
         $faktur = Return_penjualan::kodeFaktur();
         $cart = Detail_return_jual::with('barang')->where('return_jual_id', $faktur)->first();
         return view("pages.transaksi.return.penjualan.create", compact('faktur', 'transaksi'));
+    }
+    public function loadModal($id)
+    {
+        $return = Return_penjualan::with('transaksi.pelanggan', 'detail_return_jual.barang')->find($id);
+        return view('pages.transaksi.return.penjualan.loadModal', compact('return'));
     }
     public function getTransaksyById($id)
     {
@@ -181,6 +192,7 @@ class ReturnPenjualanController extends Controller
     {
         $transaksi = Transaksi::where('kode', $request->kode_transaksi)->first();
         $return = Return_penjualan::where('transaksi_id', $transaksi->id)->first();
+        $return->status = 'finish';
         $return->tanggal_return_jual = $request->tanggal;
         $return->save();
         self::updateDataTransaksiAfterReturn($transaksi->id);
@@ -190,9 +202,10 @@ class ReturnPenjualanController extends Controller
     {
         $transaksi = Transaksi::with('detail_transaksi')->find($transaksi_id);
         $return = Return_penjualan::with('detail_return_jual')->where('transaksi_id', $transaksi->id)->first();
+        $return_detail = Detail_return_jual::with('barang')->where('return_jual_id', $return->id)->get();
         $kurangi = 0;
         if ($transaksi->status == "tunai") {
-            foreach ($return as $key => $row) {
+            foreach ($return_detail as $key => $row) {
                 $detail_transaksi = Detail_transaksi::where('transaksi_id', $transaksi->id)->where('barang_id', $row->barang_id)->first();
                 if ($detail_transaksi->jumlah_beli - $row->jumlah_beli == 0) {
                     $kurangi += $detail_transaksi->subtotal;
@@ -208,8 +221,10 @@ class ReturnPenjualanController extends Controller
             $transaksi->save();
         } else {
             $piutang = Piutang::where('transaksi_id', $transaksi->id)->first();
-            foreach ($return as $key => $row) {
+            foreach ($return_detail as $key => $row) {
+
                 $detail_transaksi = Detail_transaksi::where('transaksi_id', $transaksi->id)->where('barang_id', $row->barang_id)->first();
+
                 if ($detail_transaksi->jumlah_beli - $row->jumlah_beli == 0) {
                     $kurangi += $detail_transaksi->subtotal;
                     $detail_transaksi->delete();
@@ -226,5 +241,6 @@ class ReturnPenjualanController extends Controller
             $piutang->save();
             $transaksi->save();
         }
+        return response()->json(["success", "Return berhasil diproses"]);
     }
 }

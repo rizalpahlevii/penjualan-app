@@ -72,6 +72,14 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
         $app->post('/store', 'KasirController@store')->name('store');
     });
     $app->prefix('transaksi')->name('transaksi.')->group(function ($app) use ($router) {
+        $app->prefix('hutang')->name('hutang.')->group(function ($app) use ($router) {
+            $app->get('/', 'HutangController@index')->name('index');
+            $app->get('/loadTable', 'HutangController@loadTable')->name('load_table');
+            $app->get('/loadModal/{id}', 'HutangController@loadModal')->name('load_modal');
+            $app->get('/loadData/getHutangById/{id}', 'HutangController@getHutangById')->name('get_hutang_by_id');
+            $app->post('/update', 'HutangController@updateHutang')->name('proses_bayar_hutang');
+            $app->get('/loadKotakAtas', 'HutangController@loadKotakAtas')->name('load_kotak_atas');
+        });
         $app->prefix('piutang')->name('piutang.')->group(function ($app) use ($router) {
             $app->get('/', 'PiutangController@index')->name('index');
             $app->get('/loadTable', 'PiutangController@loadTable')->name('load_table');
@@ -92,7 +100,16 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
                 $app->post('/addCart', 'ReturnPenjualanController@addCart')->name('add_cart');
                 $app->post('/deleteReturn', 'ReturnPenjualanController@deleteReturn')->name('delete_return');
                 $app->post('/store', 'ReturnPenjualanController@store')->name('submit');
+                $app->get('/loadModal/{id}', 'ReturnPenjualanController@loadModal')->name('load_modal');
             });
+        });
+        $app->prefix('pembelian')->name('pembelian.')->group(function ($app) use ($router) {
+            $app->get('/', 'PembelianController@index')->name('index');
+            $app->get('/create', 'PembelianController@create')->name('create');
+            $app->post('/store', 'PembelianController@store')->name('store');
+            $app->get('/loadKotak', 'PembelianController@loadKotakAtas')->name('load_kotak_atas');
+            $app->get('/loadTable', 'PembelianController@loadTable')->name('load_table');
+            $app->get('/loadModal/{id}', 'PembelianController@loadModal')->name('load_modal');
         });
     });
 });

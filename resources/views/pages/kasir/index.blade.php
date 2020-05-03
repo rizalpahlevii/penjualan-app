@@ -179,7 +179,7 @@
                             <label for="pph">PPH</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><input type="checkbox" id="cek-pph"></span>
-                                <input type="number" class="form-control" name="pph" id="pph" readonly value="15">
+                                <input type="number" class="form-control" name="pph" id="pph" readonly value="1.5">
                                 <span class="input-group-addon">%</span>
                             </div>
                         </div>
@@ -306,18 +306,21 @@
 <link rel="stylesheet"
     href="{{ asset('adminlte') }}/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/print/print.css">
+<link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/sweetalert2/dist/sweetalert2.css">
 @endpush
 @push('script')
 <script src="{{ asset('adminlte') }}/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js">
 </script>
 <script src="{{ asset('adminlte') }}/bower_components/select2/dist/js/select2.full.min.js"></script>
 <script src="{{ asset('adminlte') }}/plugins/print/print.js"></script>
+<script src="{{ asset('adminlte') }}/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <script>
     $(document).ready(function(){
         
         calculate();
         $('.select2').select2()
         $('#kode_barang').keyup(function(){
+            this.value = this.value.toUpperCase();
             if($(this).val() != ""){
                 getBarangById($(this).val());
             }else{
@@ -393,8 +396,10 @@
                 success: function (response) {
                     if(response == "berhasil"){
                         loadTable();
+                        Swal.fire("Sukses","Barang Berhasil ditambah ke keranjang!","success");
+                    }else{  
+                        Swal.fire("Gagal","Barang gagal ditambah ke keranjang!","error");
                     }
-                   alert(response);
                    clearFormBarang();
                 }
             });
@@ -433,7 +438,7 @@
         $('#diskon').keyup(function(e){
             const diskon = $(this).val();
             if(diskon > 100){
-                alert('melebihi 100');
+                Swal.fire("Error","Diskon melebihi 100%!","error");
             }else{
                 const dsk = diskon / 100;
                 const result = $('#subtotal').val() * dsk;
@@ -525,7 +530,11 @@
                     },
                     dataType: "json",
                     success: function (response) {
-                        alert(response)
+                        if(response=="Berhasil"){
+                            Swal.fire("Sukses","Barang Berhasil dihapus dari keranjang!","success");
+                        }else{
+                            Swal.fire("Gagal","Barang gagal dihapus dari keranjang!","error");
+                        }
                         loadTable();
                     }
                 });
@@ -597,12 +606,16 @@
                 success: function (response) {
                     if(response[0]=="Transaksi Berhasil"){
                         if(response[1].status == "tunai"){
-                            modalTransaksi(response[1],response[2]);
+                            Swal.fire("Sukses","Transaksi Berhasil!","success").then(()=>{
+                                modalTransaksi(response[1],response[2]);
+                            });
                         }else{
-                            modalTransaksi(response[1]);
+                            Swal.fire("Sukses","Transaksi Berhasil!","success").then(()=>{
+                                modalTransaksi(response[1]);
+                            });
                         }
                     }else{
-                        alert(response[0]);
+                       Swal.fire("Gagal","Transaksi Gagal!","error");
                     }
                     loadTable();
                 }

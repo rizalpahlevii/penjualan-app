@@ -15,7 +15,9 @@ class PiutangController extends Controller
         $piutang = Piutang::with('transaksi', 'pelanggan')->get();
         $pelanggan = Pelanggan::has('piutang')->get();
         $total_piutang = Saldo::getTotalPiutang();
-        return view("pages.transaksi.piutang.index", compact('piutang', 'total_piutang', 'pelanggan'));
+        $total_sisa_piutang = Saldo::getSisaPiutang();
+        $total_piutang_terbayar = Saldo::getPiutangTerbayar();
+        return view("pages.transaksi.piutang.index", compact('piutang', 'total_piutang', 'pelanggan', 'total_sisa_piutang', 'total_piutang_terbayar'));
     }
     public function loadTable()
     {
@@ -74,6 +76,8 @@ class PiutangController extends Controller
     public function loadKotakAtas()
     {
         $total_piutang = Saldo::getTotalPiutang();
-        return view("pages.transaksi.return.penjualan.kotak_atas", compact('total_piutang'));
+        $total_sisa_piutang = Saldo::getSisaPiutang();
+        $total_piutang_terbayar = Saldo::getPiutangTerbayar();
+        return view("pages.transaksi.piutang.kotak_atas", compact('total_piutang', 'total_sisa_piutang', 'total_piutang_terbayar'));
     }
 }

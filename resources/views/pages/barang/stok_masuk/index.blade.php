@@ -31,10 +31,10 @@
                                         <th>#</th>
                                         <th>Barcode</th>
                                         <th>Nama Barang</th>
-                                        <th>Penambahan Stok</th>
+                                        <th>Stok Masuk</th>
                                         <th>Tanggal</th>
+                                        <th>Suplier</th>
                                         <th>Keterangan</th>
-                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -44,9 +44,9 @@
                                         <td>{{ $row->barang->id }}</td>
                                         <td>{{ $row->barang->nama }}</td>
                                         <td>{{ $row->qty }}</td>
+                                        <td>{{ $row->created_at->format('Y-m-d') }}</td>
+                                        <th>{{ $row->suplier ? $row->suplier->nama : '' }}</th>
                                         <td>{{ $row->keterangan }}</td>
-                                        <td>{{ $row->created_at }}</td>
-                                        <td></td>
                                     </tr>
                                     @endforeach
                                 </tbody>

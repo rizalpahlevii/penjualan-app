@@ -117,7 +117,7 @@ class KategoriController extends Controller
             }
         } else {
             session()->flash('message', 'Data gagal dihapus!');
-            return redirect()->route('satuan.index')->with('status', 'danger');
+            return redirect()->route('pelanggan.index')->with('status', 'danger');
         }
     }
 }

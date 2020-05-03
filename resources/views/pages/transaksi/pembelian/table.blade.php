@@ -6,40 +6,43 @@
         <tr>
             <th>#</th>
             <th>Tanggal</th>
-            <th>Invoice Return</th>
-            <th>Invoice Penjualan</th>
-            <th>Pelanggan</th>
-            <th>Return Dibayar</th>
+            <th>Faktur</th>
+            <th>Pembelian</th>
+            <th>Pembayaran</th>
+            <th>Suplier</th>
             <th>Aksi</th>
         </tr>
     </thead>
     <tbody>
         @php
-        $total=0
+        $total=0;
         @endphp
-        @foreach ($return as $key => $row)
+        @foreach ($pembelian as $key=>$item)
         <tr>
             <td>{{ $loop->iteration }}</td>
-            <td>{{ $row->tanggal_return_jual }}</td>
-            <td>{{ $row->faktur }}</td>
-            <td>{{ $row->transaksi->kode }}</td>
-            <td>{{ $row->transaksi->pelanggan->nama }}</td>
-            <td>@rupiah($row->total_bayar)</td>
-            <td><button class="btn btn-success btn-xs info" data-id="{{ $row->id }}"><i class="fa fa-gear"></i></button>
+            <td>{{ $item->tanggal_pembelian }}</td>
+            <td>{{ $item->faktur }}</td>
+            <td> @rupiah($item->total) </td>
+            <td>{{ $item->status }}</td>
+            <td>{{ $item->suplier->nama }}</td>
+            <td>
+                <button class="btn btn-sm btn-success aksi" data-id="{{ $item->id }}"><i
+                        class="fa fa-gear"></i></button>
             </td>
         </tr>
         @php
-        $total+=$row->total_bayar
+        $total+=$item->total;
         @endphp
         @endforeach
-
     </tbody>
     <tfoot>
         <tr>
             <td colspan="6">
                 <center><b>Total</b></center>
             </td>
-            <td><b>@rupiah($total)</b></td>
+            <td>
+                <b>@rupiah($total)</b>
+            </td>
         </tr>
     </tfoot>
 </table>

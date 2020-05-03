@@ -66,7 +66,8 @@
                     <i class="fa fa-th"></i> <span>Kasir</span>
                 </a>
             </li>
-            <li class="treeview {{ set_active(['transaksi.piutang.index','transaksi.return.penjualan.index']) }}">
+            <li
+                class="treeview {{ set_active(['transaksi.piutang.index','transaksi.return.penjualan.index','transaksi.pembelian.index','transaksi.pembelian.create','transaksi.hutang.index']) }}">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
                     <span>Transaksi</span>
@@ -77,6 +78,14 @@
                 <ul class="treeview-menu">
                     <li class="{{ set_active(['transaksi.piutang.index']) }}">
                         <a href="{{ route('transaksi.piutang.index') }}"><i class="fa fa-calendar"></i> Piutang</a>
+                    </li>
+                    <li class="{{ set_active(['transaksi.hutang.index']) }}">
+                        <a href="{{ route('transaksi.hutang.index') }}"><i class="fa fa-calendar-o"></i>
+                            Hutang</a>
+                    </li>
+                    <li class="{{ set_active(['transaksi.pembelian.index','transaksi.pembelian.create']) }}">
+                        <a href="{{ route('transaksi.pembelian.index') }}"><i class="fa fa-shopping-basket"></i>
+                            Pembelian</a>
                     </li>
                     <li class="treeview {{ set_active(['transaksi.return.penjualan.index']) }}">
                         <a href="#"><i class="fa fa-sticky-note"></i> Return

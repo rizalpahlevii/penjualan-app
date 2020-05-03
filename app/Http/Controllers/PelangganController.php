@@ -120,9 +120,15 @@ class PelangganController extends Controller
     public function destroy($id)
     {
         $pelanggan = Pelanggan::findOrFail($id);
-        if ($pelanggan->delete()) {
-            session()->flash('message', 'Data berhasil dihapus!');
-            return redirect()->route('pelanggan.index')->with('status', 'success');
+        $relasi = Pelanggan::with('transaksi')->find($id);
+        if (count($relasi->transaksi) < 1) {
+            if ($pelanggan->delete()) {
+                session()->flash('message', 'Data berhasil dihapus!');
+                return redirect()->route('pelanggan.index')->with('status', 'success');
+            } else {
+                session()->flash('message', 'Data gagal dihapus!');
+                return redirect()->route('pelanggan.index')->with('status', 'danger');
+            }
         } else {
             session()->flash('message', 'Data gagal dihapus!');
             return redirect()->route('pelanggan.index')->with('status', 'danger');

@@ -6,24 +6,7 @@
 
                     <table class="table">
                         <tbody>
-                            <tr>
-                                <td>
-                                    Pelanggan
-                                </td>
-                                <td>
-                                    <select id="pelanggan" class="form-control">
-                                        <option value="all">-Semua Pelanggan-</option>
-                                        @foreach ($pelanggan as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td>
-                                    <a href="#" class="btn btn-success" style="width:100%" id="filter-atas"><i
-                                            class="fa fa-search"></i>
-                                        Filter</a>
-                                </td>
-                            </tr>
+
                             <tr>
                                 <td>Tanggal Awal</td>
                                 <td>
@@ -48,7 +31,13 @@
 
                                 </td>
                             </tr>
-
+                            <tr>
+                                <td>
+                                    <a href="#" class="btn btn-success" style="width:100%" id="filter-atas"><i
+                                            class="fa fa-search"></i>
+                                        Filter</a>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -58,28 +47,29 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <h3>Total Piutang</h3>
+                                        <h3>Total Hutang</h3>
                                     </td>
                                     <td>
-                                        <h3>@rupiah($total_piutang)</h3>
+                                        <h3>@rupiah($total_hutang)</h3>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <h3>Total Sisa Piutang</h3>
+                                        <h3>Total Hutang Terbayar</h3>
                                     </td>
                                     <td>
-                                        <h3>@rupiah($total_sisa_piutang)</h3>
+                                        <h3>@rupiah($total_hutang_terbayar)</h3>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <h3>Total Piutang Terbayar</h3>
+                                        <h3>Total Sisa Hutang</h3>
                                     </td>
                                     <td>
-                                        <h3>@rupiah($total_piutang_terbayar)</h3>
+                                        <h3>@rupiah($total_sisa_hutang)</h3>
                                     </td>
                                 </tr>
+
                             </tbody>
                         </table>
                     </div>

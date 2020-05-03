@@ -11,7 +11,7 @@ class StokMasukController extends Controller
 {
     public function index()
     {
-        $histories = History_stok_barang_masuk::with('barang')->paginate(10);
+        $histories = History_stok_barang_masuk::with('suplier')->with('barang')->paginate(10);
         return view("pages.barang.stok_masuk.index", compact('histories'));
     }
     public function create()

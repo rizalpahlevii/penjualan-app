@@ -1,8 +1,8 @@
 @extends('layouts.template')
-@section('page','Piutang')
+@section('page','Hutang')
 @section('content')
 <div class="row kotak-atas">
-    @include('pages.transaksi.piutang.kotak_atas')
+    @include('pages.transaksi.hutang.kotak_atas')
 </div>
 
 
@@ -14,14 +14,6 @@
                 <h3 class="box-title">@yield('page')</h3>
             </div>
             <div class="box-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        @if (Session::get('status'))
-                        <div class="alert alert-{{ Session::get('status') }}">
-                            {{Session::get('message')}}</div>
-                        @endif
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <button class="btn btn-warning btn-filter" data-filter="refresh"><i class="fa fa-refresh"></i>
@@ -40,7 +32,7 @@
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <div class="table-responsive">
-                            @include('pages.transaksi.piutang.table_piutang')
+                            @include('pages.transaksi.hutang.table_hutang')
                         </div>
                     </div>
                 </div>
@@ -57,14 +49,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Bukti Pembayaran Piutang</h4>
+                <h4 class="modal-title">Bukti Pembayaran Hutang</h4>
             </div>
             <div class="modal-body bodyModal">
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success btn-bayar-piutang"><i class="fa fa-check-square"></i>
-                    Bayar Piutang</button>
+                <button type="button" class="btn btn-success btn-bayar-hutang"><i class="fa fa-check-square"></i>
+                    Bayar Hutang</button>
                 <button type="button" class="btn btn-primary btn-print"><i class="fa fa-print"></i>
                     Print</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-window-close"></i>
@@ -93,29 +85,28 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="pelanggan_bayar">Pelanggan</label>
-                            <input type="text" readonly class="form-control" name="pelanggan_bayar"
-                                id="pelanggan_bayar">
+                            <label for="suplier_bayar">Suplier</label>
+                            <input type="text" readonly class="form-control" name="suplier_bayar" id="suplier_bayar">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="total_piutang_bayar">Total Piutang</label>
-                            <input type="text" readonly class="form-control" name="total_piutang_bayar"
-                                id="total_piutang_bayar">
+                            <label for="total_hutang_bayar">Total Hutang</label>
+                            <input type="text" readonly class="form-control" name="total_hutang_bayar"
+                                id="total_hutang_bayar">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="sisa_piutang_bayar">Sisa Piutang</label>
-                            <input type="text" readonly class="form-control" name="sisa_piutang_bayar"
-                                id="sisa_piutang_bayar">
-                            <input type="hidden" readonly class="form-control" name="sisa_piutang_bayar_hidden"
-                                id="sisa_piutang_bayar_hidden">
+                            <label for="sisa_hutang_bayar">Sisa Piutang</label>
+                            <input type="text" readonly class="form-control" name="sisa_hutang_bayar"
+                                id="sisa_hutang_bayar">
+                            <input type="hidden" readonly class="form-control" name="sisa_hutang_bayar_hidden"
+                                id="sisa_hutang_bayar_hidden">
                         </div>
                     </div>
                 </div>
@@ -135,7 +126,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-proses-piutang"><i class="fa fa-check-square"></i>
+                <button type="button" class="btn btn-primary btn-proses-hutang"><i class="fa fa-check-square"></i>
                     Bayar</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-window-close"></i>
                     Tutup</button>
@@ -175,11 +166,28 @@
             }else{
                  tanggal_akhir ="all";
             }
-            let url = `{{ url('transaksi/piutang/loadTable?pelanggan=`+pelanggan+`&tanggal_awal=`+tanggal_awal+`&tanggal_akhir=`+tanggal_akhir+`') }}`;
+            let url = `{{ url('transaksi/hutang/loadTable?tanggal_awal=`+tanggal_awal+`&tanggal_akhir=`+tanggal_akhir+`') }}`;
             const parseResult = new DOMParser().parseFromString(url, "text/html");
             const parsedUrl = parseResult.documentElement.textContent;
             $('.table-responsive').load(parsedUrl);
         });
+        $(document).on('click','.btn-filter',function(){
+            const filter = $(this).data('filter');
+            loadTable(filter);
+        });
+        function loadTable(filter="default"){
+            let url = `{{ url('transaksi/hutang/loadTable?filter=`+filter+`') }}`;
+            const parseResult = new DOMParser().parseFromString(url, "text/html");
+            const parsedUrl = parseResult.documentElement.textContent;
+            $('.table-responsive').load(parsedUrl);
+            loadKotakAtas()
+        }
+        function loadKotakAtas(filter="default"){
+            let url = `{{ route('transaksi.hutang.load_kotak_atas') }}`;
+            const parseResult = new DOMParser().parseFromString(url, "text/html");
+            const parsedUrl = parseResult.documentElement.textContent;
+            $('.kotak-atas').load(parsedUrl);
+        }
         $("#startdate").datepicker({
             todayBtn: 1,
             format : 'yyyy-mm-dd',
@@ -193,23 +201,6 @@
             $('#startdate').datepicker('setEndDate', maxDate);
         });
         
-        function loadTable(filter="default"){
-            let url = `{{ url('transaksi/piutang/loadTable?filter=`+ filter +`') }}`;
-            const parseResult = new DOMParser().parseFromString(url, "text/html");
-            const parsedUrl = parseResult.documentElement.textContent;
-            $('.table-responsive').load(parsedUrl);
-            loadKotakAtas();
-        }
-        function loadKotakAtas(filter="default"){
-            let url = `{{ route('transaksi.piutang.load_kotak_atas') }}`;
-            const parseResult = new DOMParser().parseFromString(url, "text/html");
-            const parsedUrl = parseResult.documentElement.textContent;
-            $('.kotak-atas').load(parsedUrl);
-        }
-        $(document).on('click','.btn-filter',function(){
-            const filter = $(this).data('filter');
-            loadTable(filter);
-        });
         function rupiah(value,prefix = "Rp. "){
             var number_string = angka.replace(/[^,\d]/g, '').toString(),
             split = number_string.split(','),
@@ -223,82 +214,7 @@
             rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
             return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
-        $(document).on('click','.aksi',function(){
-            id = $(this).data('id');
-            let url = "{{ route('transaksi.piutang.load_modal',':id') }}";
-            url = url.replace(":id",id);
-            $('.bodyModal').load(url,function(){
-                $('#myModal').modal('show');
-            });
-        });
-        $('.btn-bayar-piutang').click(function(){
-            const id = $('#piutang_id').val();
-            let url = "{{ route('transaksi.piutang.get_piutang_by_id',':id') }}";
-            url = url.replace(":id",id);
-            $.ajax({
-                type: "GET",
-                url: url,
-                dataType: "json",
-                success: function (response) {
-                    $('#invoice_bayar').val(response.transaksi.kode);
-                    $('#pelanggan_bayar').val(response.pelanggan.nama);
-                    $('#total_piutang_bayar').val(response.total_hutang);
-                    $('#sisa_piutang_bayar').val(response.sisa_piutang);
-                    $('#sisa_piutang_bayar_hidden').val(response.sisa_piutang);
-                    $('#myModal2').modal('show');
-                }
-            });
-        });
-        $('#pembayaran_bayar').keyup(function(){
-            const sisa_awal = $('#sisa_piutang_bayar_hidden').val();
-            const sl = sisa_awal.length;
-            const bayar = $(this).val();
-            const result = sisa_awal - bayar;
-            if(result <= 0){
-                $('#sisa_piutang_bayar').val("Piutang Lunas");
-            }else{
-                $('#sisa_piutang_bayar').val(result);
-            }
-        });
-        $('.uang-pas').click(function(){
-            const sisa_awal = $('#sisa_piutang_bayar_hidden').val();
-            $('#sisa_piutang_bayar').val(0);
-            $('#pembayaran_bayar').val(sisa_awal);
-        });
-        $('.kosongkan').click(function(){
-            const sisa_awal = $('#sisa_piutang_bayar_hidden').val();
-            $('#sisa_piutang_bayar').val(sisa_awal);
-            $('#pembayaran_bayar').val(0);
-        });
-        $('.btn-proses-piutang').click(function(){
-            const bayar = $('#pembayaran_bayar').val();
-            $.ajax({
-                type: "POST",
-                url: "{{ route('transaksi.piutang.proses_bayar_piutang') }}",
-                data: {
-                    piutang_id : $('#piutang_id').val(),
-                    bayar : bayar
-                },
-                dataType: "json",
-                success: function (response) {
-                    if(response == "berhasil"){
-                        Swal.fire("Berhasil","Proses Piutang berhasil diproses","success")
-                        .then(function(){
-                            $('#myModal2').modal('hide');
-                            $('#myModal').modal('hide');
-                            loadTable();
-                        });
-                    }else{
-                        Swal.fire("Gagal","Proses Piutang gagal diproses","error")
-                        .then(function(){
-                            $('#myModal2').modal('hide');
-                            $('#myModal').modal('hide');
-                            loadTable();
-                        });
-                    }
-                }
-            });
-        });
+      
         $('.btn-print').click(function(){
             print();
         });
@@ -309,6 +225,82 @@
                 targetStyles: ['*']
             })
         } 
+        $('.btn-bayar-hutang').click(function(){
+            const id = $('#hutang_id').val();
+            let url = "{{ route('transaksi.hutang.get_hutang_by_id',':id') }}";
+            url = url.replace(":id",id);
+            $.ajax({
+                type: "GET",
+                url: url,
+                dataType: "json",
+                success: function (response) {
+                    $('#invoice_bayar').val(response.pembelian.faktur);
+                    $('#suplier_bayar').val(response.suplier.nama);
+                    $('#total_hutang_bayar').val(response.total_hutang);
+                    $('#sisa_hutang_bayar').val(response.sisa_hutang);
+                    $('#sisa_hutang_bayar_hidden').val(response.sisa_hutang);
+                    $('#myModal2').modal('show');
+                }
+            });
+        });
+        $(document).on('click','.aksi',function(){
+            id = $(this).data('id');
+            let url = "{{ route('transaksi.hutang.load_modal',':id') }}";
+            url = url.replace(":id",id);
+            $('.bodyModal').load(url,function(){
+                $('#myModal').modal('show');
+            });
+        });
+        $('#pembayaran_bayar').keyup(function(){
+            const sisa_awal = $('#sisa_hutang_bayar_hidden').val();
+            const sl = sisa_awal.length;
+            const bayar = $(this).val();
+            const result = sisa_awal - bayar;
+            if(result <= 0){
+                $('#sisa_hutang_bayar').val("Hutang Lunas");
+            }else{
+                $('#sisa_hutang_bayar').val(result);
+            }
+        });
+        $('.uang-pas').click(function(){
+            const sisa_awal = $('#sisa_hutang_bayar_hidden').val();
+            $('#sisa_hutang_bayar').val(0);
+            $('#pembayaran_bayar').val(sisa_awal);
+        });
+        $('.btn-proses-hutang').click(function(){
+            const bayar = $('#pembayaran_bayar').val();
+            $.ajax({
+                type: "POST",
+                url: "{{ route('transaksi.hutang.proses_bayar_hutang') }}",
+                data: {
+                    hutang_id : $('#hutang_id').val(),
+                    bayar : bayar
+                },
+                dataType: "json",
+                success: function (response) {
+                    if(response == "berhasil"){
+                        Swal.fire("Berhasil","Proses Hutang berhasil diproses","success")
+                        .then(function(){
+                            $('#myModal2').modal('hide');
+                            $('#myModal').modal('hide');
+                            loadTable();
+                        });
+                    }else{
+                        Swal.fire("Gagal","Proses Hutang gagal diproses","error")
+                        .then(function(){
+                            $('#myModal2').modal('hide');
+                            $('#myModal').modal('hide');
+                            loadTable();
+                        });
+                    }
+                }
+            });
+        });
+        $('.kosongkan').click(function(){
+            const sisa_awal = $('#sisa_hutang_bayar_hidden').val();
+            $('#sisa_hutang_bayar').val(sisa_awal);
+            $('#pembayaran_bayar').val(0);
+        });
     });
 </script>
 @endpush

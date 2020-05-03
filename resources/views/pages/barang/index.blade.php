@@ -55,8 +55,8 @@
                                                    $row->id, 'C39')}}" height="40" width="130">
                                     </td>
                                     <td>{{ $row->nama }}</td>
-                                    <td>{{ $row->harga_beli }}</td>
-                                    <td>{{ $row->harga_jual }}</td>
+                                    <td> @rupiah($row->harga_beli) </td>
+                                    <td> @rupiah($row->harga_jual) </td>
                                     <td>{{ $row->stok_awal }}</td>
                                     <td>{{ $row->stok_masuk }}</td>
                                     <td>{{ $row->stok_akhir }}</td>
