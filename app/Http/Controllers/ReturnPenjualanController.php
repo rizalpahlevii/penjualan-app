@@ -76,7 +76,7 @@ class ReturnPenjualanController extends Controller
                 $html2 .= '<td>' . $data2->barang->nama . '</td>';
                 $html2 .= '<td>' . $data2->harga . '</td>';
                 $html2 .= '<td>' . $row->jumlah_beli . '</td>';
-                $html2 .= '<td>' . $row->jumlah_beli *  $data2->harga . '</td>';
+                $html2 .= '<td id="total_text">' . $row->jumlah_beli *  $data2->harga . '</td>';
                 $html2 .= '<td><button class="btn btn-danger btn-delete-return" data-id="' . $row->id . '"><i class="fa fa-trash"></i></button></td>';
                 $html2 .= '</tr>';
             }
@@ -161,7 +161,7 @@ class ReturnPenjualanController extends Controller
             $html2 .= '<td>' . $data2->barang->nama . '</td>';
             $html2 .= '<td>' . $data2->harga . '</td>';
             $html2 .= '<td>' . $row->jumlah_beli . '</td>';
-            $html2 .= '<td>' . $row->jumlah_beli *  $data2->harga . '</td>';
+            $html2 .= '<td id="total_text">' . $row->jumlah_beli *  $data2->harga . '</td>';
             $html2 .= '<td><button class="btn btn-danger btn-delete-return" data-id="' . $row->id . '"><i class="fa fa-trash"></i></button></td>';
             $html2 .= '</tr>';
         }

@@ -30,8 +30,8 @@
                                 alt="User Image">
 
                             <p>
-                                Alexander Pierce - Web Developer
-                                <small>Member since Nov. 2012</small>
+                                {{ Auth::user()->nama }} - {{ Auth::user()->level }}
+                                <small>Member since {{ Auth::user()->created_at->format('d M Y H:i:s') }}</small>
                             </p>
                         </li>
                         <!-- Menu Body -->

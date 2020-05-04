@@ -102,6 +102,12 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
                 $app->post('/store', 'ReturnPenjualanController@store')->name('submit');
                 $app->get('/loadModal/{id}', 'ReturnPenjualanController@loadModal')->name('load_modal');
             });
+            $app->prefix('pembelian')->name('pembelian.')->group(function ($app) use ($router) {
+                $app->get('/', 'ReturnPembelianController@index')->name('index');
+                $app->get('/create', 'ReturnPembelianController@create')->name('create');
+                $app->get('/loadBarangBeli/{id}', 'ReturnPembelianController@loadBarang')->name('load_barang');
+                $app->post('/store', 'ReturnPembelianController@store')->name('store');
+            });
         });
         $app->prefix('pembelian')->name('pembelian.')->group(function ($app) use ($router) {
             $app->get('/', 'PembelianController@index')->name('index');

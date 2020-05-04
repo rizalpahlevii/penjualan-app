@@ -54,4 +54,8 @@ class Saldo
     {
         return DB::table('hutang')->sum('sisa_hutang');
     }
+    public static function getReturnPembelian()
+    {
+        return DB::table('return_pembelian')->sum('total_bayar');
+    }
 }

@@ -15,6 +15,10 @@ class Pembelian extends Model
     {
         return $this->hasMany(Detail_pembelian::class, 'pembelian_id', 'id');
     }
+    public function return_pembelian()
+    {
+        return $this->hasOne(Return_pembelian::class, 'pembelian_id', 'id');
+    }
     public static function kodeFaktur()
     {
         $cek = Pembelian::all();

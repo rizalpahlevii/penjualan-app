@@ -67,7 +67,7 @@
                 </a>
             </li>
             <li
-                class="treeview {{ set_active(['transaksi.piutang.index','transaksi.return.penjualan.index','transaksi.pembelian.index','transaksi.pembelian.create','transaksi.hutang.index']) }}">
+                class="treeview {{ set_active(['transaksi.piutang.index','transaksi.return.penjualan.index','transaksi.pembelian.index','transaksi.pembelian.create','transaksi.hutang.index','transaksi.return.penjualan.index','transaksi.return.penjualan.create','transaksi.return.pembelian.index','transaksi.return.pembelian.create']) }}">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
                     <span>Transaksi</span>
@@ -87,17 +87,22 @@
                         <a href="{{ route('transaksi.pembelian.index') }}"><i class="fa fa-shopping-basket"></i>
                             Pembelian</a>
                     </li>
-                    <li class="treeview {{ set_active(['transaksi.return.penjualan.index']) }}">
+                    <li
+                        class="treeview {{ set_active(['transaksi.return.penjualan.index','transaksi.return.penjualan.create','transaksi.return.pembelian.index','transaksi.return.pembelian.create']) }}">
                         <a href="#"><i class="fa fa-sticky-note"></i> Return
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="{{ set_active('transaksi.return.penjualan.index') }}"><a
-                                    href="{{ route('transaksi.return.penjualan.index') }}"><i
-                                        class="fa fa-circle-o"></i>
+                            <li
+                                class="{{ set_active('transaksi.return.penjualan.index','transaksi.return.penjualan.create') }}">
+                                <a href="{{ route('transaksi.return.penjualan.index') }}"><i class="fa fa-circle-o"></i>
                                     Penjualan</a></li>
+                            <li
+                                class="{{ set_active('transaksi.return.pembelian.index','transaksi.return.pembelian.create') }}">
+                                <a href="{{ route('transaksi.return.pembelian.index') }}"><i class="fa fa-circle-o"></i>
+                                    Pembelian</a></li>
                         </ul>
                     </li>
                 </ul>

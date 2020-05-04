@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-3">
-        <div class="box box-danger"">
+        <div class="box box-danger">
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -27,8 +27,8 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="box box-danger"">
-            <div class="box-body">
+        <div class="box box-danger">
+            <div class=" box-body">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
@@ -65,105 +65,104 @@
     </div>
     <div class="col-md-5">
         <div class="box box-danger"">
-            <div class="box-body">
-                <div align="right">
-                    <h1><b><span id="grand_total2" style="font-size:50pt;">@rupiah(123719)</span></b></h1>
-                </div>
+            <div class=" box-body">
+            <div align="right">
+                <h1><b><span id="grand_total2" style="font-size:50pt;">0</span></b></h1>
             </div>
         </div>
     </div>
+</div>
 </div>
 <div class="row">
     <div class="col-md-12">
         <div class="box box-danger">
             <div class=" box-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nama Barang</th>
+                                        <th>Harga</th>
+                                        <th>Qty</th>
+                                        <th>Subtotal</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="loadDataTransaksi">
+                                    <tr>
+                                        <td colspan="6" class="text-danger">
+                                            <center>Tidak ada data</center>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table style="background:#ccc;padding:5px;width:100%">
+                            <tbody>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Nama Barang</th>
-                                    <th>Harga</th>
-                                    <th>Qty</th>
-                                    <th>Subtotal</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="loadDataTransaksi">
-                                <tr>
-                                    <td colspan="6" class="text-danger">
-                                        <center>Tidak ada data</center>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="hidden" name="qty_akhir" id="qty_akhir">
+                                            <input type="hidden" name="qty_detail" id="qty_detail">
+                                            <span class="input-group-btn"><button class="btn " type="button">Kode Barang
+                                                </button></span>
+                                            <input class="form-control" type="text" id="kodeBarang" title="kode barang">
+
+                                            <span class="input-group-btn"><button class="btn " type="button">Nama Barang
+                                                </button></span>
+                                            <input class="form-control" type="text" id="namaBarang" title="nama barang">
+
+
+                                            <span class="input-group-btn"><button class="btn "
+                                                    type="button">Qty</button></span>
+                                            <input style="text-align:center" class="form-control" type="number" id="qty"
+                                                title="jumlah barang">
+
+
+                                            <span class="input-group-btn"><button class="btn btn-primary" type="button"
+                                                    id="addCart"><i class="fa fa-check-square-o"></i>
+                                                    Tambah</button></span>
+                                        </div>
+
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <table style="background:#ccc;padding:5px;width:100%">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="input-group">
-                                        <input type="hidden" name="qty_akhir" id="qty_akhir">
-                                        <input type="hidden" name="detail_transaksi_id" id="detail_transaksi_id">
-                                        <input type="hidden" name="qty_detail" id="qty_detail">
-                                        <span class="input-group-btn"><button class="btn " type="button">Kode Barang
-                                            </button></span>
-                                        <input class="form-control" type="text" id="kodeBarang" title="kode barang">
-
-                                        <span class="input-group-btn"><button class="btn " type="button">Nama Barang
-                                            </button></span>
-                                        <input class="form-control" type="text" id="namaBarang" title="nama barang">
-
-
-                                        <span class="input-group-btn"><button class="btn "
-                                                type="button">Qty</button></span>
-                                        <input style="text-align:center" class="form-control" type="number" id="qty"
-                                            title="jumlah barang">
-
-
-                                        <span class="input-group-btn"><button class="btn btn-primary" type="button"
-                                                id="addCart"><i class="fa fa-check-square-o"></i>
-                                                Tambah</button></span>
-                                    </div>
-
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <h3>Data Return</h3>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover tableReturn">
-                            <tr>
-                                <th>#</th>
-                                <th>Nama Barang</th>
-                                <th>Harga</th>
-                                <th>Jumlah Dikembalikan</th>
-                                <th>Subtotal</th>
-                                <th>Aksi</th>
-                            </tr>
-                            <tbody id="loadDataReturn"></tbody>
-                        </table>
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <h3>Data Return</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover tableReturn">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nama Barang</th>
+                                    <th>Harga</th>
+                                    <th>Jumlah Dikembalikan</th>
+                                    <th>Subtotal</th>
+                                    <th>Aksi</th>
+                                </tr>
+                                <tbody id="loadDataReturn"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <button class="btn btn-primary pull-right btn-submit">Submit</button>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary pull-right btn-submit">Submit</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 
@@ -248,18 +247,17 @@
                     $('#loadDataTransaksi').html(response[1]);
                     if(response[2] != []){
                         $('#loadDataReturn').html(response[2]);
+                        loadTotal();
                     }
                     $('#myModal').modal('hide');
                 }
             });
         });
         $(document).on('click','.btn-pilih-barang',function(){
-            const id_detail_transaksi = $(this).data('id');
             const kode_barang = $(this).data('kbarang');
             const nama_barang = $(this).data('nbarang');
             const qty_detail = $(this).data('qty');
             $('#qty_detail').val(qty_detail);
-            $('#detail_transaksi_id').val(id_detail_transaksi);
             $('#kodeBarang').val(kode_barang);
             $('#namaBarang').val(nama_barang);
             $('#qty').val(1);
@@ -302,8 +300,17 @@
                 dataType: "json",
                 success: function (response) {
                     $('#loadDataReturn').html(response);
+                    loadTotal();
                 }
             });
+        }
+        function loadTotal(){
+            subtotal=0;
+            $('#loadDataReturn tr').each(function(){
+                subtotal += parseInt($(this).find('#total_text').text());
+                console.log(subtotal);
+            });
+            $('#grand_total2').text(parseInt(subtotal));
         }
         $(document).on('click','.btn-delete-return',function(){
             const id = $(this).data('id');
