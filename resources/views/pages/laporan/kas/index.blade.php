@@ -1,0 +1,155 @@
+@extends('layouts.template')
+@section('page','Kas')
+@section('content')
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-danger">
+            <div class="box body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Tanggal Awal</td>
+                                    <td>
+                                        <input title="tanggal transaksi" class="form-control datepicker-here"
+                                            type="text" id="startdate" data-language="en" autocomplete="off">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tanggal Akhir</td>
+
+                                    <td>
+                                        <input title="tanggal transaksi" class="form-control datepicker-here"
+                                            type="text" id="enddate" data-language="en" autocomplete="off">
+                                    </td>
+
+                                    <td>
+                                        <a href="#" class="btn btn-success" style="width:100%" id="filter1"><i
+                                                class="fa fa-search"></i>
+                                            Filter</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+
+                        <div id="kotak-total">
+                            @include('pages.laporan.kas.kotak_total');
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <i class="fa fa-bar-chart-o"></i>
+                <h3 class="box-title">@yield('page')</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        @error('penambahan_stok_masuk')
+                        <div class="alert alert-danger" role="alert">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                        @if (Session::get('status'))
+                        <div class="alert alert-{{ Session::get('status') }}">
+                            {{Session::get('message')}}</div>
+                        @endif
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{{ route('laporan.kas.create') }}" class="btn btn-primary mb-3"><i
+                                class="fa fa-plus"></i>
+                            Tambah Kas</a>
+                        <a href="#" class="btn btn-warning mb-3" id="refresh"><i class="fa fa-refresh"></i>
+                            Refresh</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            @include('pages.laporan.kas.table')
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+@push('style')
+<link rel="stylesheet"
+    href="{{ asset('adminlte') }}/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet"
+    href="{{ asset('adminlte') }}/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+@endpush
+@push('script')
+<script src="{{ asset('adminlte') }}/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js">
+</script>
+<script src="{{ asset('adminlte') }}/bower_components/datatables.net/js/jquery.dataTables.min.js">
+</script>
+<script src="{{ asset('adminlte') }}/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js">
+</script>
+<script>
+    $(document).ready(function(){
+        $('#example-table').dataTable();
+        $("#startdate").datepicker({
+            todayBtn: 1,
+            format : 'yyyy-mm-dd',
+            autoclose: true,
+        }).on('changeDate', function (selected) {
+            var minDate = new Date(selected.date.valueOf());
+            $('#enddate').datepicker('setStartDate', minDate);
+        });
+        $("#enddate").datepicker({format : 'yyyy-mm-dd'}).on('changeDate', function (selected) {
+            var maxDate = new Date(selected.date.valueOf());
+            $('#startdate').datepicker('setEndDate', maxDate);
+        });
+        $('#filter1').click(function(){
+            if($('#startdate').val() == "" || $('#enddate').val() == ""){
+                alert('Form filter tidak boleh kosong');
+                return;
+            }
+            loadTable("custom");
+        });
+        function loadTable(filter){
+            tanggal_awal = $('#startdate').val();
+            tanggal_akhir = $('#enddate').val();
+            
+            if(filter=="all"){
+                filter = filter;
+            }else{
+                filter="custom";
+            }
+
+            let url = `{{ url('/laporan/kas/loadTable?filter=`+filter+`&tanggal_awal=`+tanggal_awal+`&tanggal_akhir=`+tanggal_akhir+`') }}`;
+            const parseResult = new DOMParser().parseFromString(url, "text/html");
+            const parsedUrl = parseResult.documentElement.textContent;
+            $('.table-responsive').load(parsedUrl);
+            if(filter!="all"){
+                loadKotakAtas("custom",tanggal_awal,tanggal_akhir);
+            }
+        }
+        function loadKotakAtas(filter,tanggal_awal="all",tanggal_akhir="all"){
+           let url = `{{ url('/laporan/kas/loadKotak?filter=`+filter+`&tanggal_awal=`+tanggal_awal+`&tanggal_akhir=`+tanggal_akhir+`') }}`;
+            const parseResult = new DOMParser().parseFromString(url, "text/html");
+            const parsedUrl = parseResult.documentElement.textContent;
+            $('#kotak-total').load(parsedUrl);
+        }
+        $("#refresh").click(function(){
+            loadTable("all");
+            loadKotakAtas("all")
+        });
+    });
+</script>
+@endpush

@@ -110,6 +110,21 @@
                     </li>
                 </ul>
             </li>
+            <li class="treeview {{ set_active(['laporan.kas.index','laporan.kas.create']) }}">
+                <a href="#">
+                    <i class="fa fa-file"></i>
+                    <span>Laporan</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ set_active(['laporan.kas.index','laporan.kas.create']) }}">
+                        <a href="{{ route('laporan.kas.index') }}"><i class="fa fa-calendar"></i> Kas</a>
+                    </li>
+
+                </ul>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->

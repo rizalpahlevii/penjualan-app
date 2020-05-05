@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
 use App\Detail_pembelian;
 use App\Detail_return_pembelian;
 use App\Hutang;
@@ -9,6 +10,7 @@ use App\Pembelian;
 use App\Return_pembelian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Kas as KasHelper;
 use Saldo;
 
 class ReturnPembelianController extends Controller
@@ -77,6 +79,7 @@ class ReturnPembelianController extends Controller
                 $detail->jumlah_beli = $row['jumlah_dikembalikan'];
                 $detail->save();
             }
+            KasHelper::add($return->faktur, 'pendapatan', 'return pembelian', $return->total_bayar, 0);
             self::updateDataAfterReturn($pembelian->id);
             DB::commit();
             return response()->json(['success', 'Return pembelian berhasil!']);
@@ -97,6 +100,10 @@ class ReturnPembelianController extends Controller
                 $detail->subtotal -= $row->jumlah_beli * $row->barang->harga_beli;
                 $kurangi += $row->jumlah_beli * $row->barang->harga_beli;
                 $detail->save();
+                $barang = Barang::find($row->barang_id);
+                $barang->stok_akhir -= $row->jumlah_beli;
+                $barang->stok_masuk -= $row->jumlah_beli;
+                $barang->save();
             }
             $pembelian->total -= $kurangi;
         } else {
@@ -106,6 +113,9 @@ class ReturnPembelianController extends Controller
                 $detail->subtotal -= $row->jumlah_beli * $row->barang->harga_beli;
                 $kurangi += $row->jumlah_beli * $row->barang->harga_beli;
                 $detail->save();
+                $barang->stok_akhir -= $row->jumlah_beli;
+                $barang->stok_masuk -= $row->jumlah_beli;
+                $barang->save();
             }
             $hutang = Hutang::where('pembelian_id', $pembelian->id)->first();
             $hutang->total_hutang -= $kurangi;

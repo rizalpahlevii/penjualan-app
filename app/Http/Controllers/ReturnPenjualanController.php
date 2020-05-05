@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
 use App\Detail_return_jual;
 use App\Detail_transaksi;
 use App\Pembelian;
@@ -11,6 +12,7 @@ use App\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Saldo;
+use Kas as KasHelper;
 
 class ReturnPenjualanController extends Controller
 {
@@ -195,6 +197,7 @@ class ReturnPenjualanController extends Controller
         $return->status = 'finish';
         $return->tanggal_return_jual = $request->tanggal;
         $return->save();
+        KasHelper::add($return->faktur, 'pengeluaran', 'return penjualan', 0, $return->total_bayar);
         self::updateDataTransaksiAfterReturn($transaksi->id);
         return response()->json(["success", "Success"]);
     }
@@ -207,6 +210,7 @@ class ReturnPenjualanController extends Controller
         if ($transaksi->status == "tunai") {
             foreach ($return_detail as $key => $row) {
                 $detail_transaksi = Detail_transaksi::where('transaksi_id', $transaksi->id)->where('barang_id', $row->barang_id)->first();
+                $barang = Barang::find($detail_transaksi->barang_id);
                 if ($detail_transaksi->jumlah_beli - $row->jumlah_beli == 0) {
                     $kurangi += $detail_transaksi->subtotal;
                     $detail_transaksi->delete();
@@ -216,6 +220,9 @@ class ReturnPenjualanController extends Controller
                     $detail_transaksi->update();
                     $kurangi += $row->jumlah_beli * $detail_transaksi->harga;
                 }
+                $barang->stok_akhir += $row->jumlah_beli;
+                $barang->stok_keluar -= $row->jumlah_beli;
+                $barang->save();
             }
             $transaksi->total -= $kurangi;
             $transaksi->save();
@@ -236,7 +243,8 @@ class ReturnPenjualanController extends Controller
                 }
             }
             $piutang->total_hutang -= $kurangi;
-            $piutang->sisa_piutang = $piutang->total_piutang - $piutang->terbayar;
+            $tampung = $piutang->sisa_piutang;
+            $piutang->sisa_piutang = $tampung;
             $transaksi->total -= $kurangi;
             $piutang->save();
             $transaksi->save();

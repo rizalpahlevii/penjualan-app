@@ -10,6 +10,7 @@ use App\Pembelian;
 use App\Suplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Kas as KasHelper;
 use Saldo;
 
 class PembelianController extends Controller
@@ -73,6 +74,7 @@ class PembelianController extends Controller
             }
             if ($request->status != "tunai") {
                 $hutang = new Hutang();
+                $hutang->faktur = Hutang::kodeFaktur();
                 $hutang->tanggal_hutang = date('Y-m-d');
                 $hutang->tanggal_tempo = $request->tempo;
                 $hutang->suplier_id = $request->suplier_id;
@@ -81,6 +83,8 @@ class PembelianController extends Controller
                 $hutang->pembayaran_hutang = 0;
                 $hutang->sisa_hutang = $total;
                 $hutang->save();
+            } else {
+                KasHelper::add($pembelian->faktur, 'pengeluaran', 'pembelian', 0, $pembelian->total);
             }
             DB::commit();
             return response()->json(["success", "Pembelian berhasil"]);

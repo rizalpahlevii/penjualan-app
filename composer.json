@@ -44,6 +44,7 @@
         ],
         "files": [
             "app/Helpers/Helper.php",
+            "app/Helpers/Kas.php",
             "app/Helpers/Saldo.php"
         ]
     },

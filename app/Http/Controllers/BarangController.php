@@ -90,7 +90,7 @@ class BarangController extends Controller
             'satuan' => 'required',
             'kategori' => 'required',
         ]);
-        $barang = Barang::findOrFail($request->kode_barang);
+        $barang = Barang::findOrFail($request->id);
         $barang->nama = $request->nama_barang;
         $barang->harga_jual = $request->harga_jual;
         $barang->harga_beli = $request->harga_beli;

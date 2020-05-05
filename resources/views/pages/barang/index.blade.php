@@ -197,37 +197,7 @@
 <!-- SlimScroll -->
 <script type="text/javascript">
     $(function() {
-        $(document).on('click','.tmb-stok',function(){
-            const id = $(this).data('id');
-            let url = "{{ route('barang.show',':id') }}";
-            url = url.replace(":id",id);
-            $.ajax({
-                type: "GET",
-                url: url,
-                dataType: "json",
-                success: function (response) {
-                    $('#nama_barang').val(response.nama);
-                    $('#stok_awal').val(response.stok_awal);
-                    $('#stok_keluar').val(response.stok_keluar);
-                    $('#stok_masuk').val(response.stok_masuk);
-                    $('#stok_akhir').val(response.stok_akhir);
-                    let action = "{{ route('barang.update_stok',':id') }}";
-                    action = action.replace(":id",response.id);
-                    $('#form-tambah-stok').attr("action",action)
-                    $('#modalTambahStokMasuk').modal('show');
-                }
-            });
-        });
-        $('#penambahan_stok_masuk').keyup(function () {
-            const stok_akhir = $('#stok_akhir').val();
-            const penambahan = $(this).val();
-            if(penambahan.length > 0){
-                 result = parseInt(stok_akhir)+parseInt(penambahan);
-            }else{
-                 result = stok_akhir;
-            }
-            $('#jumlah_stok_akhir').val(result);
-        });
+        
         $(document).on('click','.showBarcode',function(){
             barcode = $(this).first().html();
             nama = $(this).data('nama');

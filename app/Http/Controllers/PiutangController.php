@@ -6,6 +6,7 @@ use App\Pelanggan;
 use Illuminate\Http\Request;
 use App\Piutang;
 use Illuminate\Support\Facades\DB;
+use Kas as KasHelper;
 use Saldo;
 
 class PiutangController extends Controller
@@ -61,11 +62,14 @@ class PiutangController extends Controller
     {
         $piutang = Piutang::find($request->piutang_id);
         if ($request->bayar > $piutang->sisa_piutang) {
+            $tampung = $piutang->sisa_piutang;
             $piutang->piutang_terbayar = $piutang->total_hutang;
             $piutang->sisa_piutang = 0;
+            KasHelper::add($piutang->faktur, 'pendapatan', 'bayar piutang', $tampung, 0);
         } else {
             $piutang->piutang_terbayar += $request->bayar;
             $piutang->sisa_piutang -= $request->bayar;
+            KasHelper::add($piutang->faktur, 'pendapatan', 'bayar piutang', $request->bayar, 0);
         }
         if ($piutang->save()) {
             return response()->json("berhasil");

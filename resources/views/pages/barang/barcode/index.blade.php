@@ -14,7 +14,7 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    <td style="width:300px">
+                                    <td style="width:250px">
 
                                         <div class="input-group">
                                             <input class="form-control" type="text" id="kodeBarang" readonly=""
@@ -137,21 +137,37 @@
             $('#myModal').modal('hide');
         });
         $('#showBarcodes').click(function(){
+            $('#createElement').html('');
             jumlah = $('#qty').val();
+            kode = $('#kodeBarang').val();
             html = '';
-            for (var i = 1; i <= jumlah; i++ ) {
-                html+=`<div class="col-md-4"><svg id="barcode${i}"></svg></div>`;
+            for (let i = 1; i <= jumlah; i++) {
+                html += `<div class="col-md-4" id="div${i}"><svg id="barcode${i}"></svg></div>`;
             }
-            $('#createElement').html(html);
-            for (var i = 1; i <= jumlah; i++ ) {
-                JsBarcode('#barcode'+i,$('#kodeBarang').val(),{
-                    format: "CODE128",
-                    text : $('#namaBarang').val(),
-                    textPosition:"top",
-                    textAlign:"center"
-                });
+            $('#createElement').html(html)
+            JsBarcode('#barcode1',kode,{
+                text : $('#namaBarang').val(),
+                textPosition : "top",
+                width :2,
+
+            });
+            if(jumlah > 1){
+                getElement = $('#div1').html();
+                html2 = '';
+                for (let i = 1; i <= jumlah; i++) {
+                    html2+=getElement;
+                }
+                $('#createElement').html(html2);
             }
-        });
+            print();
+        });       
+        function print() {
+            printJS({
+                printable: 'createElement',
+                type: 'html',
+                targetStyles: ['*']
+            })
+        }
     });
 </script>
 @endpush

@@ -15,6 +15,13 @@ class CreateKasTable extends Migration
     {
         Schema::create('kas', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal');
+            $table->string('faktur');
+            $table->enum('tipe', ['pendapatan', 'pengeluaran']);
+            $table->enum('jenis', ['penjualan', 'return penjualan', 'pembelian', 'return pembelian', 'bayar piutang', 'bayar hutang', 'kas awal', 'kas akhir', 'pengeluaran lain', 'biaya', 'pemasukan awal']);
+            $table->integer('pemasukan');
+            $table->integer('pengeluaran');
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

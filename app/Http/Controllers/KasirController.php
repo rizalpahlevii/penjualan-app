@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Kas as KasHelper;
 
 class KasirController extends Controller
 {
@@ -135,6 +136,7 @@ class KasirController extends Controller
 
             if ($request->pembayaran == "hutang") {
                 $piutang = new Piutang();
+                $piutang->faktur = Piutang::kodeFaktur();
                 $piutang->tanggal_piutang = Carbon::now()->format('Y-m-d');
                 $piutang->total_hutang = $request->grandtotal;
                 $piutang->piutang_terbayar = 0;
@@ -143,6 +145,8 @@ class KasirController extends Controller
                 $piutang->pelanggan_id = $request->id_pelanggan;
                 $piutang->transaksi_id = $transaksi->id;
                 $piutang->save();
+            } else {
+                KasHelper::add($transaksi->kode, 'pendapatan', 'penjualan', $transaksi->total, 0);
             }
             DB::commit();
             $response = Transaksi::with('pelanggan', 'detail_transaksi.barang')->find($transaksi->id);

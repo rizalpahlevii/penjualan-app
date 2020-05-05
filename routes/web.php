@@ -24,7 +24,6 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
         $app->put('/{id}', 'BarangController@update')->name('update');
         $app->get('/{id}/edit', 'BarangController@edit')->name('edit');
         $app->get('/{id}/show', 'BarangController@show')->name('show');
-        $app->put('/{id}/updateStok', 'BarangController@updateStok')->name('update_stok');
         $app->get('/{id}/delete', 'BarangController@destroy')->name('destroy');
 
         // stok barang masuk 
@@ -37,6 +36,7 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
 
         $app->prefix('barcode')->name('barcode.')->group(function ($app) use ($router) {
             $app->get('/', 'BarcodeController@index')->name('index');
+            $app->get('/showBarcodes/{id}', 'BarcodeController@getBarcodes')->name('get_barcodes');
         });
     });
     $app->resource('satuan', 'SatuanController')->except(['show', 'destroy']);
@@ -120,6 +120,16 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
             $app->get('/loadKotak', 'PembelianController@loadKotakAtas')->name('load_kotak_atas');
             $app->get('/loadTable', 'PembelianController@loadTable')->name('load_table');
             $app->get('/loadModal/{id}', 'PembelianController@loadModal')->name('load_modal');
+        });
+    });
+
+    $app->prefix('laporan')->name('laporan.')->group(function ($app) use ($router) {
+        $app->prefix('kas')->name('kas.')->group(function ($app) use ($router) {
+            $app->get('/', 'KasController@index')->name('index');
+            $app->get('/create', 'KasController@create')->name('create');
+            $app->post('/store', 'KasController@store')->name('store');
+            $app->get('/loadTable', 'KasController@loadTable')->name('load_table');
+            $app->get('/loadKotak', 'KasController@loadKotak')->name('load_kotak');
         });
     });
 });

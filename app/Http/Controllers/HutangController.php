@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Hutang;
 use Illuminate\Http\Request;
 use Saldo;
+use Kas as KasHelper;
 
 class HutangController extends Controller
 {
@@ -55,11 +56,14 @@ class HutangController extends Controller
     {
         $hutang = Hutang::find($request->hutang_id);
         if ($request->bayar > $hutang->sisa_hutang) {
+            $tampung = $hutang->sisa_hutang;
             $hutang->pembayaran_hutang = $hutang->total_hutang;
             $hutang->sisa_hutang = 0;
+            KasHelper::add($hutang->faktur, 'pengeluaran', 'bayar hutang', 0, $request->bayar, $tampung);
         } else {
             $hutang->pembayaran_hutang += $request->bayar;
             $hutang->sisa_hutang -= $request->bayar;
+            KasHelper::add($hutang->faktur, 'pengeluaran', 'bayar hutang', 0, $request->bayar);
         }
         if ($hutang->save()) {
             return response()->json("berhasil");
