@@ -44,6 +44,9 @@
                     <li class="{{ set_active(['barang.masuk.index']) }}">
                         <a href="{{ route('barang.masuk.index') }}"><i class="fa fa-circle-o"></i> Stok Masuk</a>
                     </li>
+                    <li class="{{ set_active(['barang.barcode.index']) }}">
+                        <a href="{{ route('barang.barcode.index') }}"><i class="fa fa-circle-o"></i> Barcode</a>
+                    </li>
                 </ul>
             </li>
             <li class="{{ set_active(['suplier.index','suplier.create','suplier.edit']) }}">

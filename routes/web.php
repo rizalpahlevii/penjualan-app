@@ -34,6 +34,10 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
             $app->get('/create', 'StokMasukController@create')->name('create');
             $app->post('/store', 'StokMasukController@store')->name('store');
         });
+
+        $app->prefix('barcode')->name('barcode.')->group(function ($app) use ($router) {
+            $app->get('/', 'BarcodeController@index')->name('index');
+        });
     });
     $app->resource('satuan', 'SatuanController')->except(['show', 'destroy']);
     $app->prefix('satuan')->name('satuan.')->group(function ($app) use ($router) {
