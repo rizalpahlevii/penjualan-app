@@ -25,6 +25,7 @@ class CreateBarangTable extends Migration
             $table->unsignedInteger('satuan_id');
             $table->unsignedInteger('kategori_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -131,5 +131,22 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
             $app->get('/loadTable', 'KasController@loadTable')->name('load_table');
             $app->get('/loadKotak', 'KasController@loadKotak')->name('load_kotak');
         });
+        $app->prefix('cetak')->name('cetak.')->group(function ($app) use ($router) {
+            $app->get('/', 'CetakController@index')->name('index');
+            $app->get('/penjualan', 'CetakController@penjualan')->name('penjualan');
+            $app->get('/penjualantunai', 'CetakController@penjualanTunai')->name('penjualan_tunai');
+            $app->get('/penjualankredit', 'CetakController@penjualanKredit')->name('penjualan_kredit');
+            $app->get('/pembelian', 'CetakController@pembelian')->name('pembelian');
+            $app->get('/pembeliantunai', 'CetakController@pembelianTunai')->name('pembelian_tunai');
+            $app->get('/pembeliankredit', 'CetakController@pembelianKredit')->name('pembelian_kredit');
+            $app->get('/hutang', 'CetakController@hutang')->name('hutang');
+            $app->get('/piutang', 'CetakController@piutang')->name('piutang');
+            $app->get('/kas', 'CetakController@kas')->name('kas');
+            $app->get('/laba', 'CetakController@labaRugi')->name('laba_rugi');
+        });
+        $app->prefix('labarugi')->name('labarugi.')->group(function ($app) use ($router) {
+            $app->get('/', 'LabarugiController@index')->name('index');
+            $app->get('/loadTable', 'LabarugiController@loadTable')->name('load_table');
+        });
     });
 });

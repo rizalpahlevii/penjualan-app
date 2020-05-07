@@ -15,10 +15,12 @@ class CreateReturnPenjualanTable extends Migration
     {
         Schema::create('return_penjualan', function (Blueprint $table) {
             $table->id();
+            $table->string('faktur')->unique();
             $table->date('tanggal_return_jual');
             $table->unsignedInteger('transaksi_id');
             $table->integer('total_bayar');
             $table->unsignedInteger('user_id');
+            $table->enum('status', ['cart', 'finish'])->default('cart');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateReturnPenjualanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('return_penjualans');
+        Schema::dropIfExists('return_penjualan');
     }
 }

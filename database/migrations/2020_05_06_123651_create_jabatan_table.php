@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFakturToReturnPenjualan extends Migration
+class CreateJabatanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddFakturToReturnPenjualan extends Migration
      */
     public function up()
     {
-        Schema::table('return_penjualan', function (Blueprint $table) {
-            $table->string('faktur')->unique()->after('id');
+        Schema::create('jabatan', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama');
+            $table->integer('gaji_pokok');
+            $table->text('lain_lain');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddFakturToReturnPenjualan extends Migration
      */
     public function down()
     {
-        Schema::table('return_penjualan', function (Blueprint $table) {
-            $table->dropColumn('faktur');
-        });
+        Schema::dropIfExists('jabatan');
     }
 }

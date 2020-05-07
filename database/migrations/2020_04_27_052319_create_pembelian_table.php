@@ -15,6 +15,7 @@ class CreatePembelianTable extends Migration
     {
         Schema::create('pembelian', function (Blueprint $table) {
             $table->id();
+            $table->string('faktur')->unique();
             $table->date('tanggal_pembelian');
             $table->unsignedInteger('suplier_id');
             $table->integer('total');

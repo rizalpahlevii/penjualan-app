@@ -15,6 +15,7 @@ class CreateHutangTable extends Migration
     {
         Schema::create('hutang', function (Blueprint $table) {
             $table->id();
+            $table->string('faktur')->unique();
             $table->date('tanggal_hutang');
             $table->date('tanggal_tempo');
             $table->unsignedInteger('suplier_id');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPembelianIdToReturnPembelian extends Migration
+class CreateGajiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddPembelianIdToReturnPembelian extends Migration
      */
     public function up()
     {
-        Schema::table('return_pembelian', function (Blueprint $table) {
-            $table->unsignedInteger('pembelian_id')->after('id');
+        Schema::create('gaji', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +26,6 @@ class AddPembelianIdToReturnPembelian extends Migration
      */
     public function down()
     {
-        Schema::table('return_pembelian', function (Blueprint $table) {
-            $table->dropColumn('pembelian_id');
-        });
+        Schema::dropIfExists('gaji');
     }
 }

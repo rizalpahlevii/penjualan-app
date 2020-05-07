@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHistoryStokBarangMasukTable extends Migration
+class CreatePegawaiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateHistoryStokBarangMasukTable extends Migration
      */
     public function up()
     {
-        Schema::create('history_stok_barang_masuk', function (Blueprint $table) {
+        Schema::create('pegawai', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('suplier_id')->nullable();
-            $table->string('barang_id');
-            $table->integer('qty');
-            $table->text('keterangan');
+            $table->string('nama');
+            $table->string('email')->nullable();
+            $table->string('no_telp');
+            $table->text('alamat');
+            $table->unsignedInteger('jabatan_id');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateHistoryStokBarangMasukTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('history_stok_barang_masuks');
+        Schema::dropIfExists('pegawai');
     }
 }

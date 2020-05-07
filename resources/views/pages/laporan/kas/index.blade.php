@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="box box-danger">
-            <div class="box body">
+            <div class="box-body">
                 <div class="row">
                     <div class="col-md-6">
                         <table class="table">
@@ -36,7 +36,7 @@
                     <div class="col-md-6">
 
                         <div id="kotak-total">
-                            @include('pages.laporan.kas.kotak_total');
+                            @include('pages.laporan.kas.kotak_total')
                         </div>
                     </div>
                 </div>

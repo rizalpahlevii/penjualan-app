@@ -110,7 +110,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="treeview {{ set_active(['laporan.kas.index','laporan.kas.create']) }}">
+            <li
+                class="treeview {{ set_active(['laporan.kas.index','laporan.kas.create','laporan.cetak.index','laporan.kas.create','laporan.labarugi.index']) }}">
                 <a href="#">
                     <i class="fa fa-file"></i>
                     <span>Laporan</span>
@@ -119,8 +120,17 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="{{ set_active(['laporan.kas.index','laporan.kas.create']) }}">
+                    <li class="{{ set_active(['laporan.kas.index']) }}">
                         <a href="{{ route('laporan.kas.index') }}"><i class="fa fa-calendar"></i> Kas</a>
+                    </li>
+                    <li class="{{ set_active(['laporan.cetak.index']) }}">
+                        <a href="{{ route('laporan.cetak.index') }}"><i class="fa fa-print"></i> Cetak</a>
+                    </li>
+                    <li class="{{ set_active(['laporan.labarugi.index']) }}">
+                        <a href="{{ route('laporan.labarugi.index') }}"><i class="fa fa-line-chart"></i> Laba Rugi</a>
+                    </li>
+                    <li class="{{ set_active(['laporan.labarugi.index']) }}">
+                        <a href="#"><i class="fa fa-bar-chart"></i> Grafik</a>
                     </li>
 
                 </ul>

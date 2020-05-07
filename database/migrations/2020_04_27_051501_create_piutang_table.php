@@ -15,6 +15,7 @@ class CreatePiutangTable extends Migration
     {
         Schema::create('piutang', function (Blueprint $table) {
             $table->id();
+            $table->string('faktur')->unique();
             $table->date('tanggal_piutang');
             $table->integer('total_hutang');
             $table->integer('piutang_terbayar');

@@ -15,6 +15,8 @@ class CreateReturnPembelianTable extends Migration
     {
         Schema::create('return_pembelian', function (Blueprint $table) {
             $table->id();
+            $table->string('faktur')->unique();
+            $table->unsignedInteger('pembelian_id');
             $table->date('tanggal_pembelian');
             $table->date('tanggal_return_pembelian');
             $table->integer('total_bayar');
