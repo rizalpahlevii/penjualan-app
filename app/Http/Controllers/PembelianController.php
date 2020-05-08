@@ -33,7 +33,8 @@ class PembelianController extends Controller
         if (request()->get('pembelian') != "all") {
             $pembelian = $pembelian->where('status', request()->get('pembelian'));
         }
-        return view("pages.transaksi.pembelian.table", compact('suplier'));
+        $pembelian = $pembelian->get();
+        return view("pages.transaksi.pembelian.table", compact('suplier', 'pembelian'));
     }
     public function loadKotakAtas()
     {

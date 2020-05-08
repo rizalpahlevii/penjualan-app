@@ -26,9 +26,10 @@ class PenjualanController extends Controller
             $transaksi = $transaksi->whereDate('tanggal_transaksi', "<=", request()->get('end'));
         } else {
             if (request()->get('lanjut') == "hari") {
-                $transaksi->whereDay('tanggal_transaksi', date('d'));
+                $transaksi->where('tanggal_transaksi', date('Y-m-d'));
             } elseif (request()->get('lanjut') == "bulan") {
                 $transaksi->whereMonth('tanggal_transaksi', date('m'));
+                $transaksi->whereYear('tanggal_transaksi', date('Y'));
             } else {
                 $transaksi->whereYear('tanggal_transaksi', date('Y'));
             }

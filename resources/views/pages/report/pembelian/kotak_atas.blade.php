@@ -16,7 +16,7 @@
                                     <select id="status" class="form-control">
                                         <option value="all">Semua Transaksi</option>
                                         <option value="tunai">Tunai</option>
-                                        <option value="kredit">Non Tunai</option>
+                                        <option value="hutang">Non Tunai</option>
                                     </select>
                                 </td>
                             </tr>
@@ -32,6 +32,13 @@
                                     <a href="#" class="btn btn-success" style="width:100%" id="filter1"><i
                                             class="fa fa-search"></i>
                                         Filter</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-warning excel"><i class="fa fa-print"></i>
+                                        Excel</button>
+                                    <button class="btn btn-primary print"><i class="fa fa-print"></i> Print</button>
                                 </td>
                             </tr>
                         </tbody>

@@ -13,11 +13,11 @@ class KasController extends Controller
         $kas = Kas::all();
         $pendapatan = DB::table('kas')->sum('pemasukan');
         $pengeluaran = DB::table('kas')->sum('pengeluaran');
-        $faktur = Kas::kodeFaktur();
         return view("pages.laporan.kas.index", compact('kas', 'pendapatan', 'pengeluaran'));
     }
     public function create()
     {
+        $faktur = Kas::kodeFaktur();
         return view("pages.laporan.kas.create", compact('faktur'));
     }
     public function store(Request $request)

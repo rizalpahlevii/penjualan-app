@@ -15,6 +15,12 @@ class CreateGajiTable extends Migration
     {
         Schema::create('gaji', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal_gaji');
+            $table->string('faktur')->unique();
+            $table->unsignedInteger('pegawai_id');
+            $table->integer('total_gaji');
+            $table->integer('potongan')->default(0);
+            $table->integer('gaji_bersih');
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@
     <div class="containter">
         <div class="row">
             <div class="col-md-12">
-                @include('pages.laporan.cetak.nama_toko')
+                @include('pages.report.nama_toko')
             </div>
         </div>
         <div class="row">
@@ -28,7 +28,7 @@
                         <tr>
                             <td>PERIODE</td>
                             <td style="width:15px">:</td>
-                            <td>{{ request()->get('start') }} s/d {{ request()->get('end') }}</td>
+                            <td>{{ request()->get('tanggal_awal') }} s/d {{ request()->get('tanggal_akhir') }}</td>
                         </tr>
                         <tr>
                             <td>TOTAL PENJUALAN</td>

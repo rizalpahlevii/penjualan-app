@@ -23,17 +23,27 @@
                 <table class="table" style="width:500px">
                     <tbody>
                         <tr>
-                            <td style="font-size:16px" colspan="3"><b>LAPORAN PENJUALAN KREDIT</b></td>
+                            <td style="font-size:16px" colspan="3"><b>LAPORAN HUTANG</b></td>
                         </tr>
                         <tr>
                             <td>PERIODE</td>
                             <td style="width:15px">:</td>
-                            <td>{{ request()->get('start') }} s/d {{ request()->get('end') }}</td>
+                            <td>{{ request()->get('tanggal_awal') }} s/d {{ request()->get('tanggal_akhir') }}</td>
                         </tr>
                         <tr>
-                            <td>TOTAL PENJUALAN</td>
+                            <td>TOTAL HUTANG</td>
                             <td>:</td>
-                            <td>@rupiah($transaksiHutang) </td>
+                            <td>@rupiah($totalHutang) </td>
+                        </tr>
+                        <tr>
+                            <td>TOTAL HUTANG TERBAYAR</td>
+                            <td>:</td>
+                            <td>@rupiah($totalHutangTerbayar) </td>
+                        </tr>
+                        <tr>
+                            <td>TOTAL SISA HUTANG</td>
+                            <td>:</td>
+                            <td>@rupiah($totalHutangSisa) </td>
                         </tr>
                     </tbody>
                 </table>
@@ -43,21 +53,25 @@
             <div class="col-md-12">
                 <table class="table table-bordered table-striped">
                     <tr style="background:#eee;font-weight:bold">
-                        <td style="width:40px">No</td>
-                        <td style="width:100px">Tanggal</td>
-                        <td style="width:200px">Faktur</td>
-                        <td>Penjualan</td>
-                        <td>Pembayaran</td>
-                        <td>Pelanggan</td>
+                        <td>No</td>
+                        <td>Tanggal</td>
+                        <td>Faktur</td>
+                        <td>Faktur Pembelian</td>
+                        <td>Total Hutang</td>
+                        <td>Hutang Terbayar</td>
+                        <td>Sisa Hutang</td>
+                        <td>Suplier</td>
                     </tr>
-                    @foreach ($transaksi as $item)
+                    @foreach ($hutang as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->tanggal_transaksi }}</td>
-                        <td>{{ $item->kode }}</td>
-                        <td>@rupiah($item->total)</td>
-                        <td>{{ $item->status }}</td>
-                        <td>{{ $item->pelanggan->nama }}</td>
+                        <td>{{ $item->tanggal_hutang }}</td>
+                        <td>{{ $item->faktur }}</td>
+                        <td>{{ $item->pembelian->faktur }}</td>
+                        <td>@rupiah($item->total_hutang)</td>
+                        <td>@rupiah($item->pembayaran_hutang)</td>
+                        <td>@rupiah($item->sisa_hutang)</td>
+                        <td>@rupiah($item->suplier->nama)</td>
                     </tr>
                     @endforeach
                 </table>

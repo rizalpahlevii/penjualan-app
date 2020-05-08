@@ -46,7 +46,7 @@
                                     <td>{{ $row->website }}</td>
                                     <td>{{ $row->no_hp }}</td>
                                     <td>{{ $row->kota }}</td>
-                                    <td>{{ $row->alamat }}</td>
+                                    <td>{!! $row->alamat !!}</td>
                                     <td>
                                         <a href="{{ route('suplier.edit',$row->id) }}"
                                             class="btn btn-sm btn-warning">Edit</a>

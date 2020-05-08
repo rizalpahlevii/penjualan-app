@@ -10,7 +10,7 @@
                 <h3 class="box-title">@yield('page')</h3>
             </div>
             <div class="box-body">
-                <form action="{{ route('laporan.kas.store') }}" method="post">
+                <form action="{{ route('transaksi.kas.store') }}" method="post">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">

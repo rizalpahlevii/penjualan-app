@@ -17,7 +17,8 @@ class CreateJabatanTable extends Migration
             $table->id();
             $table->string('nama');
             $table->integer('gaji_pokok');
-            $table->text('lain_lain');
+            $table->integer('lain_lain');
+            $table->text('deskripsi');
             $table->timestamps();
         });
     }

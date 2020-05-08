@@ -17,6 +17,18 @@ Auth::routes(['register' => false, 'reset' => false]);
 
 Route::group(['middleware' => 'auth'], function ($app) use ($router) {
     $app->get('/', 'DashboardController@dashboard')->name('dashboard');
+
+
+    $app->resource('jabatan', 'JabatanController')->except(['show', 'destroy']);
+    $app->prefix('jabatan')->name('jabatan.')->group(function ($app) use ($router) {
+        $router->get('/{id}/delete', 'JabatanController@destroy')->name('destroy');
+    });
+
+    $app->resource('pegawai', 'PegawaiController')->except(['show', 'destroy']);
+    $app->prefix('pegawai')->name('pegawai.')->group(function ($app) use ($router) {
+        $router->get('/{id}/delete', 'PegawaiController@destroy')->name('destroy');
+    });
+
     $app->prefix('barang')->name('barang.')->group(function ($app) use ($router) {
         $app->get('/', 'BarangController@index')->name('index');
         $app->get('/create', 'BarangController@create')->name('create');
@@ -76,6 +88,12 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
         $app->post('/store', 'KasirController@store')->name('store');
     });
     $app->prefix('transaksi')->name('transaksi.')->group(function ($app) use ($router) {
+        $app->prefix('penggajian')->name('penggajian.')->group(function ($app) use ($router) {
+            $app->get('/', 'PenggajianController@index')->name('index');
+            $app->get('/create', 'PenggajianController@create')->name('create');
+            $app->post('/store', 'PenggajianController@store')->name('store');
+            $app->get('/loadTable', 'PenggajianController@loadTable')->name('load_table');
+        });
         $app->prefix('penjualan')->name('penjualan.')->group(function ($app) use ($router) {
             $app->prefix('periode')->name('periode.')->group(function ($app) use ($router) {
                 $app->get('/', 'PenjualanController@periode')->name('index');
@@ -123,6 +141,13 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
                 $app->post('/store', 'ReturnPembelianController@store')->name('store');
             });
         });
+        $app->prefix('kas')->name('kas.')->group(function ($app) use ($router) {
+            $app->get('/', 'KasController@index')->name('index');
+            $app->get('/create', 'KasController@create')->name('create');
+            $app->post('/store', 'KasController@store')->name('store');
+            $app->get('/loadTable', 'KasController@loadTable')->name('load_table');
+            $app->get('/loadKotak', 'KasController@loadKotak')->name('load_kotak');
+        });
         $app->prefix('pembelian')->name('pembelian.')->group(function ($app) use ($router) {
             $app->get('/', 'PembelianController@index')->name('index');
             $app->get('/create', 'PembelianController@create')->name('create');
@@ -131,34 +156,66 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
             $app->get('/loadTable', 'PembelianController@loadTable')->name('load_table');
             $app->get('/loadModal/{id}', 'PembelianController@loadModal')->name('load_modal');
         });
+        $app->prefix('grafik')->name('grafik.')->group(function ($app) use ($router) {
+            $app->get('/', 'GrafikController@index')->name('index');
+            $app->get('/getChartPenjualan', 'GrafikController@getChartPenjualan')->name('getChartPenjualan');
+            $app->get('/getChartLaba', 'GrafikController@getChartLaba')->name('getChartLaba');
+            $app->get('/getChartTerjual', 'GrafikController@getChartTerjual')->name('getChartTerjual');
+        });
     });
 
-    $app->prefix('laporan')->name('laporan.')->group(function ($app) use ($router) {
+    $app->prefix('report')->name('report.')->group(function ($app) use ($router) {
+        $app->prefix('penjualan')->name('penjualan.')->group(function ($app) use ($router) {
+            $app->get('/barang', 'ReportController@penjualanPerBarang')->name('barang');
+            $app->get('/barang/loadTable', 'ReportController@penjualanPerBarangLoadTable')->name('barang_load_table');
+            $app->get('/barang/print', 'ReportController@penjualanPerBarangPrint')->name('barang_print');
+
+
+            $app->get('/periode', 'ReportController@penjualanPerPeriode')->name('periode');
+            $app->get('/periode/loadTable', 'ReportController@penjualanPerPeriodeLoadTable')->name('periode_load_table');
+            $app->get('/periode/print', 'ReportController@penjualanPerPeriodePrint')->name('periode_print');
+        });
         $app->prefix('kas')->name('kas.')->group(function ($app) use ($router) {
-            $app->get('/', 'KasController@index')->name('index');
-            $app->get('/create', 'KasController@create')->name('create');
-            $app->post('/store', 'KasController@store')->name('store');
-            $app->get('/loadTable', 'KasController@loadTable')->name('load_table');
-            $app->get('/loadKotak', 'KasController@loadKotak')->name('load_kotak');
-        });
-        $app->prefix('cetak')->name('cetak.')->group(function ($app) use ($router) {
-            $app->get('/', 'CetakController@index')->name('index');
-            $app->get('/penjualan', 'CetakController@penjualan')->name('penjualan');
-            $app->get('/penjualantunai', 'CetakController@penjualanTunai')->name('penjualan_tunai');
-            $app->get('/penjualankredit', 'CetakController@penjualanKredit')->name('penjualan_kredit');
-            $app->get('/pembelian', 'CetakController@pembelian')->name('pembelian');
-            $app->get('/pembeliantunai', 'CetakController@pembelianTunai')->name('pembelian_tunai');
-            $app->get('/pembeliankredit', 'CetakController@pembelianKredit')->name('pembelian_kredit');
-            $app->get('/hutang', 'CetakController@hutang')->name('hutang');
-            $app->get('/piutang', 'CetakController@piutang')->name('piutang');
-            $app->get('/kas', 'CetakController@kas')->name('kas');
-            $app->get('/laba', 'CetakController@labaRugi')->name('laba_rugi');
-        });
-        $app->prefix('labarugi')->name('labarugi.')->group(function ($app) use ($router) {
-            $app->get('/', 'LabarugiController@index')->name('index');
-            $app->get('/loadTable', 'LabarugiController@loadTable')->name('load_table');
+            $app->get('/', 'ReportController@kas')->name('index');
+            $app->get('/loadTable', 'ReportController@kasloadTable')->name('load_table');
+            $app->get('/loadKotak', 'ReportController@kasloadKotak')->name('load_kotak');
+            $app->get('/print', 'ReportController@kasPrint')->name('print');
         });
 
+        $app->prefix('labarugi')->name('labarugi.')->group(function ($app) use ($router) {
+            $app->get('/', 'ReportController@LabaRugiindex')->name('index');
+            $app->get('/loadTable', 'ReportController@LabaRugiloadTable')->name('load_table');
+            $app->get('/print', 'ReportController@LabaRugiPrint')->name('print');
+        });
+
+        $app->prefix('pembelian')->name('pembelian.')->group(function ($app) use ($router) {
+            $app->get('/', 'ReportController@pembelian')->name('pembelian');
+            $app->get('/loadTable', 'ReportController@pembelianLoadTable')->name('load_table');
+            $app->get('/print', 'ReportController@pembelianPrint')->name('print');
+        });
+
+        $app->prefix('grafik')->name('grafik.')->group(function ($app) use ($router) {
+            $app->get('/', 'GrafikController@index')->name('index');
+            $app->get('/getChartPenjualan', 'GrafikController@getChartPenjualan')->name('getChartPenjualan');
+            $app->get('/getChartLaba', 'GrafikController@getChartLaba')->name('getChartLaba');
+            $app->get('/getChartTerjual', 'GrafikController@getChartTerjual')->name('getChartTerjual');
+        });
+
+        $app->prefix('hutang')->name('hutang.')->group(function ($app) use ($router) {
+            $app->get('/', 'ReportController@hutang')->name('index');
+            $app->get('/loadTable', 'ReportController@hutangLoadTable')->name('load_table');
+            $app->get('/print', 'ReportController@hutangPrint')->name('print');
+            $app->get('/loadKotakAtas', 'ReportController@hutangLoadKotak')->name('load_kotak');
+        });
+
+        $app->prefix('piutang')->name('piutang.')->group(function ($app) use ($router) {
+            $app->get('/', 'ReportController@piutang')->name('index');
+            $app->get('/loadTable', 'ReportController@piutangLoadTable')->name('load_table');
+            $app->get('/print', 'ReportController@piutangPrint')->name('print');
+            $app->get('/loadKotakAtas', 'ReportController@piutangLoadKotak')->name('load_kotak');
+        });
+    });
+    $app->prefix('laporan')->name('laporan.')->group(function ($app) use ($router) {
         $app->prefix('grafik')->name('grafik.')->group(function ($app) use ($router) {
             $app->get('/', 'GrafikController@index')->name('index');
             $app->get('/getChartPenjualan', 'GrafikController@getChartPenjualan')->name('getChartPenjualan');

@@ -132,9 +132,17 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        if ($user->delete()) {
-            session()->flash('message', 'Data berhasil dihapus!');
-            return redirect()->route('user.index')->with('status', 'success');
+        $rt = User::with('transaksi')->find($id);
+        $rct = User::with('cart_transaksi')->find($id);
+        $rp = User::with('return_penjualan')->find($id);
+        if (count($rt->transaksi) < 1 && count($rct->cart_transaksi) < 1 && count($rp->return_penjualan) < 1) {
+            if ($user->delete()) {
+                session()->flash('message', 'Data berhasil dihapus!');
+                return redirect()->route('user.index')->with('status', 'success');
+            } else {
+                session()->flash('message', 'Data gagal dihapus!');
+                return redirect()->route('user.index')->with('status', 'danger');
+            }
         } else {
             session()->flash('message', 'Data gagal dihapus!');
             return redirect()->route('user.index')->with('status', 'danger');

@@ -1,61 +1,55 @@
 @extends('layouts.template')
-@section('page','Pelanggan')
+@section('page','Pegawai')
 @section('content')
 <div class="row">
     <div class="col-md-12">
         <div class="box box-danger">
-            <div class=" box-header with-border">
+            <div class="box-header with-border">
                 <i class="fa fa-bar-chart-o"></i>
                 <h3 class="box-title">@yield('page')</h3>
             </div>
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-6">
-                        @error('penambahan_stok_masuk')
-                        <div class="alert alert-danger" role="alert">
-                            {{ $message }}
+                        @if (Session::has('status'))
+                        <div class="alert alert-{{ Session::get('status') }}" role="alert">{{ Session::get('message') }}
                         </div>
-                        @enderror
-                        @if (Session::get('status'))
-                        <div class="alert alert-{{ Session::get('status') }}">
-                            {{Session::get('message')}}</div>
                         @endif
                     </div>
                 </div>
-                <a href=" {{ route('pelanggan.create') }}" class="btn btn-primary mb-2"><i class="fa fa-plus"></i>
-                    Tambah
+                <a href="{{ route('pegawai.create') }}" class="btn btn-primary mb-2"><i class="fa fa-plus"></i> Tambah
                     Data</a>
-
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
-
-                            <table class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"
-                                id="example-table">
+                            <table class="table table-striped table-bordered table-hover" id="example-table"
+                                cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Nama</th>
                                         <th>Email</th>
-                                        <th>No Hp</th>
+                                        <th>No HP</th>
+                                        <th>Jabatan</th>
                                         <th>Alamat</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($pelanggan as $key => $row)
+                                    @foreach ($pegawai as $row)
                                     <tr>
-                                        <td>{{ $key+ $pelanggan->firstItem() }}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->nama }}</td>
                                         <td>{{ $row->email }}</td>
-                                        <td>{{ $row->no_hp }}</td>
+                                        <td>{{ $row->no_telp }}</td>
+                                        <td>{{ $row->jabatan->nama }}</td>
                                         <td>{!! $row->alamat !!}</td>
                                         <td>
-                                            <a href="{{ route('pelanggan.edit',$row->id) }}"
-                                                class="btn btn-sm btn-warning">Edit</a>
-                                            <a href="{{ route('pelanggan.destroy',$row->id) }}"
-                                                class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Yakin ingin menghapus data?')">Hapus</a>
+                                            <a href="{{ route("pegawai.edit",$row->id) }}"
+                                                class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                                            <a href="{{ route("pegawai.destroy",$row->id) }}"
+                                                class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</a>
+
                                         </td>
                                     </tr>
                                     @endforeach
@@ -68,7 +62,6 @@
         </div>
     </div>
 </div>
-
 @endsection
 @push('style')
 <link rel="stylesheet"
@@ -80,7 +73,7 @@
 </script>
 <!-- SlimScroll -->
 <script type="text/javascript">
-    $(function() {
+    $(document).ready(function() {
         $('#example-table').dataTable();
     });
 </script>

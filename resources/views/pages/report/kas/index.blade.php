@@ -26,10 +26,17 @@
                                             value="{{ date('Y-m-d') }}">
                                     </td>
 
+                                </tr>
+                                <tr>
                                     <td>
                                         <a href="#" class="btn btn-success" style="width:100%" id="filter1"><i
                                                 class="fa fa-search"></i>
                                             Filter</a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-warning excel"><i class="fa fa-print"></i>
+                                            Excel</button>
+                                        <button class="btn btn-primary print"><i class="fa fa-print"></i> Print</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -38,7 +45,7 @@
                     <div class="col-md-6">
 
                         <div id="kotak-total">
-                            @include('pages.laporan.kas.kotak_total')
+                            @include('pages.report.kas.kotak_total')
                         </div>
                     </div>
                 </div>
@@ -55,23 +62,7 @@
             </div>
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-6">
-                        @error('penambahan_stok_masuk')
-                        <div class="alert alert-danger" role="alert">
-                            {{ $message }}
-                        </div>
-                        @enderror
-                        @if (Session::get('status'))
-                        <div class="alert alert-{{ Session::get('status') }}">
-                            {{Session::get('message')}}</div>
-                        @endif
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-md-12">
-                        <a href="{{ route('transaksi.kas.create') }}" class="btn btn-primary mb-3"><i
-                                class="fa fa-plus"></i>
-                            Tambah Kas</a>
                         <a href="#" class="btn btn-warning mb-3" id="refresh"><i class="fa fa-refresh"></i>
                             Refresh</a>
                     </div>
@@ -124,6 +115,20 @@
             }
             loadTable("custom");
         });
+        $('.print').click(function(){
+            if($('#kodeBarang').val() == ""){
+                alert('Kode Barang masih kosong');
+                return;
+            }
+            tanggal_awal = $('#startdate').val();
+            tanggal_akhir = $('#enddate').val();
+            
+            
+            let url = `{{ url('report/kas/print?tanggal_awal=${tanggal_awal}&tanggal_akhir=${tanggal_akhir}') }}`;
+            const parseResult = new DOMParser().parseFromString(url, "text/html");
+            const parsedUrl = parseResult.documentElement.textContent;
+            window.open(parsedUrl,'_blank');
+        });
         function loadTable(filter){
             tanggal_awal = $('#startdate').val();
             tanggal_akhir = $('#enddate').val();
@@ -134,7 +139,7 @@
                 filter="custom";
             }
 
-            let url = `{{ url('/transaksi/kas/loadTable?filter=`+filter+`&tanggal_awal=`+tanggal_awal+`&tanggal_akhir=`+tanggal_akhir+`') }}`;
+            let url = `{{ url('/report/kas/loadTable?filter=`+filter+`&tanggal_awal=`+tanggal_awal+`&tanggal_akhir=`+tanggal_akhir+`') }}`;
             const parseResult = new DOMParser().parseFromString(url, "text/html");
             const parsedUrl = parseResult.documentElement.textContent;
             $('.table-responsive').load(parsedUrl);
@@ -143,7 +148,7 @@
             }
         }
         function loadKotakAtas(filter,tanggal_awal="all",tanggal_akhir="all"){
-           let url = `{{ url('/transaksi/kas/loadKotak?filter=`+filter+`&tanggal_awal=`+tanggal_awal+`&tanggal_akhir=`+tanggal_akhir+`') }}`;
+           let url = `{{ url('/report/kas/loadKotak?filter=`+filter+`&tanggal_awal=`+tanggal_awal+`&tanggal_akhir=`+tanggal_akhir+`') }}`;
             const parseResult = new DOMParser().parseFromString(url, "text/html");
             const parsedUrl = parseResult.documentElement.textContent;
             $('#kotak-total').load(parsedUrl);

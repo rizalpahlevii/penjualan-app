@@ -23,22 +23,27 @@
                 <table class="table" style="width:500px">
                     <tbody>
                         <tr>
-                            <td style="font-size:16px" colspan="3"><b>LAPORAN KAS</b></td>
+                            <td style="font-size:16px" colspan="3"><b>LAPORAN PIUTANG</b></td>
                         </tr>
                         <tr>
                             <td>PERIODE</td>
                             <td style="width:15px">:</td>
-                            <td>{{ request()->get('start') }} s/d {{ request()->get('end') }}</td>
+                            <td>{{ request()->get('tanggal_awal') }} s/d {{ request()->get('tanggal_akhir') }}</td>
                         </tr>
                         <tr>
-                            <td>PENDAPATAN</td>
+                            <td>TOTAL PIUTANG</td>
                             <td>:</td>
-                            <td>@rupiah($pendapatan) </td>
+                            <td>@rupiah($totalPiutang) </td>
                         </tr>
                         <tr>
-                            <td>PENGELUARAN</td>
+                            <td>TOTAL PIUTANG TERBAYAR</td>
                             <td>:</td>
-                            <td>@rupiah($pengeluaran) </td>
+                            <td>@rupiah($totalPiutangTerbayar) </td>
+                        </tr>
+                        <tr>
+                            <td>TOTAL SISA PIUTANG</td>
+                            <td>:</td>
+                            <td>@rupiah($totalPiutangSisa) </td>
                         </tr>
                     </tbody>
                 </table>
@@ -51,22 +56,22 @@
                         <td>No</td>
                         <td>Tanggal</td>
                         <td>Faktur</td>
-                        <td>Tipe</td>
-                        <td>Jenis</td>
-                        <td>Pemasukan</td>
-                        <td>Pengeluaran</td>
-                        <td>Keterangan</td>
+                        <td>Faktur Penjualan</td>
+                        <td>Total Piutang</td>
+                        <td>Piutang Terbayar</td>
+                        <td>Sisa Piutang</td>
+                        <td>Suplier</td>
                     </tr>
-                    @foreach ($kas as $item)
+                    @foreach ($piutang as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->tanggal }}</td>
+                        <td>{{ $item->tanggal_piutang }}</td>
                         <td>{{ $item->faktur }}</td>
-                        <td>{{ ucfirst($item->tipe) }}</td>
-                        <td>{{ ucfirst($item->jenis) }}</td>
-                        <td>@rupiah($item->pemasukan)</td>
-                        <td>@rupiah($item->pengeluaran)</td>
-                        <td>{{ $item->keterangan }}</td>
+                        <td>{{ $item->transaksi->kode }}</td>
+                        <td>@rupiah($item->total_piutang)</td>
+                        <td>@rupiah($item->piutang_terbayar)</td>
+                        <td>@rupiah($item->sisa_piutang)</td>
+                        <td>{{ $item->pelanggan->nama }}</td>
                     </tr>
                     @endforeach
                 </table>
