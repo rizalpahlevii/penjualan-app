@@ -26,57 +26,60 @@
                     Data</a>
 
                 <div class="row">
-                    <div class="col-md-12 table-responsive">
-                        <table class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"
-                            id="example-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Barcode</th>
-                                    <th>Nama</th>
-                                    <th>Harga Beli</th>
-                                    <th>Harga Jual</th>
-                                    <th>Stok Awal</th>
-                                    <th>Stok Masuk</th>
-                                    <th>Stok Akhir</th>
-                                    <th>Stok Keluar</th>
-                                    <th>Satuan</th>
-                                    <th>Kategori</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($barang as $key => $row)
-                                <tr>
-                                    <td>{{ $key+ $barang->firstItem() }}</td>
-                                    <td style="cursor:pointer" data-nama="{{ $row->nama }}" data-id="{{ $row->id }}"
-                                        class="showBarcode">
-                                        <img src="data:image/png;base64,{{DNS1D::getBarcodePNG(
-                                                   $row->id, 'C39')}}" height="40" width="130">
-                                    </td>
-                                    <td>{{ $row->nama }}</td>
-                                    <td> @rupiah($row->harga_beli) </td>
-                                    <td> @rupiah($row->harga_jual) </td>
-                                    <td>{{ $row->stok_awal }}</td>
-                                    <td>{{ $row->stok_masuk }}</td>
-                                    <td>{{ $row->stok_akhir }}</td>
-                                    <td>{{ $row->stok_keluar }}</td>
-                                    <td>{{ $row->satuan->nama }}</td>
-                                    <td>{{ $row->kategori->nama }}</td>
-                                    <td>
-                                        {{-- <a href="#" class="btn btn-info btn-sm tmb-stok" data-id="{{ $row->id }}">Tambah
-                                        Stok</a> --}}
-                                        <a href="{{ route('barang.edit',$row->id) }}"
-                                            class="btn btn-sm btn-warning">Edit</a>
-                                        <a href="{{ route('barang.destroy',$row->id) }}" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Yakin ingin menghapus data?')">Hapus</a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="pull-right">
-                            {{ $barang->links() }}
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"
+                                id="example-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Barcode</th>
+                                        <th>Nama</th>
+                                        <th>Harga Beli</th>
+                                        <th>Harga Jual</th>
+                                        <th>Stok Awal</th>
+                                        <th>Stok Masuk</th>
+                                        <th>Stok Akhir</th>
+                                        <th>Stok Keluar</th>
+                                        <th>Satuan</th>
+                                        <th>Kategori</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($barang as $key => $row)
+                                    <tr>
+                                        <td>{{ $key+ $barang->firstItem() }}</td>
+                                        <td style="cursor:pointer" data-nama="{{ $row->nama }}" data-id="{{ $row->id }}"
+                                            class="showBarcode">
+                                            <img src="data:image/png;base64,{{DNS1D::getBarcodePNG(
+                                                       $row->id, 'C39')}}" height="40" width="130">
+                                        </td>
+                                        <td>{{ $row->nama }}</td>
+                                        <td> @rupiah($row->harga_beli) </td>
+                                        <td> @rupiah($row->harga_jual) </td>
+                                        <td>{{ $row->stok_awal }}</td>
+                                        <td>{{ $row->stok_masuk }}</td>
+                                        <td>{{ $row->stok_akhir }}</td>
+                                        <td>{{ $row->stok_keluar }}</td>
+                                        <td>{{ $row->satuan->nama }}</td>
+                                        <td>{{ $row->kategori->nama }}</td>
+                                        <td>
+                                            {{-- <a href="#" class="btn btn-info btn-sm tmb-stok" data-id="{{ $row->id }}">Tambah
+                                            Stok</a> --}}
+                                            <a href="{{ route('barang.edit',$row->id) }}"
+                                                class="btn btn-sm btn-warning">Edit</a>
+                                            <a href="{{ route('barang.destroy',$row->id) }}"
+                                                class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Yakin ingin menghapus data?')">Hapus</a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <div class="pull-right">
+                                {{ $barang->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>

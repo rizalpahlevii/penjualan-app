@@ -13,7 +13,8 @@
                                     <td>Tanggal Awal</td>
                                     <td>
                                         <input title="tanggal transaksi" class="form-control datepicker-here"
-                                            type="text" id="startdate" data-language="en" autocomplete="off">
+                                            type="text" id="startdate" data-language="en" autocomplete="off"
+                                            value="{{ date('Y-m-d') }}">
                                     </td>
                                 </tr>
                                 <tr>
@@ -21,7 +22,8 @@
 
                                     <td>
                                         <input title="tanggal transaksi" class="form-control datepicker-here"
-                                            type="text" id="enddate" data-language="en" autocomplete="off">
+                                            type="text" id="enddate" data-language="en" autocomplete="off"
+                                            value="{{ date('Y-m-d') }}">
                                     </td>
 
                                     <td>

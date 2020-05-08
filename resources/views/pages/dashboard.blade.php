@@ -20,7 +20,7 @@
     <!-- ./col -->
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-green">
+        <div class="small-box bg-yellow">
             <div class="inner">
                 <h3>{{ $totalPelanggan }}</h3>
 
@@ -36,14 +36,14 @@
     <!-- ./col -->
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-yellow">
+        <div class="small-box bg-green">
             <div class="inner">
-                <h3>{{ $totalSuplier }}</h3>
+                <h3>{{ number_format($omsetBulanIni, 0, ".", ".") }}</h3>
 
-                <p>Suplier</p>
+                <p>Omset Bulan Ini</p>
             </div>
             <div class="icon">
-                <i class="fa fa-truck"></i>
+                <i class="ion ion-stats-bars"></i>
             </div>
             <a href="{{ route('suplier.index') }}" class="small-box-footer">More info <i
                     class="fa fa-arrow-circle-right"></i></a>
@@ -54,9 +54,9 @@
         <!-- small box -->
         <div class="small-box bg-red">
             <div class="inner">
-                <h3>{{ $totalTransaksi }}</h3>
+                <h3>{{ number_format($labaRugi['laba_rugi'], 0, ".", ".") }}</h3>
 
-                <p>Penjualan</p>
+                <p>Laba Bulan Ini</p>
             </div>
             <div class="icon">
                 <i class="ion ion-pie-graph"></i>

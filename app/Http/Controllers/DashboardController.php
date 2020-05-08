@@ -7,6 +7,7 @@ use App\Pelanggan;
 use App\Suplier;
 use App\Transaksi;
 use Illuminate\Http\Request;
+use Saldo;
 
 class DashboardController extends Controller
 {
@@ -14,8 +15,8 @@ class DashboardController extends Controller
     {
         $totalBarang = Barang::count();
         $totalPelanggan = Pelanggan::count();
-        $totalSuplier = Suplier::count();
-        $totalTransaksi = Transaksi::count();
-        return view('pages.dashboard', compact('totalBarang', 'totalPelanggan', 'totalSuplier', 'totalTransaksi'));
+        $omsetBulanIni = Saldo::getOmsetBulanIni();
+        $labaRugi = Saldo::getLabaBulanIni();
+        return view('pages.dashboard', compact('totalBarang', 'totalPelanggan', 'omsetBulanIni', 'labaRugi'));
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Piutang;
+use App\Transaksi;
 use Illuminate\Support\Facades\DB;
 
 class Saldo
@@ -57,5 +58,38 @@ class Saldo
     public static function getReturnPembelian()
     {
         return DB::table('return_pembelian')->sum('total_bayar');
+    }
+    public static function getOmsetBulanIni()
+    {
+        $transaksi = Transaksi::whereMonth('tanggal_transaksi', date('m'))->whereYear('tanggal_transaksi', date('Y'))->get();
+        $ret = 0;
+        foreach ($transaksi as $row) {
+            $ret += $row->total - ($row->ppn + $row->pph);
+        }
+        return $ret;
+    }
+    public static function getLabaBulanIni()
+    {
+        $transaksi = Transaksi::whereMonth('tanggal_transaksi', date('m'))->whereYear('tanggal_transaksi', date('Y'))->get();
+        $total = 0;
+        $hpp = 0;
+        foreach ($transaksi as $row) {
+            if ($row->status == "hutang") {
+                if ($row->piutang != null) {
+                    if ($row->piutang->sisa_piutang == 0) {
+                        $total += $row->total - ($row->ppn + $row->pph);
+                        foreach ($row->detail_transaksi as $detail) {
+                            $hpp += $detail->jumlah_beli * $detail->barang->harga_beli;
+                        }
+                    }
+                }
+            } else {
+                $total += $row->total - ($row->ppn + $row->pph);
+                foreach ($row->detail_transaksi as $detail) {
+                    $hpp += $detail->jumlah_beli * $detail->barang->harga_beli;
+                }
+            }
+        }
+        return ['total_penjualan' => $total, 'hpp' => $hpp, 'laba_rugi' => $total - $hpp];
     }
 }

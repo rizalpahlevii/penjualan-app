@@ -76,6 +76,16 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
         $app->post('/store', 'KasirController@store')->name('store');
     });
     $app->prefix('transaksi')->name('transaksi.')->group(function ($app) use ($router) {
+        $app->prefix('penjualan')->name('penjualan.')->group(function ($app) use ($router) {
+            $app->prefix('periode')->name('periode.')->group(function ($app) use ($router) {
+                $app->get('/', 'PenjualanController@periode')->name('index');
+                $app->get('/loadTable', 'PenjualanController@periodeLoadTable')->name('load_table');
+            });
+            $app->prefix('barang')->name('barang.')->group(function ($app) use ($router) {
+                $app->get('/', 'PenjualanController@barang')->name('index');
+                $app->get('/loadTable', 'PenjualanController@barangLoadTable')->name('load_table');
+            });
+        });
         $app->prefix('hutang')->name('hutang.')->group(function ($app) use ($router) {
             $app->get('/', 'HutangController@index')->name('index');
             $app->get('/loadTable', 'HutangController@loadTable')->name('load_table');
@@ -147,6 +157,13 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
         $app->prefix('labarugi')->name('labarugi.')->group(function ($app) use ($router) {
             $app->get('/', 'LabarugiController@index')->name('index');
             $app->get('/loadTable', 'LabarugiController@loadTable')->name('load_table');
+        });
+
+        $app->prefix('grafik')->name('grafik.')->group(function ($app) use ($router) {
+            $app->get('/', 'GrafikController@index')->name('index');
+            $app->get('/getChartPenjualan', 'GrafikController@getChartPenjualan')->name('getChartPenjualan');
+            $app->get('/getChartLaba', 'GrafikController@getChartLaba')->name('getChartLaba');
+            $app->get('/getChartTerjual', 'GrafikController@getChartTerjual')->name('getChartTerjual');
         });
     });
 });

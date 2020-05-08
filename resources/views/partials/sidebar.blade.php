@@ -70,7 +70,7 @@
                 </a>
             </li>
             <li
-                class="treeview {{ set_active(['transaksi.piutang.index','transaksi.return.penjualan.index','transaksi.pembelian.index','transaksi.pembelian.create','transaksi.hutang.index','transaksi.return.penjualan.index','transaksi.return.penjualan.create','transaksi.return.pembelian.index','transaksi.return.pembelian.create']) }}">
+                class="treeview {{ set_active(['transaksi.piutang.index','transaksi.return.penjualan.index','transaksi.pembelian.index','transaksi.pembelian.create','transaksi.hutang.index','transaksi.return.penjualan.index','transaksi.return.penjualan.create','transaksi.return.pembelian.index','transaksi.return.pembelian.create','transaksi.penjualan.periode.index','transaksi.penjualan.barang.index']) }}">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
                     <span>Transaksi</span>
@@ -79,6 +79,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
+
                     <li class="{{ set_active(['transaksi.piutang.index']) }}">
                         <a href="{{ route('transaksi.piutang.index') }}"><i class="fa fa-calendar"></i> Piutang</a>
                     </li>
@@ -90,6 +91,25 @@
                         <a href="{{ route('transaksi.pembelian.index') }}"><i class="fa fa-shopping-basket"></i>
                             Pembelian</a>
                     </li>
+
+                    <li
+                        class="treeview {{ set_active(['transaksi.penjualan.periode.index','transaksi.penjualan.barang.index']) }}">
+                        <a href="#"><i class="fa fa-shopping-bag"></i> Penjualan
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ set_active(['transaksi.penjualan.periode.index']) }}">
+                                <a href="{{ route('transaksi.penjualan.periode.index') }}"><i
+                                        class="fa fa-circle-o"></i>
+                                    Per Periode</a></li>
+
+                            <li class="{{ set_active(['transaksi.penjualan.barang.index']) }}">
+                                <a href="{{ route('transaksi.penjualan.barang.index') }}"><i class="fa fa-circle-o"></i>
+                                    Per Barang</a></li>
+                        </ul>
+                    </li>
                     <li
                         class="treeview {{ set_active(['transaksi.return.penjualan.index','transaksi.return.penjualan.create','transaksi.return.pembelian.index','transaksi.return.pembelian.create']) }}">
                         <a href="#"><i class="fa fa-sticky-note"></i> Return
@@ -99,11 +119,11 @@
                         </a>
                         <ul class="treeview-menu">
                             <li
-                                class="{{ set_active('transaksi.return.penjualan.index','transaksi.return.penjualan.create') }}">
+                                class="{{ set_active(['transaksi.return.penjualan.index','transaksi.return.penjualan.create']) }}">
                                 <a href="{{ route('transaksi.return.penjualan.index') }}"><i class="fa fa-circle-o"></i>
                                     Penjualan</a></li>
                             <li
-                                class="{{ set_active('transaksi.return.pembelian.index','transaksi.return.pembelian.create') }}">
+                                class="{{ set_active(['transaksi.return.pembelian.index','transaksi.return.pembelian.create']) }}">
                                 <a href="{{ route('transaksi.return.pembelian.index') }}"><i class="fa fa-circle-o"></i>
                                     Pembelian</a></li>
                         </ul>
@@ -111,7 +131,7 @@
                 </ul>
             </li>
             <li
-                class="treeview {{ set_active(['laporan.kas.index','laporan.kas.create','laporan.cetak.index','laporan.kas.create','laporan.labarugi.index']) }}">
+                class="treeview {{ set_active(['laporan.kas.index','laporan.kas.create','laporan.cetak.index','laporan.kas.create','laporan.labarugi.index','laporan.grafik.index']) }}">
                 <a href="#">
                     <i class="fa fa-file"></i>
                     <span>Laporan</span>
@@ -129,8 +149,8 @@
                     <li class="{{ set_active(['laporan.labarugi.index']) }}">
                         <a href="{{ route('laporan.labarugi.index') }}"><i class="fa fa-line-chart"></i> Laba Rugi</a>
                     </li>
-                    <li class="{{ set_active(['laporan.labarugi.index']) }}">
-                        <a href="#"><i class="fa fa-bar-chart"></i> Grafik</a>
+                    <li class="{{ set_active(['laporan.grafik.index']) }}">
+                        <a href="{{ route('laporan.grafik.index') }}"><i class="fa fa-bar-chart"></i> Grafik</a>
                     </li>
 
                 </ul>

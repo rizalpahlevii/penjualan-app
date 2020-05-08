@@ -27,39 +27,43 @@
                     Data</a>
 
                 <div class="row">
-                    <div class="col-md-12 table-responsive">
-                        <table class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"
-                            id="example-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Username</th>
-                                    <th>Level</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($users as $key => $row)
-                                <tr>
-                                    <td>{{ $key+ $users->firstItem() }}</td>
-                                    <td>{{ $row->nama }}</td>
-                                    <td>{{ $row->email }}</td>
-                                    <td>{{ $row->username }}</td>
-                                    <td>{{ $row->level }}</td>
-                                    <td>
-                                        <a href="{{ route('user.edit',$row->id) }}"
-                                            class="btn btn-sm btn-warning">Edit</a>
-                                        <a href="{{ route('user.destroy',$row->id) }}" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Yakin ingin menghapus data?')">Hapus</a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="pull-right">
-                            {{ $users->links() }}
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"
+                                id="example-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>Username</th>
+                                        <th>Level</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($users as $key => $row)
+                                    <tr>
+                                        <td>{{ $key+ $users->firstItem() }}</td>
+                                        <td>{{ $row->nama }}</td>
+                                        <td>{{ $row->email }}</td>
+                                        <td>{{ $row->username }}</td>
+                                        <td>{{ $row->level }}</td>
+                                        <td>
+                                            @if ($row->id != Auth::user()->id)
+                                            <a href="{{ route('user.destroy',$row->id) }}" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Yakin ingin menghapus data?')">Hapus</a>
+                                            @endif
+                                            <a href="{{ route('user.edit',$row->id) }}"
+                                                class="btn btn-sm btn-warning">Edit</a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <div class="pull-right">
+                                {{ $users->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
