@@ -23,7 +23,7 @@
         @endphp
         @foreach ($piutang as $key=>$item)
         <tr>
-            <td>{{ $key++ }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $item->transaksi->tanggal_transaksi }}</td>
             <td>{{ $item->transaksi->kode }}</td>
             <td> @rupiah($item->total_hutang) </td>

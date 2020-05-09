@@ -1,53 +1,64 @@
 @extends('layouts.template')
-@section('page','Penjualan Per Periode')
+@section('page','Penggajian Pegawai')
 @section('content')
 <div class="row kotak-atas">
     <div class="col-md-12">
         <div class="box box-danger">
             <div class=" box-body">
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-md-12">
                         <div class="well well-sm"><i class="fa fa-info-circle"></i> Laporan Transaksi diambil dari
                             transaksi penjualan tunai dan no tunai
                             yang sudah lunas.</div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="row">
                     <div class="col-md-6">
+
                         <table class="table">
                             <tbody>
                                 <tr>
-                                    <td>Tanggal Awal</td>
+                                    <td>Bulan</td>
                                     <td>
-                                        <input type="text" class="form-control" id="startdate"
-                                            placeholder="Tanggal awal" autocomplete="off" value="{{ date('Y-m-d') }}">
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>Tanggal Akhir</td>
-                                    <td>
-                                        <input type="text" class="form-control" id="enddate" placeholder="Tanggal akhir"
-                                            autocomplete="off" value="{{ date('Y-m-d') }}">
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="status" class="form-control">
-                                            <option value="all">Semua Transaksi</option>
-                                            <option value="tunai">Tunai</option>
-                                            <option value="hutang">Non Tunai</option>
+                                        <select name="bulan" class="form-control" id="bulan">
+                                            <option disabled selected>Pilih Bulan</option>
+                                            <option value="1">Januari</option>
+                                            <option value="2">Februari</option>
+                                            <option value="3">Maret</option>
+                                            <option value="4">April</option>
+                                            <option value="5">Mei</option>
+                                            <option value="6">Juni</option>
+                                            <option value="7">Juli</option>
+                                            <option value="8">Agustus</option>
+                                            <option value="9">September</option>
+                                            <option value="10">Oktober</option>
+                                            <option value="11">Nopember</option>
+                                            <option value="12">Desember</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <button class="btn btn-success" id="filter-atas"><i class="fa fa-search"></i>
-                                            Filter</button>
+                                        <a href="#" class="btn btn-success" style="width:100%" id="filter-atas"><i
+                                                class="fa fa-search"></i>
+                                            Filter</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tahun</td>
+                                    <td>
+                                        <select name="tahun" class="form-control" id="tahun">
+                                            <option disabled selected>Pilih Periode</option>
+                                            @foreach ($years as $item)
+                                            <option value="{{ $item->year }}">{{ $item->year }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
                                         <button class="btn btn-warning excel"><i class="fa fa-print"></i>
                                             Excel</button>
                                         <button class="btn btn-primary print"><i class="fa fa-print"></i> Print</button>
                                     </td>
                                 </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -56,15 +67,14 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <h3>Total Penjualan</h3>
+                                        <h3>Total Penggajian</h3>
                                     </td>
                                     <td>
-                                        <h3 id="sttlpnj">0</h3>
+                                        <h3 id="sttlpgj">0</h3>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <a href="#" class="btn btn-default btn-sm lanjut" data-filter="hari"> Hari Ini</a>
                         <a href="#" class="btn btn-default btn-sm lanjut" data-filter="bulan"> Bulan Ini</a>
                         <a href="#" class="btn btn-default btn-sm lanjut" data-filter="tahun"> Tahun Ini</a>
                     </div>
@@ -83,18 +93,11 @@
                 <h3 class="box-title">@yield('page')</h3>
             </div>
             <div class="box-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        @if (Session::get('status'))
-                        <div class="alert alert-{{ Session::get('status') }}">
-                            {{Session::get('message')}}</div>
-                        @endif
-                    </div>
-                </div>
+
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <div class="table-responsive">
-                            @include('pages.report.penjualan.periode.table')
+                            @include('pages.report.penggajian.table')
                         </div>
                     </div>
                 </div>
@@ -125,57 +128,28 @@
 <script src="{{ asset('adminlte') }}/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <script>
     $(document).ready(function(){
-        $('#sttlpnj').html($('#ttlpnj').html());
+        $('#sttlpgj').html($('#ttlpgj').html());
         $('#filter-atas').click(function(){
-            if($('#startdate').val()!=""){
-                 tanggal_awal = $('#startdate').val();
-            }else{
-                 tanggal_awal ="all";
-            }
-            if($('#enddate').val()!=""){
-                 tanggal_akhir = $('#enddate').val();
-            }else{
-                 tanggal_akhir ="all";
-            }
-            loadTable($('#status').val(), tanggal_awal,tanggal_akhir);
-        });
-        $("#startdate").datepicker({
-            todayBtn: 1,
-            format : 'yyyy-mm-dd',
-            autoclose: true,
-        }).on('changeDate', function (selected) {
-            var minDate = new Date(selected.date.valueOf());
-            $('#enddate').datepicker('setStartDate', minDate);
-        });
-        $("#enddate").datepicker({format : 'yyyy-mm-dd'}).on('changeDate', function (selected) {
-            var maxDate = new Date(selected.date.valueOf());
-            $('#startdate').datepicker('setEndDate', maxDate);
+            loadTable($('#bulan').val(),$('#tahun').val());
         });
         $('.print').click(function(){
-            
-            transaksi = $('#status').val();
-            tanggal_awal = $('#startdate').val();
-            tanggal_akhir = $('#enddate').val();
-            let url =
-            `{{ url('report/penjualan/periode/print?transaksi=${transaksi}&start=${tanggal_awal}&end=${tanggal_akhir}&lanjut=all') }}`;
+            bulan = $('#bulan').val();
+            tahun = $('#tahun').val();
+            let url = `{{ url('report/penggajian/print?bulan=${bulan}&tahun=${tahun}') }}`;
             const parseResult = new DOMParser().parseFromString(url, "text/html");
             const parsedUrl = parseResult.documentElement.textContent;
             window.open(parsedUrl,'_blank');
         });
         $('.excel').click(function(){
-            
-            transaksi = $('#status').val();
-            tanggal_awal = $('#startdate').val();
-            tanggal_akhir = $('#enddate').val();
-            let url =
-            `{{ url('report/penjualan/periode/excel?transaksi=${transaksi}&start=${tanggal_awal}&end=${tanggal_akhir}&lanjut=all') }}`;
+            bulan = $('#bulan').val();
+            tahun = $('#tahun').val();
+            let url = `{{ url('report/penggajian/excel?bulan=${bulan}&tahun=${tahun}') }}`;
             const parseResult = new DOMParser().parseFromString(url, "text/html");
             const parsedUrl = parseResult.documentElement.textContent;
             window.open(parsedUrl,'_blank');
         });
-
-        function loadTable(transaksi="all",tanggal_awal,tanggal_akhir,lanjut="all"){
-            let url = `{{ url('report/penjualan/periode/loadTable?transaksi=${transaksi}&start=${tanggal_awal}&end=${tanggal_akhir}&lanjut=${lanjut}') }}`;
+        function loadTable(bulan,tahun,lanjut="all"){
+            let url = `{{ url('report/penggajian/loadTable?bulan=${bulan}&tahun=${tahun}&lanjut=${lanjut}') }}`;
             const parseResult = new DOMParser().parseFromString(url, "text/html");
             const parsedUrl = parseResult.documentElement.textContent;
             $('.table-responsive').load(parsedUrl,function(){
@@ -183,11 +157,11 @@
             });
         }
         function loadKotakAtas(){
-            $('#sttlpnj').html($('#ttlpnj').html());
+            $('#sttlpgj').html($('#ttlpgj').html());
         }
         
         $(document).on('click','.lanjut',function(){
-            loadTable("asdasd","asd","asd",$(this).data('filter'));
+            loadTable("asdasd","asd",$(this).data('filter'));
         });
     });
 </script>

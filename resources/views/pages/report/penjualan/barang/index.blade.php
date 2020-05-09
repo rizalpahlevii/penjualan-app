@@ -186,6 +186,21 @@
             const parsedUrl = parseResult.documentElement.textContent;
             window.open(parsedUrl,'_blank');
         }); 
+        $('.excel').click(function(){
+            if($('#kodeBarang').val() == ""){
+                alert('Kode Barang masih kosong');
+                return;
+            }
+            barang = $('#kodeBarang').val();
+            tanggal_awal = $('#startdate').val();
+            tanggal_akhir = $('#enddate').val();
+
+
+            let url = `{{ url('report/penjualan/barang/excel?barang=${barang}&start=${tanggal_awal}&end=${tanggal_akhir}') }}`;
+            const parseResult = new DOMParser().parseFromString(url, "text/html");
+            const parsedUrl = parseResult.documentElement.textContent;
+            window.open(parsedUrl,'_blank');
+        }); 
         $(document).on('click','#addBarang',function(){
             $('#kodeBarang').val($(this).data('kode'));
             $('#myModal').modal('hide');

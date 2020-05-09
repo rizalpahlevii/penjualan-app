@@ -39,6 +39,8 @@
                                         <div class="form-group">
                                             <label for="jabatan">Nama Pegawai</label>
                                             <div class="input-group">
+                                                <input type="hidden" name="id_pegawai" id="id_pegawai"
+                                                    class="form-control" readonly>
                                                 <input type="text" name="nama_pegawai" id="nama_pegawai"
                                                     class="form-control" readonly>
                                                 <span class="input-group-addon showModal" style="cursor: pointer;"><i
@@ -98,9 +100,13 @@
     <div class="col-md-4">
         <div class="box box-danger">
             <div class=" box-body">
-                <div align="right">
-                    <h4>Invoice <b><span id="invoice"></span></b></h4>
-                    <h1><b><span id="grand_total2" style="font-size:50pt;">0</span></b></h1>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="gaji_terakhir">Gaji Terakhir</label>
+                            <input type="text" class="form-control" id="gaji_terakhir" name="gaji_terakhir" readonly>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -197,13 +203,27 @@
             $('#modalPegawai').modal('show');
         });
         $(document).on('click','.btn-pilih',function(){
+            $('#id_pegawai').val($(this).data('id'));
             $('#nama_pegawai').val($(this).data('nama'));
             $('#no_telp').val($(this).data('telp'));
             $('#jabatan').val($(this).data('jabatan'));
             $('#gaji_pokok').val($(this).data('gpokok'));
             $('#gaji_bersih').val($(this).data('gpokok'));
+            getDetailPegawai($(this).data('id'));
             $('#modalPegawai').modal('hide');
         });
+        function getDetailPegawai(id){
+            let url = `{{ route('transaksi.penggajian.get_detail',':id') }}`;
+            url = url.replace(':id',id);
+            $.ajax({
+                type: "GET",
+                url: url,
+                dataType: "json",
+                success: function (response) {
+                    $('#gaji_terakhir').val(response);
+                }
+            });
+        }
         $('#potongan_gaji').keyup(function(){
             const gaji_pokok = $('#gaji_pokok').val();
             if(gaji_pokok - $(this).val() <= 0){
@@ -212,6 +232,44 @@
                 return;
             }
             $('#gaji_bersih').val(gaji_pokok - $(this).val());
+        });
+        $('#simpan').click(function(){
+            if($('#nama_pegawai').val() == ""){
+                alert('Form masih kosong');
+                return;
+            }
+            let url = `{{ route('transaksi.penggajian.store') }}`;
+            $.ajax({
+                type: "POST",
+                url: url,
+                data:{
+                    id_pegawai : $('#id_pegawai').val(),
+                    potongan_gaji : $('#potongan_gaji').val()
+                },
+                beforeSend:function(){
+                    Swal.fire({
+                        title: 'Loading .....',
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        onOpen: () => {
+                            Swal.showLoading()
+                        }
+                    })
+                },
+                dataType: "json",
+                success: function (response) {
+                    Swal.close();
+                    if(response[0]=="success"){
+                        Swal.fire("Success","Sukses menggaji pegawai","success").then(()=>{
+                            location.href = `{{ route('transaksi.penggajian.index') }}`;
+                        });
+                    }else{
+                        Swal.fire("Error",response[1],"error").then(()=>{
+                            location.href = `{{ route('transaksi.penggajian.index') }}`;
+                        });
+                    }
+                }
+            });
         });
     })
 </script>

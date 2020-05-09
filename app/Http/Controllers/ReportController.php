@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Barang;
+use App\Gaji;
 use App\Hutang;
 use App\Kas;
 use App\Pembelian;
@@ -351,5 +352,49 @@ class ReportController extends Controller
                 ->get();
             return view("pages.report.piutang.print", compact('totalPiutang', 'piutang', 'totalPiutangTerbayar', 'totalPiutangSisa'));
         }
+    }
+    public function penggajian()
+    {
+        $years = Gaji::select(DB::raw('YEAR(tanggal_gaji) as year'))->distinct()->get();
+        $penggajian = Gaji::with('pegawai')->get();
+        return view("pages.report.penggajian.index", compact('penggajian', 'years'));
+    }
+    public function penggajianLoadTable()
+    {
+        $penggajian = Gaji::with('pegawai');
+        if (request()->get('lanjut') == "all") {
+            $penggajian = $penggajian->whereMonth('tanggal_gaji', request()->get('bulan'));
+            $penggajian = $penggajian->whereYear('tanggal_gaji', request()->get('tahun'));
+        } else {
+            if (request()->get('lanjut') == "tahun") {
+                $penggajian->whereYear('tanggal_gaji', date('Y'));
+            } elseif (request()->get('lanjut') == "bulan") {
+                $penggajian->whereMonth('tanggal_gaji', date('m'));
+                $penggajian->whereYear('tanggal_gaji', date('Y'));
+            } else {
+                $penggajian = $penggajian;
+            }
+        }
+        $penggajian = $penggajian->get();
+        return view("pages.report.penggajian.table", compact('penggajian'));
+    }
+    public function penggajianPrint()
+    {
+        $penggajian = Gaji::with('pegawai');
+        if (request()->get('lanjut') == "all") {
+            $penggajian = $penggajian->whereMonth('tanggal_gaji', request()->get('bulan'));
+            $penggajian = $penggajian->whereYear('tanggal_gaji', request()->get('tahun'));
+        } else {
+            if (request()->get('lanjut') == "tahun") {
+                $penggajian->whereYear('tanggal_gaji', date('Y'));
+            } elseif (request()->get('lanjut') == "bulan") {
+                $penggajian->whereMonth('tanggal_gaji', date('m'));
+                $penggajian->whereYear('tanggal_gaji', date('Y'));
+            } else {
+                $penggajian = $penggajian;
+            }
+        }
+        $penggajian = $penggajian->get();
+        return view("pages.report.penggajian.print", compact('penggajian'));
     }
 }

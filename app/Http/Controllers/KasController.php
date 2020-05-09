@@ -42,10 +42,10 @@ class KasController extends Controller
         }
         if ($kas->save()) {
             session()->flash('message', 'Data berhasil disimpan!');
-            return redirect()->route('laporan.kas.index')->with('status', 'success');
+            return redirect()->route('transaksi.kas.index')->with('status', 'success');
         } else {
             session()->flash('message', 'Data gagal disimpan!');
-            return redirect()->route('laporan.kas.index')->with('status', 'danger');
+            return redirect()->route('transaksi.kas.index')->with('status', 'danger');
         }
     }
     public function loadTable()

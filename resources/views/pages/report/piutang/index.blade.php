@@ -65,6 +65,17 @@
             const parsedUrl = parseResult.documentElement.textContent;
             window.open(parsedUrl,'_blank');
         });
+        $('.excel').click(function(){
+        
+            tanggal_awal = $('#startdate').val();
+            tanggal_akhir = $('#enddate').val();
+            
+            
+            let url = `{{ url('report/piutang/excel?tanggal_awal=${tanggal_awal}&tanggal_akhir=${tanggal_akhir}') }}`;
+            const parseResult = new DOMParser().parseFromString(url, "text/html");
+            const parsedUrl = parseResult.documentElement.textContent;
+            window.open(parsedUrl,'_blank');
+        });
         $('#filter-atas').click(function(){
             if($('#startdate').val()!=""){
                  tanggal_awal = $('#startdate').val();

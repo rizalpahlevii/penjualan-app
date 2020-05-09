@@ -93,6 +93,7 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
             $app->get('/create', 'PenggajianController@create')->name('create');
             $app->post('/store', 'PenggajianController@store')->name('store');
             $app->get('/loadTable', 'PenggajianController@loadTable')->name('load_table');
+            $app->get('/getDetail/{id}', 'PenggajianController@get_detail')->name('get_detail');
         });
         $app->prefix('penjualan')->name('penjualan.')->group(function ($app) use ($router) {
             $app->prefix('periode')->name('periode.')->group(function ($app) use ($router) {
@@ -169,29 +170,34 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
             $app->get('/barang', 'ReportController@penjualanPerBarang')->name('barang');
             $app->get('/barang/loadTable', 'ReportController@penjualanPerBarangLoadTable')->name('barang_load_table');
             $app->get('/barang/print', 'ReportController@penjualanPerBarangPrint')->name('barang_print');
+            $app->get('/barang/excel', 'ExportExcelController@penjualanBarangExport')->name('barang_export');
 
 
             $app->get('/periode', 'ReportController@penjualanPerPeriode')->name('periode');
             $app->get('/periode/loadTable', 'ReportController@penjualanPerPeriodeLoadTable')->name('periode_load_table');
             $app->get('/periode/print', 'ReportController@penjualanPerPeriodePrint')->name('periode_print');
+            $app->get('/periode/excel', 'ExportExcelController@penjualanPeriodeExport')->name('barang_periode');
         });
         $app->prefix('kas')->name('kas.')->group(function ($app) use ($router) {
             $app->get('/', 'ReportController@kas')->name('index');
             $app->get('/loadTable', 'ReportController@kasloadTable')->name('load_table');
             $app->get('/loadKotak', 'ReportController@kasloadKotak')->name('load_kotak');
             $app->get('/print', 'ReportController@kasPrint')->name('print');
+            $app->get('/excel', 'ExportExcelController@kasExcel')->name('excel');
         });
 
         $app->prefix('labarugi')->name('labarugi.')->group(function ($app) use ($router) {
             $app->get('/', 'ReportController@LabaRugiindex')->name('index');
             $app->get('/loadTable', 'ReportController@LabaRugiloadTable')->name('load_table');
             $app->get('/print', 'ReportController@LabaRugiPrint')->name('print');
+            $app->get('/excel', 'ExportExcelController@labarugiExcel')->name('excel');
         });
 
         $app->prefix('pembelian')->name('pembelian.')->group(function ($app) use ($router) {
             $app->get('/', 'ReportController@pembelian')->name('pembelian');
             $app->get('/loadTable', 'ReportController@pembelianLoadTable')->name('load_table');
             $app->get('/print', 'ReportController@pembelianPrint')->name('print');
+            $app->get('/excel', 'ExportExcelController@pembelianExcel')->name('excel');
         });
 
         $app->prefix('grafik')->name('grafik.')->group(function ($app) use ($router) {
@@ -206,13 +212,20 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
             $app->get('/loadTable', 'ReportController@hutangLoadTable')->name('load_table');
             $app->get('/print', 'ReportController@hutangPrint')->name('print');
             $app->get('/loadKotakAtas', 'ReportController@hutangLoadKotak')->name('load_kotak');
+            $app->get('/excel', 'ExportExcelController@hutangExcel')->name('excel');
         });
-
+        $app->prefix('penggajian')->name('penggajian.')->group(function ($app) use ($router) {
+            $app->get('/', 'ReportController@penggajian')->name('index');
+            $app->get('/loadTable', 'ReportController@penggajianLoadTable')->name('load_table');
+            $app->get('/print', 'ReportController@penggajianPrint')->name('print');
+            $app->get('/excel', 'ExportExcelController@penggajianExcel')->name('excel');
+        });
         $app->prefix('piutang')->name('piutang.')->group(function ($app) use ($router) {
             $app->get('/', 'ReportController@piutang')->name('index');
             $app->get('/loadTable', 'ReportController@piutangLoadTable')->name('load_table');
             $app->get('/print', 'ReportController@piutangPrint')->name('print');
             $app->get('/loadKotakAtas', 'ReportController@piutangLoadKotak')->name('load_kotak');
+            $app->get('/excel', 'ExportExcelController@piutangExcel')->name('excel');
         });
     });
     $app->prefix('laporan')->name('laporan.')->group(function ($app) use ($router) {
