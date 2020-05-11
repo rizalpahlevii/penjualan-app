@@ -19,8 +19,9 @@ class PenggajianController extends Controller
     }
     public function create()
     {
+        $faktur = Gaji::kodeFaktur();
         $pegawai = Pegawai::with('jabatan')->get();
-        return view("pages.transaksi.penggajian.create", compact('pegawai'));
+        return view("pages.transaksi.penggajian.create", compact('pegawai', 'faktur'));
     }
     public function store(Request $request)
     {
@@ -73,5 +74,10 @@ class PenggajianController extends Controller
         } else {
             return response()->json('Belum ada history gaji');
         }
+    }
+    public function slip($kode)
+    {
+        $penggajian = Gaji::where('faktur', $kode)->firstOrFail();
+        return view("pages.transaksi.penggajian.slip", compact('penggajian'));
     }
 }

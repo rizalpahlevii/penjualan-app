@@ -10,6 +10,38 @@ use Illuminate\Http\Request;
 class PenjualanController extends Controller
 {
     protected $page = "pages.transaksi.penjualan.";
+    public function index()
+    {
+        $transaksi = Transaksi::with('pelanggan')->get();
+        return view($this->page . "index", compact('transaksi'));
+    }
+    public function nota($kode)
+    {
+        $transaksi = Transaksi::where('kode', $kode)->firstOrFail();
+        return view($this->page . "nota", compact('transaksi'));
+    }
+    public function loadTable()
+    {
+        $transaksi = Transaksi::with('pelanggan');
+        if (request()->get('lanjut') == "all") {
+            if (request()->get('transaksi') != "all") {
+                $transaksi->where('status', request()->get('transaksi'));
+            }
+            $transaksi = $transaksi->whereDate('tanggal_transaksi', ">=", request()->get('start'));
+            $transaksi = $transaksi->whereDate('tanggal_transaksi', "<=", request()->get('end'));
+        } else {
+            if (request()->get('lanjut') == "hari") {
+                $transaksi->where('tanggal_transaksi', date('Y-m-d'));
+            } elseif (request()->get('lanjut') == "bulan") {
+                $transaksi->whereMonth('tanggal_transaksi', date('m'));
+                $transaksi->whereYear('tanggal_transaksi', date('Y'));
+            } else {
+                $transaksi->whereYear('tanggal_transaksi', date('Y'));
+            }
+        }
+        $transaksi = $transaksi->get();
+        return view($this->page . 'table', compact('transaksi'));
+    }
     public function periode()
     {
         $transaksi = Transaksi::with('pelanggan')->get();

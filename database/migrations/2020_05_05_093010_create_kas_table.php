@@ -18,7 +18,7 @@ class CreateKasTable extends Migration
             $table->date('tanggal');
             $table->string('faktur');
             $table->enum('tipe', ['pendapatan', 'pengeluaran']);
-            $table->enum('jenis', ['penjualan', 'return penjualan', 'pembelian', 'return pembelian', 'bayar piutang', 'bayar hutang', 'kas awal', 'kas akhir', 'pengeluaran lain', 'biaya', 'pemasukan awal']);
+            $table->enum('jenis', ['penjualan', 'return penjualan', 'pembelian', 'return pembelian', 'bayar piutang', 'bayar hutang', 'kas awal', 'kas akhir', 'pengeluaran lain', 'biaya', 'pemasukan awal', 'penggajian']);
             $table->integer('pemasukan');
             $table->integer('pengeluaran');
             $table->text('keterangan')->nullable();

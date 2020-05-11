@@ -12,7 +12,7 @@ class Barang extends Model
     public $incrementing = false;
     public static function kodeBarang()
     {
-        $cek = Barang::all();
+        $cek = Barang::withTrashed()->get();
         if ($cek->count() > 0) {
             $peminjaman = Barang::orderBy('id', 'DESC')->withTrashed()->first();
             $nourut = (int) substr($peminjaman->id, -7, 7);

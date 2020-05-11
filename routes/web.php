@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false, 'reset' => false]);
 
+Route::get('/pdf', 'DashboardController@pdf');
 Route::group(['middleware' => 'auth'], function ($app) use ($router) {
     $app->get('/', 'DashboardController@dashboard')->name('dashboard');
+    $app->get('/grafikLabaRugi', 'DashboardController@grafikLabaRugi')->name('dashboard.grafik_laba');
 
 
     $app->resource('jabatan', 'JabatanController')->except(['show', 'destroy']);
@@ -86,6 +88,7 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
         $app->post('/cancel', 'KasirController@cancel')->name('cancel');
         $app->post('/change_qty', 'KasirController@changeQty')->name('change_qty');
         $app->post('/store', 'KasirController@store')->name('store');
+        $app->get('/struk/{id}', 'KasirController@struk')->name('struk');
     });
     $app->prefix('transaksi')->name('transaksi.')->group(function ($app) use ($router) {
         $app->prefix('penggajian')->name('penggajian.')->group(function ($app) use ($router) {
@@ -94,8 +97,12 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
             $app->post('/store', 'PenggajianController@store')->name('store');
             $app->get('/loadTable', 'PenggajianController@loadTable')->name('load_table');
             $app->get('/getDetail/{id}', 'PenggajianController@get_detail')->name('get_detail');
+            $app->get('/slip/{id}', 'PenggajianController@slip')->name('slip');
         });
         $app->prefix('penjualan')->name('penjualan.')->group(function ($app) use ($router) {
+            $app->get('/', 'PenjualanController@index')->name('all');
+            $app->get('/nota/{id}', 'PenjualanController@nota')->name('nota');
+            $app->get('/loadTable', 'PenjualanController@loadTable')->name('load_table');
             $app->prefix('periode')->name('periode.')->group(function ($app) use ($router) {
                 $app->get('/', 'PenjualanController@periode')->name('index');
                 $app->get('/loadTable', 'PenjualanController@periodeLoadTable')->name('load_table');

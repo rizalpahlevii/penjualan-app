@@ -205,7 +205,9 @@
                             ]
                         },
                         options : {
-                           
+                            tooltips : {
+                                mode: 'index'
+                            }
                         }
                     });
                     Swal.close();

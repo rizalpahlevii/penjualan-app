@@ -23,7 +23,7 @@
         @if ($item->piutang != null)
         @if ($item->piutang->sisa_piutang == 0)
         <tr>
-            <td>{{ $key++ }}</td>
+            <td>{{$loop->iteration }}</td>
             <td>{{ $item->tanggal_transaksi }}</td>
             <td>{{ $item->kode }}</td>
             <td> @rupiah($item->total - ($item->ppn + $item->pph)) </td>
@@ -36,7 +36,7 @@
         @endif
         @else
         <tr>
-            <td>{{ $key++ }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $item->tanggal_transaksi }}</td>
             <td>{{ $item->kode }}</td>
             <td> @rupiah($item->total - ($item->ppn + $item->pph)) </td>

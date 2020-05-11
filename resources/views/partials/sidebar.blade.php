@@ -90,7 +90,7 @@
                 </a>
             </li>
             <li
-                class="treeview {{ set_active(['transaksi.piutang.index','transaksi.return.penjualan.index','transaksi.pembelian.index','transaksi.pembelian.create','transaksi.hutang.index','transaksi.return.penjualan.index','transaksi.return.penjualan.create','transaksi.return.pembelian.index','transaksi.return.pembelian.create','transaksi.penjualan.periode.index','transaksi.penjualan.barang.index','transaksi.penggajian.index','transaksi.penggajian.create','transaksi.kas.index','transaksi.kas.create']) }}">
+                class="treeview {{ set_active(['transaksi.piutang.index','transaksi.return.penjualan.index','transaksi.pembelian.index','transaksi.pembelian.create','transaksi.hutang.index','transaksi.return.penjualan.index','transaksi.return.penjualan.create','transaksi.return.pembelian.index','transaksi.return.pembelian.create','transaksi.penjualan.periode.index','transaksi.penjualan.barang.index','transaksi.penggajian.index','transaksi.penggajian.create','transaksi.kas.index','transaksi.kas.create','transaksi.penjualan.all']) }}">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
                     <span>Transaksi</span>
@@ -105,6 +105,10 @@
                     <li class="{{ set_active(['transaksi.penggajian.index','transaksi.penggajian.create']) }}">
                         <a href="{{ route('transaksi.penggajian.index') }}"><i class="fa fa-credit-card"></i>
                             Penggajian</a>
+                    </li>
+                    <li class="{{ set_active(['transaksi.penjualan.all']) }}">
+                        <a href="{{ route('transaksi.penjualan.all') }}"><i class="fa fa-credit-card"></i>
+                            Transaksi Penjualan</a>
                     </li>
                     <li class="{{ set_active(['transaksi.piutang.index']) }}">
                         <a href="{{ route('transaksi.piutang.index') }}"><i class="fa fa-calendar"></i> Piutang</a>
@@ -185,16 +189,17 @@
                         </ul>
                     </li>
                     <li class="{{ set_active(['report.pembelian.pembelian']) }}">
-                        <a href="{{ route('report.pembelian.pembelian') }}"><i class="fa fa-calendar"></i> Pembelian</a>
+                        <a href="{{ route('report.pembelian.pembelian') }}"><i class="fa fa-shopping-cart"></i>
+                            Pembelian</a>
                     </li>
                     <li class="{{ set_active(['report.hutang.index']) }}">
-                        <a href="{{ route('report.hutang.index') }}"><i class="fa fa-calendar"></i> Hutang</a>
+                        <a href="{{ route('report.hutang.index') }}"><i class="fa fa-calendar-minus-o"></i> Hutang</a>
                     </li>
                     <li class="{{ set_active(['report.piutang.index']) }}">
                         <a href="{{ route('report.piutang.index') }}"><i class="fa fa-calendar"></i> Piutang</a>
                     </li>
                     <li class="{{ set_active(['report.kas.index']) }}">
-                        <a href="{{ route('report.kas.index') }}"><i class="fa fa-calendar"></i> Kas</a>
+                        <a href="{{ route('report.kas.index') }}"><i class="fa fa-calendar-check-o"></i> Kas</a>
                     </li>
                     <li class="{{ set_active(['report.labarugi.index']) }}">
                         <a href="{{ route('report.labarugi.index') }}"><i class="fa fa-line-chart"></i> Laba Rugi</a>

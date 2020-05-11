@@ -69,8 +69,8 @@
                                 <label for="satuan">Satuan Barang</label>
                                 <select name="satuan" id="satuan"
                                     class="form-control @error('satuan') is-invalid @enderror">
-                                    @foreach ($satuan as $rowSatuan)
                                     <option disabled selected>Pilih Satuan Barang</option>
+                                    @foreach ($satuan as $rowSatuan)
                                     <option value="{{ $rowSatuan->id }}">{{ $rowSatuan->nama }}</option>
                                     @endforeach
                                 </select>
@@ -84,8 +84,8 @@
                                 <label for="kategori">Kategori Barang</label>
                                 <select name="kategori" id="kategori"
                                     class="form-control @error('kategori') is-invalid @enderror">
-                                    @foreach ($kategori as $rowKategori)
                                     <option disabled selected>Pilih Kategori Barang</option>
+                                    @foreach ($kategori as $rowKategori)
                                     <option value="{{ $rowKategori->id }}">{{ $rowKategori->nama }}</option>
                                     @endforeach
                                 </select>

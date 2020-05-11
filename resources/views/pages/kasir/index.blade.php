@@ -647,7 +647,12 @@
             $('#modal-selesai').modal('show');
         }
         $('.cetak-struk').click(function(){
-            print();
+            const invoice = $('#showInvoice').text();
+            let url = `{{ url('/kasir/struk/${invoice}') }}`;
+            const parseResult = new DOMParser().parseFromString(url, "text/html");
+            const parsedUrl = parseResult.documentElement.textContent;
+            window.open(url,'_blank');
+            location.reload();
         });
         function print() {
             printJS({

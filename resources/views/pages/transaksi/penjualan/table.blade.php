@@ -7,40 +7,48 @@
             <th>#</th>
             <th>Tanggal</th>
             <th>Faktur</th>
-            <th>Pembelian</th>
+            <th>Total</th>
+            <th>PPN</th>
+            <th>PPH</th>
             <th>Pembayaran</th>
-            <th>Suplier</th>
+            <th>Pelanggan</th>
+            <th>Nota</th>
         </tr>
     </thead>
     <tbody>
         @php
-        $total=0;
+        $total = 0;
         @endphp
-        @foreach ($pembelian as $key=>$item)
+        @foreach ($transaksi as $key => $item)
+
         <tr>
             <td>{{ $loop->iteration }}</td>
-            <td>{{ $item->tanggal_pembelian }}</td>
-            <td>{{ $item->faktur }}</td>
-            <td> @rupiah($item->total) </td>
-            <td>{{ $item->status }}</td>
-            <td>{{ $item->suplier->nama }}</td>
-
+            <td>{{ $item->tanggal_transaksi }}</td>
+            <td>{{ $item->kode }}</td>
+            <td> @rupiah($item->total - ($item->ppn + $item->pph)) </td>
+            <td> @rupiah($item->ppn) </td>
+            <td> @rupiah($item->pph) </td>
+            <td>{{ ucfirst($item->status) }}</td>
+            <td>{{ $item->pelanggan->nama }}</td>
+            <td>
+                <a href="{{ route('transaksi.penjualan.nota',$item->kode) }}" class="btn btn-primary btn-sm"><i
+                        class="fa fa-print"></i></a>
+            </td>
         </tr>
+
         @php
-        $total+=$item->total;
+        $total += $item->total - ($item->ppn + $item->pph);
         @endphp
         @endforeach
     </tbody>
-    <tfoot>
+    <thead>
         <tr>
-            <td colspan="5">
+            <td colspan="8">
                 <center><b>Total</b></center>
             </td>
-            <td>
-                <b>@rupiah($total)</b>
-            </td>
+            <td><b id="ttlpnj">@rupiah($total)</b></td>
         </tr>
-    </tfoot>
+    </thead>
 </table>
 <script src="{{ asset('adminlte') }}/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="{{ asset('adminlte') }}/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js">

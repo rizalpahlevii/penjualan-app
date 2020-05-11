@@ -25,7 +25,7 @@
         @if ($row->sisa_piutang == 0)
         @foreach ($row->detail_transaksi as $detail)
         <tr>
-            <td>{{ $no }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $detail->barang->nama }}</td>
             <td>{{ $detail->barang->id }}</td>
             <td>{{ $row->tanggal_transaksi }}</td>
@@ -45,7 +45,7 @@
 
         @foreach ($row->detail_transaksi as $detail)
         <tr>
-            <td>{{ $no }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $detail->barang->nama }}</td>
             <td>{{ $detail->barang->id }}</td>
             <td>{{ $row->tanggal_transaksi }}</td>

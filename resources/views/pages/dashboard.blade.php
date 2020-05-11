@@ -66,6 +66,28 @@
     </div>
     <!-- ./col -->
 </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">Laba Rugi</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                            class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="labaRugi" style="height:230px"></canvas>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
 @endsection
 @push('style')
 <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
@@ -77,13 +99,54 @@
 @endpush
 @push('script')
 <script src="{{ asset('adminlte') }}/bower_components/moment/min/moment.min.js"></script>
-<script src="{{ asset('adminlte') }}/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-<script src="{{ asset('adminlte') }}/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js">
-</script>
+
+<script src="{{ asset('adminlte') }}/plugins/chartjs/chart.js"></script>
 <script src="{{ asset('adminlte') }}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-<script src="{{ asset('adminlte') }}/dist/js/pages/dashboard.js"></script>
-<script src="{{ asset('adminlte') }}/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
-<script src="{{ asset('adminlte') }}/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="{{ asset('adminlte') }}/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<script src="{{ asset('adminlte')  }}/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        grafikLabaRugi();
+        function grafikLabaRugi(){
+            $.ajax({
+                type: "GET",
+                url: `{{ route('dashboard.grafik_laba') }}`,
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    const ctx = document.getElementById('labaRugi').getContext('2d');
+                    labels = response.bulan;
+                    laba = response.laba;
+                    rugi = response.rugi;
+                    const myChart = new Chart(ctx,{
+                        type : 'bar',
+                        data : {
+                            labels : labels,
+                            datasets : [
+                                {
+                                    label : 'Laba',
+                                    data : laba,
+                                    backgroundColor :'rgba(54, 162, 235, 0.2)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth : 1
+                                },
+                                {
+                                    label : 'Rugi',
+                                    data : rugi,
+                                    backgroundColor :'rgba(255, 99, 132, 0.2)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth : 1
+                                }
+                            ]
+                        },
+                        options : {
+                            tooltips : {
+                                mode: 'index'
+                            }
+                        }
+                    })
+                }
+            });
+        }
+    }); 
+</script>
 @endpush

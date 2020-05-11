@@ -8,6 +8,7 @@ use App\Detail_transaksi;
 use App\Pelanggan;
 use App\Piutang;
 use App\Transaksi;
+use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -163,5 +164,12 @@ class KasirController extends Controller
             DB::rollback();
             return response()->json("gagal");
         }
+    }
+    public function struk($invoice)
+    {
+        $transaksi = Transaksi::where('kode', $invoice)->first();
+        return view("pages.kasir.struk", compact('transaksi'));
+        // $pdf = PDF::loadView('pages.kasir.struk', compact('transaksi'))->setPaper('a4', 'portrait');
+        // return $pdf->stream('Struk-penjualan-' . $invoice . '.pdf');
     }
 }

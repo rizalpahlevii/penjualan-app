@@ -28,7 +28,7 @@
                                         <div class="form-group">
                                             <label for="Faktur">Faktur</label>
                                             <input type="text" name="Faktur" class="form-control" id="Faktur" readonly
-                                                style="cursor:no-drop" value="{{ Auth::user()->nama }}">
+                                                style="cursor:no-drop" value="{{ $faktur }}">
                                         </div>
                                     </div>
                                 </div>
@@ -261,6 +261,9 @@
                     Swal.close();
                     if(response[0]=="success"){
                         Swal.fire("Success","Sukses menggaji pegawai","success").then(()=>{
+                            let url = `{{ route('transaksi.penggajian.slip',':id') }}`;
+                            url  = url.replace(':id',response[1].faktur);
+                            window.open(url,'_blank');
                             location.href = `{{ route('transaksi.penggajian.index') }}`;
                         });
                     }else{

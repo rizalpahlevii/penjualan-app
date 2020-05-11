@@ -12,7 +12,6 @@
             <th>Piutang Sisa</th>
             <th>Tempo</th>
             <th>Pelanggan</th>
-            <th>Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -31,10 +30,7 @@
             <td> @rupiah($item->sisa_piutang) </td>
             <td>{{ $item->tanggal_tempo }}</td>
             <td>{{ $item->pelanggan->nama }}</td>
-            <td>
-                <button class="btn btn-sm btn-success aksi" data-id="{{ $item->id }}"><i
-                        class="fa fa-gear"></i></button>
-            </td>
+
         </tr>
         @php
         $total_piutang += $item->total_hutang;
@@ -45,19 +41,19 @@
     </tbody>
     <thead>
         <tr>
-            <td colspan="8">
+            <td colspan="7">
                 <center><b>Total Sisa Piutang</b></center>
             </td>
             <td><b>@rupiah($total_piutang_sisa)</b></td>
         </tr>
         <tr>
-            <td colspan="8">
+            <td colspan="7">
                 <center><b>Total Piutang Terbayar</b></center>
             </td>
             <td><b>@rupiah($total_piutang_terbayar)</b></td>
         </tr>
         <tr>
-            <td colspan="8">
+            <td colspan="7">
                 <center><b>Total Piutang</b></center>
             </td>
             <td><b>@rupiah($total_piutang)</b></td>
