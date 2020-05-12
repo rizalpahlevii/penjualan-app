@@ -18,7 +18,9 @@ class DashboardController extends Controller
         $totalPelanggan = Pelanggan::count();
         $omsetBulanIni = Saldo::getOmsetBulanIni();
         $labaRugi = Saldo::getLabaBulanIni();
-        return view('pages.dashboard', compact('totalBarang', 'totalPelanggan', 'omsetBulanIni', 'labaRugi'));
+        $pengingat  = Barang::where('stok_akhir', '<', 5)->orderBy('stok_akhir', 'ASC')->get();
+        $terlaris = Barang::orderBy('stok_keluar', 'DESC')->get();;
+        return view('pages.dashboard', compact('totalBarang', 'totalPelanggan', 'omsetBulanIni', 'labaRugi', 'pengingat', 'terlaris'));
     }
     public function grafikLabaRugi()
     {

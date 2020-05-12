@@ -17,21 +17,28 @@ Auth::routes(['register' => false, 'reset' => false]);
 
 Route::get('/pdf', 'DashboardController@pdf');
 Route::group(['middleware' => 'auth'], function ($app) use ($router) {
-    $app->get('/', 'DashboardController@dashboard')->name('dashboard');
-    $app->get('/grafikLabaRugi', 'DashboardController@grafikLabaRugi')->name('dashboard.grafik_laba');
+    $app->get('/', 'DashboardController@dashboard')->name('dashboard')->middleware(['cek:Admin,Manager,Petugas']);
+    $app->get('/grafikLabaRugi', 'DashboardController@grafikLabaRugi')->name('dashboard.grafik_laba')->middleware(['cek:Admin,Manager,Petugas']);
 
 
-    $app->resource('jabatan', 'JabatanController')->except(['show', 'destroy']);
-    $app->prefix('jabatan')->name('jabatan.')->group(function ($app) use ($router) {
+    $app->prefix('profile')->middleware(['cek:Admin,Manager,Petugas'])->name('profile.')->group(function ($app) use ($router) {
+        $app->get('/', 'ProfileController@index')->name('index');
+        $app->put('/', 'ProfileController@update')->name('update');
+        $app->get('/password', 'ProfileController@password')->name('password');
+        $app->put('/password', 'ProfileController@updatePassword')->name('update_password');
+    });
+
+    $app->resource('jabatan', 'JabatanController')->except(['show', 'destroy'])->middleware(['cek:Admin']);
+    $app->prefix('jabatan')->middleware(['cek:Admin'])->name('jabatan.')->group(function ($app) use ($router) {
         $router->get('/{id}/delete', 'JabatanController@destroy')->name('destroy');
     });
 
-    $app->resource('pegawai', 'PegawaiController')->except(['show', 'destroy']);
-    $app->prefix('pegawai')->name('pegawai.')->group(function ($app) use ($router) {
+    $app->resource('pegawai', 'PegawaiController')->except(['show', 'destroy'])->middleware(['cek:Admin']);
+    $app->prefix('pegawai')->middleware(['cek:Admin'])->name('pegawai.')->group(function ($app) use ($router) {
         $router->get('/{id}/delete', 'PegawaiController@destroy')->name('destroy');
     });
 
-    $app->prefix('barang')->name('barang.')->group(function ($app) use ($router) {
+    $app->prefix('barang')->middleware(['cek:Admin'])->name('barang.')->group(function ($app) use ($router) {
         $app->get('/', 'BarangController@index')->name('index');
         $app->get('/create', 'BarangController@create')->name('create');
         $app->post('/store', 'BarangController@store')->name('store');
@@ -53,33 +60,33 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
             $app->get('/showBarcodes/{id}', 'BarcodeController@getBarcodes')->name('get_barcodes');
         });
     });
-    $app->resource('satuan', 'SatuanController')->except(['show', 'destroy']);
-    $app->prefix('satuan')->name('satuan.')->group(function ($app) use ($router) {
+    $app->resource('satuan', 'SatuanController')->except(['show', 'destroy'])->middleware(['cek:Admin']);
+    $app->prefix('satuan')->middleware(['cek:Admin'])->name('satuan.')->group(function ($app) use ($router) {
         $router->get('/{id}/delete', 'SatuanController@destroy')->name('destroy');
     });
 
-    $app->resource('kategori', 'KategoriController')->except(['show']);
-    $app->prefix('kategori')->name('kategori.')->group(function ($app) use ($router) {
+    $app->resource('kategori', 'KategoriController')->except(['show'])->middleware(['cek:Admin']);
+    $app->prefix('kategori')->middleware(['cek:Admin'])->name('kategori.')->group(function ($app) use ($router) {
         $router->get('/{id}/delete', 'KategoriController@destroy')->name('destroy');
     });
 
-    $app->resource('pelanggan', 'PelangganController')->except('show');
-    $app->prefix('pelanggan')->name('pelanggan.')->group(function ($app) use ($router) {
+    $app->resource('pelanggan', 'PelangganController')->except('show')->middleware(['cek:Admin']);
+    $app->prefix('pelanggan')->middleware(['cek:Admin'])->name('pelanggan.')->group(function ($app) use ($router) {
         $router->get('/{id}/delete', 'PelangganController@destroy')->name('destroy');
     });
 
-    $app->resource('user', 'UserController')->except('show');
-    $app->prefix('user')->name('user.')->group(function ($app) use ($router) {
+    $app->resource('user', 'UserController')->except('show')->middleware(['cek:Admin']);
+    $app->prefix('user')->name('user.')->middleware(['cek:Admin'])->group(function ($app) use ($router) {
         $router->get('/{id}/delete', 'UserController@destroy')->name('destroy');
     });
 
 
-    $app->resource('suplier', 'SuplierController')->except('show');
-    $app->prefix('suplier')->name('suplier.')->group(function ($app) use ($router) {
+    $app->resource('suplier', 'SuplierController')->except('show')->middleware(['cek:Admin']);
+    $app->prefix('suplier')->middleware(['cek:Admin'])->name('suplier.')->group(function ($app) use ($router) {
         $router->get('/{id}/delete', 'SuplierController@destroy')->name('destroy');
     });
 
-    $app->prefix('kasir')->name('kasir.')->group(function ($app) use ($router) {
+    $app->prefix('kasir')->middleware(['cek:Admin,Petugas'])->name('kasir.')->group(function ($app) use ($router) {
         $app->get('/', 'KasirController@index')->name('index');
         $app->get('/{id}/getBarangById', 'KasirController@getBarangById')->name('getBarangById');
         $app->post('/addToCart', 'KasirController@addToCart')->name('add_to_cart');
@@ -90,7 +97,7 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
         $app->post('/store', 'KasirController@store')->name('store');
         $app->get('/struk/{id}', 'KasirController@struk')->name('struk');
     });
-    $app->prefix('transaksi')->name('transaksi.')->group(function ($app) use ($router) {
+    $app->prefix('transaksi')->middleware(['cek:Admin,Petugas'])->name('transaksi.')->group(function ($app) use ($router) {
         $app->prefix('penggajian')->name('penggajian.')->group(function ($app) use ($router) {
             $app->get('/', 'PenggajianController@index')->name('index');
             $app->get('/create', 'PenggajianController@create')->name('create');
@@ -172,7 +179,7 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
         });
     });
 
-    $app->prefix('report')->name('report.')->group(function ($app) use ($router) {
+    $app->prefix('report')->middleware(['cek:Admin,Manager'])->name('report.')->group(function ($app) use ($router) {
         $app->prefix('penjualan')->name('penjualan.')->group(function ($app) use ($router) {
             $app->get('/barang', 'ReportController@penjualanPerBarang')->name('barang');
             $app->get('/barang/loadTable', 'ReportController@penjualanPerBarangLoadTable')->name('barang_load_table');
@@ -235,7 +242,7 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
             $app->get('/excel', 'ExportExcelController@piutangExcel')->name('excel');
         });
     });
-    $app->prefix('laporan')->name('laporan.')->group(function ($app) use ($router) {
+    $app->prefix('laporan')->middleware(['cek:Admin,Manager,Petugas'])->name('laporan.')->group(function ($app) use ($router) {
         $app->prefix('grafik')->name('grafik.')->group(function ($app) use ($router) {
             $app->get('/', 'GrafikController@index')->name('index');
             $app->get('/getChartPenjualan', 'GrafikController@getChartPenjualan')->name('getChartPenjualan');

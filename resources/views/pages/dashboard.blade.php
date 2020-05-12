@@ -68,7 +68,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="box box-success">
+        <div class="box box-danger">
             <div class="box-header with-border">
                 <h3 class="box-title">Laba Rugi</h3>
 
@@ -88,6 +88,72 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">Pengingat Stok</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="overflow-y: auto; height:300px;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Barang</th>
+                                        <th>Stok</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pengingat as $item)
+                                    <tr>
+                                        <td>{{ $item->nama }}</td>
+                                        <td>{{ $item->stok_akhir }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">Barang Terlaris</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="overflow-y: auto; height:300px;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Barang</th>
+                                        <th>Terjual</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($terlaris as $item)
+                                    <tr>
+                                        <td>{{ $item->nama }}</td>
+                                        <td>{{ $item->stok_keluar }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 @push('style')
 <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
