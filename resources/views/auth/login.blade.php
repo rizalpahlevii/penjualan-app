@@ -33,7 +33,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ asset('adminlte') }}/index2.html"><img src="{{ asset('favicon.png') }}"> CV. Multisolusindo</a>
+            <a href=""><img src="{{ asset('favicon.png') }}" width="15%"> CV. Multisolusindo</a>
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
