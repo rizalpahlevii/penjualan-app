@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>CV. Multisolusindo | @yield('page')</title>
+    <title>{{namaToko()}} | @yield('page')</title>
     <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
     @include('partials.head')
     @stack('style')

@@ -1,10 +1,10 @@
 <div style="padding-bottom:5px;margin-bottom:5px">
-    <img src="{{ asset('favicon.png') }}" alt="Logo" width="32px;">
-    <b style="font-size:16px; margin-bottom:10px;">CV. Multisolusindo</b>
+    <img src="{{ asset('asset_toko') }}/{{logo()}}" alt="Logo" width="32px;">
+    <b style="font-size:16px; margin-bottom:10px;">{{namaToko()}}</b>
     <br>
-    Jl. Kelet Ploso No. 10 Desa Kelet RT 02/RW 01 Kecamatan Keling Kabupaten Jepara.
+   {{alamat()}}
     <br>
-    Multisolusindo85@gmail.com
+    {{email()}}
     <br>
-    082327104448
+   {{no_hp()}}
 </div>

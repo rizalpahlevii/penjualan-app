@@ -28,7 +28,7 @@
                     </div>
                     <div class="col-md-8">
                         <address>
-                            <strong class="text-danger">CV. MULTISOLUSINDO</strong><br />
+                            <strong class="text-danger">{{namaToko()}}</strong><br />
                             <p style="color: blue;">Solution For Ordinary People</p>
                         </address>
                     </div>
@@ -36,10 +36,10 @@
             </div>
             <div class="col-md-6">
                 <address class="float-right" style="font-family: sans-serif;">
-                    Jl.Kelet Ploso No. 10 Kelet Keling Jepara <br />
-                    Email : multisolusindo@gmail.com <br />
-                    Website : www.multisolusindo.com <br />
-                    Contact Person : 082327104448
+                    {{alamat()}}
+                    Email :{{email()}} <br />
+                    Website : {{website()}} <br />
+                    Contact Person : {{no_hp()}}
                 </address>
             </div>
         </div>
@@ -165,7 +165,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <h6>CV MULTI SOLUSINDO</h6>
+                                <h6>{{nama_rekening()}}</h6>
                             </td>
                         </tr>
                         <tr>
@@ -174,7 +174,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <h6>0022-01-001022-56-8</h6>
+                                <h6>{{no_rekening()}}</h6>
                             </td>
                         </tr>
                         <tr>
@@ -183,7 +183,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <h6>BRI</h6>
+                                <h6>{{nama_bank()}}</h6>
                             </td>
                         </tr>
                     </table>
@@ -196,7 +196,7 @@
             <div class="col-md-4">
                 <h6>Best Regards</h6>
                 <p class="mt-5" style="font-weight: bold;">
-                    A. Mukhlisin Kholiful A.
+                   {{struk_salam_hormat()}}
                 </p>
             </div>
         </div>

@@ -31,7 +31,7 @@
             <td>{{ ucfirst($item->status) }}</td>
             <td>{{ $item->pelanggan->nama }}</td>
             <td>
-                <a href="{{ route('transaksi.penjualan.nota',$item->kode) }}" class="btn btn-primary btn-sm"><i
+                <a target="_blank" href="{{ route('transaksi.penjualan.nota',$item->kode) }}" class="btn btn-primary btn-sm"><i
                         class="fa fa-print"></i></a>
             </td>
         </tr>

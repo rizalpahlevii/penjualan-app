@@ -37,7 +37,10 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
     $app->prefix('pegawai')->middleware(['cek:Admin'])->name('pegawai.')->group(function ($app) use ($router) {
         $router->get('/{id}/delete', 'PegawaiController@destroy')->name('destroy');
     });
-
+    $app->prefix('setting')->middleware(['cek:Admin'])->name('setting.')->group(function($app) use($router){
+        $app->get('/','SettingController@index')->name('index'); 
+        $app->put('/','SettingController@update')->name('update');
+    });
     $app->prefix('barang')->middleware(['cek:Admin'])->name('barang.')->group(function ($app) use ($router) {
         $app->get('/', 'BarangController@index')->name('index');
         $app->get('/create', 'BarangController@create')->name('create');
