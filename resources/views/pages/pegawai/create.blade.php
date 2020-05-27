@@ -86,11 +86,3 @@
 @push('style')
 <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 @endpush
-@push('script')
-<script src="{{ asset('adminlte') }}/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $('#alamat').wysihtml5();
-    });
-</script>
-@endpush

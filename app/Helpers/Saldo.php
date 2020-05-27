@@ -76,12 +76,13 @@ class Saldo
         foreach ($transaksi as $row) {
             if ($row->status == "hutang") {
                 if ($row->piutang != null) {
-                    if ($row->piutang->sisa_piutang == 0) {
-                        $total += $row->total - ($row->ppn + $row->pph);
-                        foreach ($row->detail_transaksi as $detail) {
-                            $hpp += $detail->jumlah_beli * $detail->barang->harga_beli;
-                        }
+                    // if ($row->piutang->sisa_piutang == 0) {
+                    // $total += $row->total - ($row->ppn + $row->pph);
+                    foreach ($row->detail_transaksi as $detail) {
+                        $hpp += $detail->jumlah_beli * $detail->barang->harga_beli;
                     }
+                    // }
+                    $total += $row->piutang->piutang_terbayar;
                 }
             } else {
                 $total += $row->total - ($row->ppn + $row->pph);

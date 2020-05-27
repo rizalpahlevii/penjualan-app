@@ -69,7 +69,7 @@
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group @error('qty') has-error @enderror">
                                 <label for="qty">Quantity</label>
-                                <input type="number" class="form-control" name="qty" id="qty" placeholder="Nama Barang"
+                                <input type="number" class="form-control" name="qty" id="qty" placeholder="Quantity"
                                     value="{{ old('qty') }}" min="1" max="123123">
                                 @error('qty')
                                 <span class="help-block">{{ $message }}</span>

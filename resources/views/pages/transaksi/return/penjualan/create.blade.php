@@ -263,7 +263,7 @@
             $('#qty').val(1);
         });
         $('#qty').keyup(function(){
-            if($(this).val() > $('#qty_detail').val()){
+            if(parseInt($(this).val()) >= parseInt($('#qty_detail').val())){
                 $(this).val(0);
                 Swal.fire("Error!","Quantity lebih besar dari quantity transaksi","error");
             }

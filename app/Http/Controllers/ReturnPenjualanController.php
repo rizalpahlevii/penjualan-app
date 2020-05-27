@@ -229,9 +229,8 @@ class ReturnPenjualanController extends Controller
         } else {
             $piutang = Piutang::where('transaksi_id', $transaksi->id)->first();
             foreach ($return_detail as $key => $row) {
-
                 $detail_transaksi = Detail_transaksi::where('transaksi_id', $transaksi->id)->where('barang_id', $row->barang_id)->first();
-
+                $barang = Barang::find($detail_transaksi->barang_id);
                 if ($detail_transaksi->jumlah_beli - $row->jumlah_beli == 0) {
                     $kurangi += $detail_transaksi->subtotal;
                     $detail_transaksi->delete();
@@ -241,10 +240,29 @@ class ReturnPenjualanController extends Controller
                     $detail_transaksi->update();
                     $kurangi += $row->jumlah_beli * $detail_transaksi->harga;
                 }
+                $barang->stok_akhir += $row->jumlah_beli;
+                $barang->stok_keluar -= $row->jumlah_beli;
+                $barang->save();
             }
+            $sisa_piutang_akhir = $piutang->sisa_piutang;
+            $piutang_terbayar = $piutang->piutang_terbayar;
+            $piutang_total = $piutang->total_hutang;
+
+
             $piutang->total_hutang -= $kurangi;
-            $tampung = $piutang->sisa_piutang;
-            $piutang->sisa_piutang = $tampung;
+            if ($sisa_piutang_akhir - $kurangi <= 0) {
+                $piutang->sisa_piutang = 0;
+                $piutang->piutang_terbayar = $piutang->total_hutang;
+            } else {
+                $tampung =  $piutang->total_hutang - $kurangi;
+                $piutang->sisa_piutang = $tampung - $piutang->piutang_terbayar;
+                if ($piutang->sisa_piutang == 0) {
+                    $piutang->piutang_terbayar = $tampung;
+                }
+                if ($piutang->piutang_terbayar > $tampung) {
+                    $piutang->piutang_terbayar = $tampung;
+                }
+            }
             $transaksi->total -= $kurangi;
             $piutang->save();
             $transaksi->save();
