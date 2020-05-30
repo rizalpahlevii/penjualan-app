@@ -108,6 +108,7 @@ class KasirController extends Controller
             $transaksi->ppn = $request->ppn_value;
             $transaksi->pph = $request->pph_value;
             $transaksi->status = $request->pembayaran;
+            $transaksi->cashback = $request->cashback;
             $transaksi->pelanggan_id = (int) $request->id_pelanggan;
             $transaksi->user_id = Auth::user()->id;
             $transaksi->save();

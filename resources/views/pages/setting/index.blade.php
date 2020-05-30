@@ -30,7 +30,7 @@
                             <div class="form-group @error('logo') has-error @enderror">
                                 <label for="logo">Logo </label>
                                 <input type="file" name="logo" id="logo" class="form-control" value="{{ $data['logo']  }}">
-                                <p>Ektensi file (.png .jpg .jpeg)</p>
+                                <p>Ektensi file (.png)</p>
                                 @error('logo')
                                 <span class="help-block">{{ $message }}</span>
                                 @enderror

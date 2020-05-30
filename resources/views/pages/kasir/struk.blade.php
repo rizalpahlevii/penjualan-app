@@ -113,8 +113,8 @@
                         <td>{{ $item->barang->nama }}</td>
                         <td>{{ $item->jumlah_beli }}</td>
                         <td>{{ $item->barang->satuan->nama }}</td>
-                        <td>{{ $item->harga }}</td>
-                        <td>{{ $item->subtotal }}</td>
+                        <td>@rupiah($item->harga)</td>
+                        <td>@rupiah($item->subtotal)</td>
                     </tr>
                     @php
                     $subtotal+=$item->subtotal;
@@ -124,31 +124,37 @@
                         <td colspan="5">
                             <center><b>Total</b></center>
                         </td>
-                        <td><b>{{ $subtotal }}</b></td>
+                        <td><b>@rupiah($subtotal)</b></td>
                     </tr>
                     <tr>
                         <td colspan="5">
                             <center><b>PPH</b></center>
                         </td>
-                        <td><b>{{ $transaksi->pph }}</b></td>
+                        <td><b>@rupiah($transaksi->pph)</b></td>
                     </tr>
                     <tr>
                         <td colspan="5">
                             <center><b>PPN</b></center>
                         </td>
-                        <td><b>{{ $transaksi->ppn }}</b></td>
+                        <td><b>@rupiah($transaksi->ppn)</b></td>
                     </tr>
                     <tr>
                         <td colspan="5">
                             <center><b>DISKON</b></center>
                         </td>
-                        <td><b>{{ $transaksi->diskon }}</b></td>
+                        <td><b>@rupiah($transaksi->diskon)</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <center><b>CASHBACK</b></center>
+                        </td>
+                        <td><b>@rupiah($transaksi->cashback)</b></td>
                     </tr>
                     <tr>
                         <td colspan="5">
                             <center><b>NETTO</b></center>
                         </td>
-                        <td><b>{{ $transaksi->total }}</b></td>
+                        <td><b>@rupiah($transaksi->total)</b></td>
                     </tr>
                 </table>
             </div>

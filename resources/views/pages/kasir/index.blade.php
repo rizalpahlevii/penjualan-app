@@ -5,6 +5,7 @@
 <input type="hidden" name="pph_value" id="pph_value" value="0">
 <input type="hidden" name="ppn_value" id="ppn_value" value="0">
 <input type="hidden" name="diskon_value" id="diskon_value" value="0">
+<input type="hidden" name="cashback_value" id="cashback_value" value="0">
 <input type="hidden" name="kode" id="kode" value="{{ $kode }}">
 <div class="row">
     <div class="col-md-3">
@@ -155,6 +156,21 @@
                                 <span class="input-group-addon">%</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="cashback_type">Tipe Cashback</label>
+                        <select name="cashback_type" id="cashback_type" class="form-control select2">
+                            <option value="presentase">Presentase</option>
+                            <option value="nominal">Nominal</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="cashback_show">Cashback Value</label>
+                        <input type="number" class="form-control" name="cashback_show" id="cashback_show" value="0">
                     </div>
                 </div>
             </div>
@@ -425,7 +441,8 @@
             isNaN(subtotal) ? $('#subtotal').val(0) : $('#subtotal').val(subtotal);
 
             var diskon = $('#diskon').val();
-            var grandtotal = subtotal - diskon;
+            var cashback = $('#cashback_value').val();
+            var grandtotal = subtotal - diskon - cashback;
 
             if(isNaN(grandtotal)){
                 $('#grandtotal').val(0);
@@ -595,6 +612,7 @@
                     diskon_value : $('#diskon_value').val(),
                     bayar : $('#bayar').val(),
                     kembali : $('#kembali').val(),
+                    cashback : $('#cashback_value').val(),
                 },
                 beforeSend:function(){
                     $('.fa-location-arrow').css('display','none');
@@ -649,10 +667,44 @@
         $('.cetak-struk').click(function(){
             const invoice = $('#showInvoice').text();
             let url = `{{ url('/kasir/struk/${invoice}') }}`;
+            const urlNota = `{{ url('/penjualan/nota/${invoice}') }}`;
             const parseResult = new DOMParser().parseFromString(url, "text/html");
+            const parseResultNota = new DOMParser().parseFromString(urlNota,"text/html");
             const parsedUrl = parseResult.documentElement.textContent;
-            window.open(url,'_blank');
+            const parsedUrlNota = parseResultNota.documentElement.textContent;
+            window.open(parsedUrl,'_blank');
             location.reload();
+        });
+        $('#cashback_type').change(function(){
+            const value = $(this).val();
+            $('#cashback_value').val(0);
+            console.log(value); 
+        });
+        $('#cashback_show').keyup(function(){
+            const type = $('#cashback_type').val();
+            const gt = $('#grandtotal').val();
+            if(type == "presentase"){
+                if($(this).val()>100){
+                    alert('Presentase cashback melebihi 100%');
+                    calculate();
+                }else{
+                    const presentase_cashback = $(this).val() / 100;
+                    const result  = $('#subtotal').val() * presentase_cashback;
+                    $('#grandtotal').val($('#subtotal').val() - result);
+                    $('#grand_total2').text($('#subtotal').val() - result);
+                    $('#cashback_value').val(result);
+                }
+            }else{
+                if(parseInt($(this).val()) > parseInt(gt)){
+                    alert('Nominal cashback melebihi grandtotal');
+                    calculate();
+                }else{
+                    const nominal_cashback = $(this).val();
+                    $('#grandtotal').val($('#subtotal').val() - nominal_cashback);
+                    $('#grand_total2').text($('#subtotal').val() - nominal_cashback);
+                    $('#cashback_value').val(nominal_cashback);
+                }
+            }
         });
         function print() {
             printJS({

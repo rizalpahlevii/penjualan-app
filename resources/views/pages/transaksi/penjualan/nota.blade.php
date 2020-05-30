@@ -66,8 +66,8 @@
                     <tr>
                         <td>{{ $item->barang->nama }}</td>
                         <td>{{ $item->jumlah_beli }}</td>
-                        <td>{{ $item->harga }}</td>
-                        <td>{{ $item->subtotal }}</td>
+                        <td>@rupiah($item->harga)</td>
+                        <td>@rupiah($item->subtotal)</td>
                     </tr>
                     @php
                     $jumlah+=$item->subtotal;
@@ -87,27 +87,27 @@
                     <tr>
                         <td>JUMLAH</td>
                         <td>:</td>
-                        <td>{{ $jumlah }}</td>
+                        <td>@rupiah($jumlah)</td>
                     </tr>
                     <tr>
                         <td>DISC</td>
                         <td>:</td>
-                        <td>{{ $transaksi->diskon }}</td>
+                        <td>@rupiah($transaksi->diskon)</td>
                     </tr>
                     <tr>
                         <td>PPN</td>
                         <td>:</td>
-                        <td>{{ $transaksi->ppn }}</td>
+                        <td>@rupiah($transaksi->ppn)</td>
                     </tr>
                     <tr>
                         <td>PPH</td>
                         <td>:</td>
-                        <td>{{ $transaksi->pph }}</td>
+                        <td>@rupiah($transaksi->pph)</td>
                     </tr>
                     <tr>
                         <td>NETTO</td>
                         <td>:</td>
-                        <td>{{ $transaksi->total }}</td>
+                        <td>@rupiah($transaksi->total)</td>
                     </tr>
                 </table>
             </div>
@@ -124,6 +124,16 @@
                 <br /><br /><br /><br />
                 (.......................................)
             </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-1"></div>
+            <div class="col-m-7">
+                CASHBACK
+                <b><hr></b>
+                <br><br><br>
+                @rupiah($transaksi->cashback)
+            </div>
+            <hr>
         </div>
     </div>
 

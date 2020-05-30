@@ -18,9 +18,10 @@ class CreateTransaksiTable extends Migration
             $table->string('kode')->unique();
             $table->date('tanggal_transaksi');
             $table->integer('total');
-            $table->integer('diskon');
-            $table->integer('ppn');
-            $table->integer('pph');
+            $table->integer('diskon')->default(0);
+            $table->integer('ppn')->default(0);
+            $table->integer('pph')->default(0);
+            $table->integer('cashback')->default(0);
             $table->enum('status', ['hutang', 'tunai']);
             $table->unsignedInteger('pelanggan_id');
             $table->unsignedInteger('user_id');

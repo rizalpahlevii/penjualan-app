@@ -24,9 +24,9 @@ class SettingController extends Controller
     public function update(Request $request){
         $request->validate([
             'logo'=>[
-                'required','mimes:png,jpg,jpeg','max:10000'
+                'mimes:png','max:10000'
             ],
-            'website'=>'requred|min:4',
+            'website'=>'required|min:4',
             'nama_toko' =>'required|min:2',
             'alamat'=>'required|min:3',
             'email'=>'required|email',
@@ -36,10 +36,12 @@ class SettingController extends Controller
             'no_rekening'=>'required|min:3',
             'struk_salam_hormat'=>'required|min:4'
         ]);
-        $logo = $request->file('logo');
-        $newName = rand() . '.' . $logo->getClientOriginalExtension();
-        Toko_setting::setLogo($newName);
-        $logo->move(public_path('asset_toko'),$newName);
+        if($request->logo){
+            $logo = $request->file('logo');
+            $newName = rand() . '.' . $logo->getClientOriginalExtension();
+            Toko_setting::setLogo($newName);
+            $logo->move(public_path('asset_toko'),$newName);
+        }
         Toko_setting::setWebsite($request->website);
         Toko_setting::setNamaToko($request->nama_toko);
         Toko_setting::setAlamat($request->alamat);
