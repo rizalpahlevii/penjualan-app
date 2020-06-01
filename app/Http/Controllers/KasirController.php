@@ -173,4 +173,18 @@ class KasirController extends Controller
         // $pdf = PDF::loadView('pages.kasir.struk', compact('transaksi'))->setPaper('a4', 'portrait');
         // return $pdf->stream('Struk-penjualan-' . $invoice . '.pdf');
     }
+    public function getBarangData(){
+        $search = request()->input('search');
+        $data = Barang::where('nama','LIKE',"%{$search}%")->orWhere('id','LIKE',"%{$search}%")->select('id','nama')->get();
+        if (count($data)) {
+            $response = [];
+            foreach ($data as $key => $row) {
+                $response[$key]['id'] = $row->id;
+                $response[$key]['text'] = $row->id . ' - ' . $row->nama;
+            }
+        }else{
+            $response = "Barang tidak ditemukan";
+        }
+        return response()->json($response);
+    }
 }

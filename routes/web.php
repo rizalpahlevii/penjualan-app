@@ -49,7 +49,6 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
         $app->get('/{id}/edit', 'BarangController@edit')->name('edit');
         $app->get('/{id}/show', 'BarangController@show')->name('show');
         $app->get('/{id}/delete', 'BarangController@destroy')->name('destroy');
-
         // stok barang masuk 
 
         $app->prefix('masuk')->name('masuk.')->group(function ($app) use ($router) {
@@ -91,6 +90,7 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
 
     $app->prefix('kasir')->middleware(['cek:Admin,Petugas'])->name('kasir.')->group(function ($app) use ($router) {
         $app->get('/', 'KasirController@index')->name('index');
+        $app->get('/getBarangData', 'KasirController@getBarangData')->name('barang_data');
         $app->get('/{id}/getBarangById', 'KasirController@getBarangById')->name('getBarangById');
         $app->post('/addToCart', 'KasirController@addToCart')->name('add_to_cart');
         $app->post('/deleteCart', 'KasirController@deleteCart')->name('delete_cart');

@@ -44,42 +44,46 @@
         <div class="box box-danger">
             <div class=" box-body">
                 <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <div class="form-group">
+                    <div class="col-md-12">
+                         <div class="form-group">
                             <label for="kode_barang">Kode Barang</label>
-                            <input type="text" name="kode_barang" id="kode_barang" class="form-control" autofocus>
-                        </div>
+                            <select name="kode_barang" id="kode_barang" class="form-control select2-data-barang">
+                            </select>
+                        </div>  
                     </div>
+                </div>
+                <div class="row">   
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="nama_barang">Nama Barang</label>
                             <input type="text" name="nama_barang" id="nama_barang" class="form-control" readonly>
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="harga">Harga</label>
                             <input type="text" name="harga" id="harga" class="form-control" readonly>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="satuan">Satuan Barang</label>
                             <input type="text" name="satuan" id="satuan" class="form-control" readonly>
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="qty">Quantity</label>
                             <input type="text" name="qty" id="qty" class="form-control">
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-primary btn-add mt-3">Tambah <i class="fa fa-shopping-cart"></i></button>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary btn-add pull-right">Tambah <i class="fa fa-shopping-cart"></i></button>
                     </div>
                 </div>
             </div>
@@ -334,21 +338,43 @@
     $(document).ready(function(){
         
         calculate();
-        $('.select2').select2()
-        $('#kode_barang').keyup(function(){
-            this.value = this.value.toUpperCase();
-            if($(this).val() != ""){
-                getBarangById($(this).val());
-            }else{
-                clearFormBarang();
-            }
+        $('.select2').select2();
+        $('.select2-data-barang').select2({
+            allowClear: true,
+            placeholder: 'Nama Barang....',
+            ajax: {
+                dataType: 'json',
+                url: `{{ route('kasir.barang_data') }}`,
+                delay: 800,
+                data: function(params) {
+                    return {
+                        search: params.term
+                    }
+                },
+                processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+          }
+        }).on('select2:select', function (evt) {
+            var data = $(".select2-data-barang option:selected").text();
+            getBarangById($(this).val());
         });
+        // $('#kode_barang').keyup(function(){
+        //     this.value = this.value.toUpperCase();
+        //     if($(this).val() != ""){
+        //         getBarangById($(this).val());
+        //     }else{
+        //         clearFormBarang();
+        //     }
+        // });
         
-        $('#kode_barang').keypress(function(e){           
-            if (e.keyCode === 13) {
-                // getBarangById($(this).val(),"scanner");
-            }
-        });
+        // $('#kode_barang').keypress(function(e){           
+        //     if (e.keyCode === 13) {
+        //         // getBarangById($(this).val(),"scanner");
+        //     }
+        // });
         function getBarangById(kode,from="keyup"){
             let url = "{{ route('kasir.getBarangById',':id') }}";
             url = url.replace(":id",kode);

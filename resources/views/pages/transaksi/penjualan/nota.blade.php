@@ -11,14 +11,25 @@
 <body>
     <div class="container mt-3">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
+                <div style="padding-bottom:5px;margin-bottom:5px">
+                    <img src="{{ asset('asset_toko') }}/{{logo()}}" alt="Logo" width="32px;">
+                    <b style="font-size:16px; margin-bottom:10px;">{{namaToko()}}</b>
+                    <br>
+                   {{alamat()}}
+                    <br>
+                    Email :{{email()}}
+                    <br>
+                   Contact : {{no_hp()}}
+                </div>
+            </div>
+        </div><hr>
+        <div class="row">
+            <div class="col-md-6">
                 KEPADA YTH : <br />
                 {{$transaksi->pelanggan->nama}} <br />
                 {!!$transaksi->pelanggan->alamat!!}
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6"></div>
             <div class="col-md-5">
                 <table class="float-right">
                     <tr>
@@ -29,19 +40,17 @@
                     <tr>
                         <td>TANGGAL</td>
                         <td>:</td>
-                        <td>{{ Carbon\Carbon::parse($transaksi->tanggal_transaksi)->format('Y M d') }}</td>
+                        <td>{{ Carbon\Carbon::parse($transaksi->tanggal_transaksi)->format('d M Y') }}</td>
                     </tr>
+                    @if($transaksi->status == "hutang")
                     <tr>
                         <td>JATUH TEMPO</td>
                         <td>:</td>
                         <td>
-                            @if ($transaksi->status == "hutang")
-                            {{ $transaksi->piutang->jatuh_tempo }}
-                            @else
-                            -
-                            @endif
+                            {{ Carbon\Carbon::parse($transaksi->piutang->tanggal_tempo)->format('d M Y') }}
                         </td>
                     </tr>
+                    @endif
                 </table>
             </div>
             <div class="col-md-1"></div>
@@ -104,6 +113,13 @@
                         <td>:</td>
                         <td>@rupiah($transaksi->pph)</td>
                     </tr>
+                    @if($transaksi->cashback > 0)
+                    <tr>
+                        <td>CASHBACK</td>
+                        <td>:</td>
+                        <td>@rupiah($transaksi->cashback)</td>
+                    </tr>
+                    @endif
                     <tr>
                         <td>NETTO</td>
                         <td>:</td>
