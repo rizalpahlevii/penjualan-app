@@ -33,10 +33,12 @@ class DashboardController extends Controller
             $bulan = explode('-', $row->tanggal_transaksi);
             $bulan = $bulan[1];
             $hpp = 0;
+            $untung = 0;
             foreach ($row->detail_transaksi as $detail) {
                 $hpp += $detail->jumlah_beli * $detail->barang->harga_beli;
+                $untung += $detail->barang->keuntungan;
             }
-            $hitung = ($row->total - $row->pph - $row->ppn) - $hpp;
+            $hitung = $untung;
 
             $laba[$bulan - 1] += $hitung;
         }

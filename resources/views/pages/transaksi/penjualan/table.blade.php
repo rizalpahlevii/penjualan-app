@@ -8,11 +8,10 @@
             <th>Tanggal</th>
             <th>Faktur</th>
             <th>Total</th>
-            <th>PPN</th>
-            <th>PPH</th>
             <th>Pembayaran</th>
             <th>Pelanggan</th>
             <th>Nota</th>
+            <th>Cashback</th>
         </tr>
     </thead>
     <tbody>
@@ -26,14 +25,34 @@
             <td>{{ $item->tanggal_transaksi }}</td>
             <td>{{ $item->kode }}</td>
             <td> @rupiah($item->total - ($item->ppn + $item->pph)) </td>
-            <td> @rupiah($item->ppn) </td>
-            <td> @rupiah($item->pph) </td>
             <td>{{ ucfirst($item->status) }}</td>
             <td>{{ $item->pelanggan->nama }}</td>
             <td>
-                <a target="_blank" href="{{ route('transaksi.penjualan.nota',$item->kode) }}" class="btn btn-primary btn-sm"><i
-                        class="fa fa-print"></i></a>
+                <a target="_blank" href="{{ route('transaksi.penjualan.nota',$item->kode) }}"
+                    class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
             </td>
+            <th>
+                @if ($item->status == "hutang")
+                @if ($item->cashback == null)
+                @if ($item->piutang->total_hutang == $item->piutang->piutang_terbayar)
+                <a href="{{ route('transaksi.penjualan.cashback',$item->kode) }}" class="btn btn-success btn-sm"><i
+                        class="fa fa-print"></i> Input Cashback</a>
+                @else
+                <span class="badge badge-danger">Piutang Belum Lunas</span>
+                @endif
+                @else
+                <span class="badge badge-danger">Cashback Sudah Dibayar</span>
+                @endif
+                @else
+                @if ($item->cashback == null)
+                <a href="{{ route('transaksi.penjualan.cashback',$item->kode) }}" class="btn btn-success btn-sm"><i
+                        class="fa fa-print"> </i> Input Cashback</a>
+                @else
+                <a target="_blank" href="{{ route('transaksi.penjualan.cashback_nota',$item->kode) }}"
+                    class="btn btn-success btn-sm"><i class="fa fa-print"></i> Nota Cashback</a>
+                @endif
+                @endif
+            </th>
         </tr>
 
         @php
@@ -43,7 +62,7 @@
     </tbody>
     <thead>
         <tr>
-            <td colspan="8">
+            <td colspan="7">
                 <center><b>Total</b></center>
             </td>
             <td><b id="ttlpnj">@rupiah($total)</b></td>

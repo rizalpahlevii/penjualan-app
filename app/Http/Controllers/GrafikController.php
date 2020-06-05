@@ -34,7 +34,7 @@ class GrafikController extends Controller
         $labels = [];
         $data = [];
         $transaksi = Transaksi::select('tanggal_transaksi')
-            ->selectRaw("SUM(total - ppn - pph) as ttl")
+            ->selectRaw("SUM(total) as ttl")
             ->whereMonth('tanggal_transaksi', request()->get('month'))
             ->whereYear('tanggal_transaksi', request()->get('year'))
             ->groupBy('tanggal_transaksi')

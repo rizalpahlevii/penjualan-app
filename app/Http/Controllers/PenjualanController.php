@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Barang;
+use App\Cashback;
+use App\Cashback_detail;
 use App\Detail_transaksi;
 use App\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Kas as KasHelper;
 
 class PenjualanController extends Controller
 {
@@ -85,5 +89,54 @@ class PenjualanController extends Controller
         $transaksi = $transaksi->whereDate('tanggal_transaksi', "<=", request()->get('end'));
         $transaksi = $transaksi->get();
         return view($this->page . 'barang.table', compact('transaksi'));
+    }
+    public function cashback($kode)
+    {
+        $transaksi = Transaksi::where('kode', $kode)->firstOrFail();
+        if ($transaksi->cashback != null) {
+            session()->flash('message', 'Cashback sudah dibayar!');
+            return redirect()->route('transaksi.penjualan.all')->with('status', 'danger');
+        }
+        return view($this->page . 'cashback', compact('transaksi'));
+    }
+    public function cashbackPost(Request $request, $kode)
+    {
+        try {
+            DB::beginTransaction();
+            $params = $request->all();
+            $transaksi = Transaksi::where('kode', $kode)->firstOrFail();
+            $cashback = new Cashback();
+            $cashback->faktur = Caschback::kodeFaktur();
+            $cashback->tanggal = date('Y-m-d');
+            $cashback->transaksi_id = $transaksi->id;
+            $cashback->total = $params['total_cashback'];
+            $cashback->save();
+            for ($i = 1; $i <= $params['total_row']; $i++) {
+                $cashback_detail = new Cashback_detail();
+                $cashback_detail->cashback_id = $cashback->id;
+                $cashback_detail->detail_transaksi_id = $params['detail_transaksi_id' . $i];
+                $cashback_detail->cashback_per_item = $params['cashback_value' . $i];
+                $cashback_detail->qty = $params['qty_hidden' . $i];
+                $cashback_detail->subtotal = $params['subtotal_cashback' . $i];
+                $cashback_detail->save();
+            }
+            KasHelper::add($cashback->faktur, 'pengeluaran', 'cashback', 0, $cashback->total);
+            DB::commit();
+            $response = [
+                'status' => 'success',
+                'data' => $transaksi
+            ];
+        } catch (\Throwable $th) {
+            $response = [
+                'status' => 'error',
+            ];
+            DB::rollback();
+        }
+        return response()->json($response);
+    }
+    public function notaCashback($kode)
+    {
+        $transaksi = Transaksi::where('kode', $kode)->firstOrFail();
+        return view($this->page . 'cashback_nota', compact('transaksi'));
     }
 }

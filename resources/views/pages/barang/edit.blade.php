@@ -23,15 +23,39 @@
                                 @enderror
                             </div>
                         </div>
-
-                    </div>
-                    <div class="row">
                         <div class="col-md-4 col-sm-6">
                             <div class="form-group @error('nama_barang') has-error @enderror">
                                 <label for="nama_barang">Nama Barang</label>
                                 <input type="text" class="form-control " name="nama_barang" id="nama_barang"
                                     placeholder="Harga Jual" value="{{ $barang->nama }}">
                                 @error('nama_barang')
+                                <span class="help-block error">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-group @error('harga_beli') has-error @enderror">
+                                <label for="harga_beli">Harga Beli</label>
+                                <input type="text" class="form-control " name="harga_beli" id="harga_beli"
+                                    placeholder="Harga Beli" value="{{ $barang->harga_beli }}">
+                                @error('harga_beli')
+                                <span class="help-block error">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-group @error('ppn_pph') has-error @enderror">
+                                <label for="ppn_pph">PPN, PPH dan Keuntungan (%)</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control " name="ppn_pph" id="ppn_pph"
+                                        placeholder="PPN, PPH dan Keuntungan"
+                                        value="{{ $barang->persentase_pph_ppn_keuntungan }}" min="1" max="100">
+                                    <span class="input-group-addon">%</span>
+                                </div>
+
+                                @error('ppn_pph')
                                 <span class="help-block error">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -46,16 +70,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6">
-                            <div class="form-group @error('harga_beli') has-error @enderror">
-                                <label for="harga_beli">Harga Beli</label>
-                                <input type="text" class="form-control " name="harga_beli" id="harga_beli"
-                                    placeholder="Harga Beli" value="{{ $barang->harga_beli }}">
-                                @error('harga_beli')
-                                <span class="help-block error">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
+
 
 
                     </div>
@@ -64,8 +79,8 @@
                             <div class="form-group @error('kategori') has-error @enderror">
                                 <label for="kategori">Kategori Barang</label>
                                 <select name="kategori" id="kategori" class="form-control ">
-                                    @foreach ($kategori as $rowKategori)
                                     <option disabled selected>Pilih Kategori Barang</option>
+                                    @foreach ($kategori as $rowKategori)
                                     <option value="{{ $rowKategori->id }}"
                                         {{ $barang->kategori_id == $rowKategori->id ? 'selected':'' }}>
                                         {{ $rowKategori->nama }}</option>
@@ -102,3 +117,34 @@
     </div>
 </div>
 @endsection
+@push('script')
+<script>
+    $(document).ready(function(){
+        $('#harga_beli').keyup(function(){
+            const harga_beli = $(this).val();
+            if(harga_beli == ""){
+                $('#harga_jual').val(0);
+                return;
+            }
+            const ppn_pph = $('#ppn_pph').val();
+            const result = (parseFloat(harga_beli) / 100) * parseFloat(ppn_pph);
+            $('#harga_jual').val(parseFloat(result) + parseFloat(harga_beli));
+        });
+        $('#ppn_pph').keyup(function(){
+            const harga_beli = $('#harga_beli').val();
+            const ppn_pph = $(this).val();
+            
+            if(parseFloat(ppn_pph) > 100){
+                alert('Presentase melebihi 100%');
+                $(this).val(0);
+            }
+            if(ppn_pph == ""){
+                $('#harga_jual').val(harga_beli);
+                return;
+            }
+            const result = (parseFloat(harga_beli) / 100) * parseFloat(ppn_pph);
+            $('#harga_jual').val(parseFloat(result) + parseFloat(harga_beli));
+        });
+    });
+</script>
+@endpush

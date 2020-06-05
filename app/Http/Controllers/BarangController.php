@@ -33,6 +33,8 @@ class BarangController extends Controller
             'satuan' => 'required',
             'kategori' => 'required',
         ]);
+        $ppn = ($request->harga_beli / 100) * 10;
+        $pph = ($request->harga_beli / 100) * 1.5;
         $barang = new Barang();
         $barang->id = $request->kode_barang;
         $barang->nama = $request->nama_barang;
@@ -42,6 +44,10 @@ class BarangController extends Controller
         $barang->stok_masuk = 0;
         $barang->stok_akhir = $request->stok_awal;
         $barang->stok_keluar = 0;
+        $barang->ppn = $ppn;
+        $barang->persentase_pph_ppn_keuntungan = $request->ppn_pph;
+        $barang->pph = $pph;
+        $barang->keuntungan = ($request->harga_beli / 100) * ($request->ppn_pph - 11.5);
         $barang->satuan_id = $request->satuan;
         $barang->kategori_id = $request->kategori;
         if ($barang->save()) {
@@ -76,6 +82,7 @@ class BarangController extends Controller
     }
     public function edit($id)
     {
+
         $satuan = Satuan::get();
         $kategori = Kategori::get();
         $barang = Barang::with('satuan', 'kategori')->where('id', $id)->firstOrFail();
@@ -90,8 +97,14 @@ class BarangController extends Controller
             'satuan' => 'required',
             'kategori' => 'required',
         ]);
+        $ppn = ($request->harga_beli / 100) * 10;
+        $pph = ($request->harga_beli / 100) * 1.5;
         $barang = Barang::findOrFail($request->id);
         $barang->nama = $request->nama_barang;
+        $barang->ppn = $ppn;
+        $barang->persentase_pph_ppn_keuntungan = $request->ppn_pph;
+        $barang->pph = $pph;
+        $barang->keuntungan = ($request->harga_beli / 100) * ($request->ppn_pph - 11.5);
         $barang->harga_jual = $request->harga_jual;
         $barang->harga_beli = $request->harga_beli;
         $barang->satuan_id = $request->satuan;
