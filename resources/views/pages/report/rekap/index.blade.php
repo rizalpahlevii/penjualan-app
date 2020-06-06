@@ -68,64 +68,105 @@
                             <table class="table table-striped table-bordered table-hover" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <td>Penjualan</td>
-                                        <td>@rupiah($penjualan)</td>
+                                        <th>Nama</th>
+                                        <th>Total</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Penjualan Tunai</td>
+                                        <td>@rupiah($penjualan['tunai'])</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Penjualan Non Tunai</td>
+                                        <td>@rupiah($penjualan['non_tunai'])</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Penjualan Tunai & Non Tunai</td>
+                                        <td>@rupiah($penjualan['tunai'] + $penjualan['non_tunai'])</td>
                                     </tr>
                                     <tr>
                                         <td>Return Penjualan</td>
                                         <td>@rupiah($return_penjualan)</td>
                                     </tr>
                                     <tr>
-                                        <td>Laba Rugi Penjualan</td>
-                                        <td>@rupiah($laba_rugi_penjualan)</td>
+                                        <td>Total Piutang</td>
+                                        <td>@rupiah($piutang['total_piutang'])</td>
                                     </tr>
                                     <tr>
-                                        <td>Pembelian</td>
-                                        <td>@rupiah($pembelian)</td>
+                                        <td>Piutang Terbayar</td>
+                                        <td>@rupiah($piutang['piutang_terbayar'])</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Piutang Sisa</td>
+                                        <td>@rupiah($piutang['sisa_piutang'])</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cashback Dibayar</td>
+                                        <td>@rupiah($cashback)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <center><b>Netto Penjualan</b></center>
+                                        </td>
+                                        <td>
+                                            <b>@rupiah($laba_rugi_penjualan)</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pembelian Tunai</td>
+                                        <td>@rupiah($pembelian['tunai'])</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pembelian Non Tunai</td>
+                                        <td>@rupiah($pembelian['non_tunai'])</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pembelian Tunai & Non Tunai</td>
+                                        <td>@rupiah($pembelian['tunai']+$pembelian['non_tunai'])</td>
                                     </tr>
                                     <tr>
                                         <td>Return Pembelian</td>
                                         <td>@rupiah($return_pembelian)</td>
                                     </tr>
                                     <tr>
-                                        <td>Piutang</td>
-                                        <td>@rupiah(1919)</td>
+                                        <td>Total Hutang</td>
+                                        <td>@rupiah($hutang['total_hutang'])</td>
                                     </tr>
                                     <tr>
-                                        <td>Hutang</td>
-                                        <td>@rupiah(1919)</td>
+                                        <td>Hutang Terbayar</td>
+                                        <td>@rupiah($hutang['hutang_terbayar'])</td>
                                     </tr>
+                                    <tr>
+                                        <td>Hutang Sisa</td>
+                                        <td>@rupiah($hutang['sisa_hutang'])</td>
+                                    </tr>
+
                                     <tr>
                                         <td>Penggajian</td>
-                                        <td>@rupiah(1919)</td>
+                                        <td>@rupiah($penggajian)</td>
                                     </tr>
                                     <tr>
-                                        <td>PPN</td>
-                                        <td>@rupiah(1919)</td>
+                                        <td>Pajak PPN & PPH</td>
+                                        <td>@rupiah($ppn_pph['ppn']) / @rupiah($ppn_pph['pph'])</td>
                                     </tr>
-                                    <tr>
-                                        <td>PPH</td>
-                                        <td>@rupiah(1919)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cashback</td>
-                                        <td>@rupiah(1919)</td>
-                                    </tr>
+
+
                                     <tr>
                                         <td>Transport</td>
-                                        <td>@rupiah(1919)</td>
+                                        <td>@rupiah($transport)</td>
                                     </tr>
                                     <tr>
                                         <td>Pemasukan Lain</td>
-                                        <td>@rupiah(1919)</td>
+                                        <td>@rupiah($pemasukan_lain)</td>
                                     </tr>
                                     <tr>
                                         <td>Pengeluaran Lain</td>
-                                        <td>@rupiah(1919)</td>
+                                        <td>@rupiah($pengeluaran_lain)</td>
                                     </tr>
                                     <tr>
-                                        <td>Saldo Netto</td>
-                                        <td>@rupiah(1919)</td>
+                                        <td><b>
+                                                <center>Saldo Netto</center>
+                                            </b></td>
+                                        <td><b>@rupiah(1919)</b></td>
                                     </tr>
                                 </thead>
                             </table>
@@ -179,7 +220,7 @@
             tanggal_akhir = $('#enddate').val();
             
             
-            let url = `{{ url('report/kas/print?tanggal_awal=${tanggal_awal}&tanggal_akhir=${tanggal_akhir}') }}`;
+            let url = `{{ url('report/rekap/print?tanggal_awal=${tanggal_awal}&tanggal_akhir=${tanggal_akhir}') }}`;
             const parseResult = new DOMParser().parseFromString(url, "text/html");
             const parsedUrl = parseResult.documentElement.textContent;
             window.open(parsedUrl,'_blank');

@@ -249,6 +249,7 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
         });
         $app->prefix('rekap')->name('rekap.')->group(function ($app) use ($router) {
             $app->get('/', 'RekapController@index')->name('index');
+            $app->get('/print', 'RekapController@print')->name('print');
         });
     });
     $app->prefix('laporan')->middleware(['cek:Admin,Manager,Petugas'])->name('laporan.')->group(function ($app) use ($router) {
