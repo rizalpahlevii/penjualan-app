@@ -91,7 +91,7 @@ class ReturnPembelianController extends Controller
     public static function updateDataAfterReturn($pembelian_id)
     {
         $pembelian = Pembelian::with('detail_pembelian')->find($pembelian_id);
-        $return = Return_pembelian::with('detail_return_pembelian.barang')->where('pembelian_id', $pembelian_id->id)->first();
+        $return = Return_pembelian::with('detail_return_pembelian.barang')->where('pembelian_id', $pembelian_id)->first();
         $kurangi = 0;
         if ($pembelian->status == "tunai") {
             foreach ($return->detail_return_pembelian as $key => $row) {
@@ -105,7 +105,6 @@ class ReturnPembelianController extends Controller
                 $barang->stok_masuk -= $row->jumlah_beli;
                 $barang->save();
             }
-            $pembelian->total -= $kurangi;
         } else {
             foreach ($return->detail_return_pembelian as $key => $row) {
                 $detail = Detail_pembelian::where('pembelian_id', $pembelian->id)->where('barang_id', $row->barang_id)->first();
@@ -113,17 +112,22 @@ class ReturnPembelianController extends Controller
                 $detail->subtotal -= $row->jumlah_beli * $row->barang->harga_beli;
                 $kurangi += $row->jumlah_beli * $row->barang->harga_beli;
                 $detail->save();
+                $barang = Barang::find($row->barang_id);
                 $barang->stok_akhir -= $row->jumlah_beli;
                 $barang->stok_masuk -= $row->jumlah_beli;
                 $barang->save();
             }
             $hutang = Hutang::where('pembelian_id', $pembelian->id)->first();
+            $th = $hutang->total_hutang;
             $hutang->total_hutang -= $kurangi;
-            $hutang->sisa_hutang -= $kurangi;
+            $hutang->sisa_hutang -= $th - $hutang->pembayaran_hutang;
             if ($hutang->sisa_hutang <= 0) {
                 $hutang->sisa_hutang = 0;
+                $hutang->status = "lunas";
             }
             $hutang->save();
         }
+        $pembelian->total -= $kurangi;
+        $pembelian->save();
     }
 }

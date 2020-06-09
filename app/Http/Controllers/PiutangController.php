@@ -25,11 +25,11 @@ class PiutangController extends Controller
         if (request()->get('filter')) {
             $piutang = Piutang::with('transaksi', 'pelanggan');
             if (request()->get('filter') == "belum_dibayar") {
-                $piutang->where("piutang_terbayar", "=", "0");
+                $piutang->where("status_piutang", "belum bayar");
             } elseif (request()->get('filter') == "lunas") {
-                $piutang->where("sisa_piutang", "=", "0");
+                $piutang->where("sisa_piutang", "lunas");
             } elseif (request()->get('filter') == "belum_lunas") {
-                $piutang->where("sisa_piutang", ">", "0");
+                $piutang->where("sisa_piutang", "belum lunas");
             } else {
                 $piutang = $piutang;
             }
@@ -65,10 +65,12 @@ class PiutangController extends Controller
             $tampung = $piutang->sisa_piutang;
             $piutang->piutang_terbayar = $piutang->total_hutang;
             $piutang->sisa_piutang = 0;
+            $piutang->status_piutang = "lunas";
             KasHelper::add($piutang->faktur, 'pendapatan', 'bayar piutang', $tampung, 0);
         } else {
             $piutang->piutang_terbayar += $request->bayar;
             $piutang->sisa_piutang -= $request->bayar;
+            $piutang->status_piutang = "belum lunas";
             KasHelper::add($piutang->faktur, 'pendapatan', 'bayar piutang', $request->bayar, 0);
         }
         if ($piutang->save()) {

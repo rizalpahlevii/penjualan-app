@@ -40,7 +40,7 @@
             <div class="inner">
                 <h3>{{ number_format($omsetBulanIni, 0, ".", ".") }}</h3>
 
-                <p>Omset Bulan Ini</p>
+                <p>Omset Penjualan Bulan Ini</p>
             </div>
             <div class="icon">
                 <i class="ion ion-stats-bars"></i>
@@ -54,9 +54,9 @@
         <!-- small box -->
         <div class="small-box bg-red">
             <div class="inner">
-                <h3>{{ number_format($labaRugi['laba_rugi'], 0, ".", ".") }}</h3>
+                <h3>{{ number_format($labaRugi, 0, ".", ".") }}</h3>
 
-                <p>Laba Bulan Ini</p>
+                <p>Laba Penjualan Bulan Ini</p>
             </div>
             <div class="icon">
                 <i class="ion ion-pie-graph"></i>

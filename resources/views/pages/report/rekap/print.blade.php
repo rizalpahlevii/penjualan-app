@@ -56,6 +56,10 @@
                             <td>@rupiah($piutang['sisa_piutang'])</td>
                         </tr>
                         <tr>
+                            <td>Cashback Dibayar</td>
+                            <td>@rupiah($cashback)</td>
+                        </tr>
+                        <tr>
                             <td>
                                 <center><b>Netto Penjualan</b></center>
                             </td>
@@ -92,17 +96,12 @@
                             <td>@rupiah($hutang['sisa_hutang'])</td>
                         </tr>
                         <tr>
-                            <td><b>
-                                    <center>Netto Pembelian</center>
-                                </b></td>
                             <td>
-                                @php
-                                $netto_pembelian = ($pembelian['tunai']+$pembelian['non_tunai'])
-                                - $return_pembelian ;
-
-                                @endphp
-                                <b>@rupiah($netto_pembelian)</b>
-
+                                <center><b>Netto Pembelian / Pengeluaran</b></center>
+                            </td>
+                            <td>
+                                <b>@rupiah($hutang['hutang_terbayar']+$pembelian['tunai'] -
+                                    $return_pembelian )</b>
                             </td>
                         </tr>
                         <tr>
@@ -114,10 +113,7 @@
                             <td>@rupiah($ppn_pph['ppn']) / @rupiah($ppn_pph['pph'])</td>
                         </tr>
 
-                        <tr>
-                            <td>Cashback</td>
-                            <td>@rupiah($cashback)</td>
-                        </tr>
+
                         <tr>
                             <td>Transport</td>
                             <td>@rupiah($transport)</td>
@@ -134,7 +130,16 @@
                             <td><b>
                                     <center>Saldo Netto</center>
                                 </b></td>
-                            <td><b>@rupiah(1919)</b></td>
+                            <td>
+                                @php
+                                $netto = $laba_rugi_penjualan -
+                                ($hutang['hutang_terbayar']+$pembelian['tunai'] -
+                                $return_pembelian );
+                                $netto += $pemasukan_lain;
+                                $netto -= ($ppn_pph['ppn']+$ppn_pph['pph']+$transport+$pengeluaran_lain)
+                                @endphp
+                                <b>@rupiah($netto)</b>
+                            </td>
                         </tr>
                     </thead>
                 </table>

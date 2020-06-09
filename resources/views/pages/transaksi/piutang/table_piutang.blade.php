@@ -32,7 +32,7 @@
             <td>{{ $item->tanggal_tempo }}</td>
             <td>{{ $item->pelanggan->nama }}</td>
             <td>
-                @if (! $item->piutang_terbayar >= $item->total_hutang)
+                @if ( $item->status_piutang != "lunas")
                 <button class="btn btn-sm btn-success aksi" data-id="{{ $item->id }}"><i
                         class="fa fa-gear"></i></button>
                 @endif

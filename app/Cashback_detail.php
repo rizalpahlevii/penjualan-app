@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cascback_detail extends Model
+class Cashback_detail extends Model
 {
     public function detail_transaksi()
     {

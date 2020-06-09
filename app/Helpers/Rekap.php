@@ -49,32 +49,44 @@ class Rekap
         if ($this->start & $this->end) {
             $data = Transaksi::whereDate('tanggal_transaksi', ">=", $this->start)
                 ->whereDate('tanggal_transaksi', "<=", $this->end)->get();
-            $harga_jual = 0;
-            $harga_beli = 0;
-            $value = 0;
+            $value_keuntungan = 0;
             foreach ($data as $row) {
                 if ($row->status == "hutang") {
-                    $value += $row->piutang->piutang_terbayar;
+                    foreach ($row->detail_transaksi as $detail_transaksi) {
+                        $ppn_pph = 11.5;
+                        $keuntungan_persentase = $detail_transaksi->barang->persentase_pph_ppn_keuntungan - $ppn_pph;
+                        $value_keuntungan += (($detail_transaksi->harga / 100) * $keuntungan_persentase) * $detail_transaksi->jumlah_beli;
+                    }
+                    $value_keuntungan -= $row->piutang->sisa_hutang;
                 } else {
                     foreach ($row->detail_transaksi as $detail_transaksi) {
                         $ppn_pph = 11.5;
                         $keuntungan_persentase = $detail_transaksi->barang->persentase_pph_ppn_keuntungan - $ppn_pph;
-                        $value += (($detail_transaksi->harga / 100) * $keuntungan_persentase) * $detail_transaksi->jumlah_beli;
+                        $value_keuntungan += (($detail_transaksi->harga / 100) * $keuntungan_persentase) * $detail_transaksi->jumlah_beli;
                     }
                 }
             }
         } else {
             $data = Transaksi::get();
-            $value = 0;
+            $value_keuntungan = 0;
             foreach ($data as $row) {
-                foreach ($row->detail_transaksi as $detail_transaksi) {
-                    $ppn_pph = 11.5;
-                    $keuntungan_persentase = $detail_transaksi->barang->persentase_pph_ppn_keuntungan - $ppn_pph;
-                    $value += (($detail_transaksi->harga / 100) * $keuntungan_persentase) * $detail_transaksi->jumlah_beli;
+                if ($row->status == "hutang") {
+                    foreach ($row->detail_transaksi as $detail_transaksi) {
+                        $ppn_pph = 11.5;
+                        $keuntungan_persentase = $detail_transaksi->barang->persentase_pph_ppn_keuntungan - $ppn_pph;
+                        $value_keuntungan += (($detail_transaksi->harga / 100) * $keuntungan_persentase) * $detail_transaksi->jumlah_beli;
+                    }
+                    $value_keuntungan -= $row->piutang->sisa_hutang;
+                } else {
+                    foreach ($row->detail_transaksi as $detail_transaksi) {
+                        $ppn_pph = 11.5;
+                        $keuntungan_persentase = $detail_transaksi->barang->persentase_pph_ppn_keuntungan - $ppn_pph;
+                        $value_keuntungan += (($detail_transaksi->harga / 100) * $keuntungan_persentase) * $detail_transaksi->jumlah_beli;
+                    }
                 }
             }
         }
-        return $value - $this->return_penjualan() - $this->cashback();
+        return $value_keuntungan - $this->return_penjualan() - $this->cashback();
     }
 
     public function piutang()

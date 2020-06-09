@@ -30,6 +30,9 @@
             <td>{{ $item->tanggal_tempo }}</td>
             <td>{{ $item->pembelian->suplier->nama }}</td>
             <td>
+                @if ($item->status_hutang != "lunas")
+
+                @endif
                 <button class="btn btn-sm btn-success aksi" data-id="{{ $item->id }}"><i
                         class="fa fa-gear"></i></button>
             </td>

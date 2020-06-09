@@ -106,7 +106,7 @@ class PenjualanController extends Controller
             $params = $request->all();
             $transaksi = Transaksi::where('kode', $kode)->firstOrFail();
             $cashback = new Cashback();
-            $cashback->faktur = Caschback::kodeFaktur();
+            $cashback->faktur = Cashback::kodeFaktur();
             $cashback->tanggal = date('Y-m-d');
             $cashback->transaksi_id = $transaksi->id;
             $cashback->total = $params['total_cashback'];
