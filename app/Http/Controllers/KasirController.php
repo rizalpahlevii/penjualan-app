@@ -19,10 +19,11 @@ class KasirController extends Controller
 {
     public function index()
     {
+        $barang = Barang::with('satuan', 'kategori')->get();
         $cart = Cart_transaksi::with('barang')->where('status', 'cart')->where('user_id', Auth::user()->id)->get();
         $kode = Transaksi::kode();
         $pelanggan = Pelanggan::get();
-        return view("pages.kasir.index", compact('kode', 'pelanggan', 'cart'));
+        return view("pages.kasir.index", compact('kode', 'pelanggan', 'cart', 'barang'));
     }
     public function getBarangById($id)
     {
@@ -105,10 +106,7 @@ class KasirController extends Controller
             $transaksi->tanggal_transaksi = Carbon::now()->format('Y-m-d');
             $transaksi->total = $request->grandtotal;
             $transaksi->diskon = $request->diskon_value;
-            $transaksi->ppn = $request->ppn_value;
-            $transaksi->pph = $request->pph_value;
             $transaksi->status = $request->pembayaran;
-            $transaksi->cashback = $request->cashback;
             $transaksi->pelanggan_id = (int) $request->id_pelanggan;
             $transaksi->user_id = Auth::user()->id;
             $transaksi->save();
@@ -142,7 +140,9 @@ class KasirController extends Controller
                 $piutang->tanggal_piutang = Carbon::now()->format('Y-m-d');
                 $piutang->total_hutang = $request->grandtotal;
                 $piutang->piutang_terbayar = 0;
-                $piutang->tanggal_tempo = $request->tgl_jatuh_tempo;
+                if ($request->tgl_jatuh_tempo == null) {
+                    $piutang->tanggal_tempo = $request->tgl_jatuh_tempo;
+                }
                 $piutang->sisa_piutang = $request->grandtotal;
                 $piutang->pelanggan_id = $request->id_pelanggan;
                 $piutang->transaksi_id = $transaksi->id;
@@ -173,16 +173,17 @@ class KasirController extends Controller
         // $pdf = PDF::loadView('pages.kasir.struk', compact('transaksi'))->setPaper('a4', 'portrait');
         // return $pdf->stream('Struk-penjualan-' . $invoice . '.pdf');
     }
-    public function getBarangData(){
+    public function getBarangData()
+    {
         $search = request()->input('search');
-        $data = Barang::where('nama','LIKE',"%{$search}%")->orWhere('id','LIKE',"%{$search}%")->select('id','nama')->get();
+        $data = Barang::where('nama', 'LIKE', "%{$search}%")->orWhere('id', 'LIKE', "%{$search}%")->select('id', 'nama')->get();
         if (count($data)) {
             $response = [];
             foreach ($data as $key => $row) {
                 $response[$key]['id'] = $row->id;
-                $response[$key]['text'] = $row->id . ' - ' . $row->nama;
+                $response[$key]['value'] = $row->id . ' - ' . $row->nama;
             }
-        }else{
+        } else {
             $response = "Barang tidak ditemukan";
         }
         return response()->json($response);

@@ -21,11 +21,11 @@ class HutangController extends Controller
     {
         if (request()->get('filter')) {
             $hutang = Hutang::with('pembelian.suplier');
-            if (request()->get('filter') == "belum_dibayar") {
+            if (request()->get('status_hutang') == "belum bayar") {
                 $hutang->where("pembayaran_hutang", "=", "0");
-            } elseif (request()->get('filter') == "lunas") {
+            } elseif (request()->get('status_hutang') == "lunas") {
                 $hutang->where("sisa_hutang", "=", "0");
-            } elseif (request()->get('filter') == "belum_lunas") {
+            } elseif (request()->get('status_hutang') == "belum lunas") {
                 $hutang->where("sisa_hutang", ">", "0");
             } else {
                 $hutang = $hutang;
@@ -59,10 +59,12 @@ class HutangController extends Controller
             $tampung = $hutang->sisa_hutang;
             $hutang->pembayaran_hutang = $hutang->total_hutang;
             $hutang->sisa_hutang = 0;
+            $hutang->status_hutang = "lunas";
             KasHelper::add($hutang->faktur, 'pengeluaran', 'bayar hutang', 0, $request->bayar, $tampung);
         } else {
             $hutang->pembayaran_hutang += $request->bayar;
             $hutang->sisa_hutang -= $request->bayar;
+            $hutang->status_hutang = "belum lunas";
             KasHelper::add($hutang->faktur, 'pengeluaran', 'bayar hutang', 0, $request->bayar);
         }
         if ($hutang->save()) {

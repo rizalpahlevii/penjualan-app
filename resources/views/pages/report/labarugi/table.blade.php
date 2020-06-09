@@ -26,25 +26,19 @@
             <td>{{ $item->kode }}</td>
             <td>Penjualan</td>
             <td>
-                <?php 
-                                            $sub=0; 
-                                            foreach($item->detail_transaksi as $tt) {
-                                                $sub += $tt->subtotal;
-                                            }
-                                            ?>
-                @rupiah($sub - $item->diskon)
+                @rupiah($item->total)
             </td>
             <td>
                 <?php 
-                                            $hpp = 0;
-                                            foreach($item->detail_transaksi as $tt){
-                                                $hpp += $tt->jumlah_beli * $tt->barang->harga_beli;
-                                            }
-                                            ?>
+                $hpp = 0;
+                foreach($item->detail_transaksi as $tt){
+                    $hpp += $tt->jumlah_beli * $tt->barang->harga_beli;
+                }
+                ?>
                 @rupiah($hpp)
             </td>
             <td>
-                @rupiah(($sub - $item->diskon) - $hpp)
+                @rupiah($item->total - $hpp)
             </td>
         </tr>
         @endif
@@ -56,33 +50,28 @@
             <td>{{ $item->kode }}</td>
             <td>Penjualan</td>
             <td>
-                <?php 
-                                                                                $sub=0; 
-                                                                                foreach($item->detail_transaksi as $tt) {
-                                                                                    $sub += $tt->subtotal;
-                                                                                }
-                                                                                ?>
-                @rupiah($sub - $item->diskon)
+                @rupiah($item->total)
             </td>
             <td>
                 <?php 
-                                                                                $hpp = 0;
-                                                                                foreach($item->detail_transaksi as $tt){
-                                                                                    $hpp += $tt->jumlah_beli * $tt->barang->harga_beli;
-                                                                                }
-                                                                                ?>
+                $hpp = 0;
+                foreach($item->detail_transaksi as $tt){
+                    $hpp += $tt->jumlah_beli * $tt->barang->harga_beli;
+                }
+                ?>
                 @rupiah($hpp)
             </td>
             <td>
-                @rupiah(($sub - $item->diskon) - $hpp)
+                @php
+                $ttlPenjualan += $item->total;
+                $ttlHPP += $hpp;
+                $ttlLaba += $item->total - $hpp;
+                @endphp
+                @rupiah($item->total - $hpp)
             </td>
         </tr>
         @endif
-        @php
-        $ttlPenjualan +=$sub - $item->diskon;
-        $ttlHPP +=$hpp;
-        $ttlLaba +=(($sub - $item->diskon) - $hpp);
-        @endphp
+
         @endforeach
     </tbody>
     <thead>

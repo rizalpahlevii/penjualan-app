@@ -106,8 +106,6 @@ class TransaksiController extends Controller
             $transaksi->tanggal_transaksi = Carbon::now()->format('Y-m-d');
             $transaksi->total = $request->grandtotal;
             $transaksi->diskon = $request->diskon_value;
-            $transaksi->ppn = $request->ppn_value;
-            $transaksi->pph = $request->pph_value;
             $transaksi->status = $request->pembayaran;
             $transaksi->pelanggan_id = (int) $request->id_pelanggan;
             $transaksi->user_id = Auth::user()->id;

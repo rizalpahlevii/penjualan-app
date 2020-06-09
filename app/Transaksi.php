@@ -41,4 +41,8 @@ class Transaksi extends Model
     {
         return $this->hasOne(Piutang::class, 'transaksi_id', 'id');
     }
+    public function cashback()
+    {
+        return $this->hasOne(Cashback::class, 'transaksi_id', 'id');
+    }
 }

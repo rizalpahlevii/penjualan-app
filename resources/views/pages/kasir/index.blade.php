@@ -2,10 +2,7 @@
 @section('page','Input Transaksi')
 @section('content')
 <input type="hidden" name="stok_hidden" id="stok_hidden">
-<input type="hidden" name="pph_value" id="pph_value" value="0">
-<input type="hidden" name="ppn_value" id="ppn_value" value="0">
 <input type="hidden" name="diskon_value" id="diskon_value" value="0">
-<input type="hidden" name="cashback_value" id="cashback_value" value="0">
 <input type="hidden" name="kode" id="kode" value="{{ $kode }}">
 <div class="row">
     <div class="col-md-3">
@@ -45,14 +42,18 @@
             <div class=" box-body">
                 <div class="row">
                     <div class="col-md-12">
-                         <div class="form-group">
+                        <div class="form-group">
                             <label for="kode_barang">Kode Barang</label>
-                            <select name="kode_barang" id="kode_barang" class="form-control select2-data-barang">
-                            </select>
-                        </div>  
+                            <div class="input-group">
+                                <input type="text" name="kode_barang" id="kode_barang" class="form-control">
+                                <span class="input-group-addon" style="cursor: pointer"
+                                    id="showModalBarang">Pilih</span>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-                <div class="row">   
+                <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="nama_barang">Nama Barang</label>
@@ -67,7 +68,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    
+
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="satuan">Satuan Barang</label>
@@ -83,7 +84,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-primary btn-add pull-right">Tambah <i class="fa fa-shopping-cart"></i></button>
+                        <button class="btn btn-primary btn-add pull-right">Tambah <i
+                                class="fa fa-shopping-cart"></i></button>
                     </div>
                 </div>
             </div>
@@ -162,49 +164,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <label for="cashback_type">Tipe Cashback</label>
-                        <select name="cashback_type" id="cashback_type" class="form-control select2">
-                            <option value="presentase">Presentase</option>
-                            <option value="nominal">Nominal</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <label for="cashback_show">Cashback Value</label>
-                        <input type="number" class="form-control" name="cashback_show" id="cashback_show" value="0">
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="box box-danger">
             <div class=" box-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="ppn">PPN</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><input type="checkbox" id="cek-ppn" value="1"></span>
-                                <input type="number" class="form-control" name="ppn" id="ppn" readonly value="10">
-                                <span class="input-group-addon">%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="pph">PPH</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><input type="checkbox" id="cek-pph"></span>
-                                <input type="number" class="form-control" name="pph" id="pph" readonly value="1.5">
-                                <span class="input-group-addon">%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
@@ -320,6 +287,68 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<div class="modal fade" id="modalBarang">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Data Barang</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="table-barang-modal">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Harga Jual</th>
+                                        <th>Stok</th>
+                                        <th>Satuan</th>
+                                        <th>Kategori</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($barang as $key => $row)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $row->id }}</td>
+                                        <td>{{ $row->nama }}</td>
+                                        <td> @rupiah($row->harga_jual) </td>
+                                        <td>{{ $row->stok_akhir }}</td>
+                                        <td>{{ $row->satuan->nama }}</td>
+                                        <td>{{ $row->kategori->nama }}</td>
+                                        <td>
+                                            @if ($row->stok_akhir > 0)
+
+                                            <a href="#" class="btn btn-sm btn-warning" data-id="{{ $row->id }}"
+                                                data-nama="{{ $row->nama }}" data-harga="{{ $row->harga_jual }}"
+                                                data-stok="{{ $row->stok_akhir }}"
+                                                data-satuan="{{ $row->satuan->nama }}" id="pilih-barang">Pilih</a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 @endsection
 @push('style')
 <link rel="stylesheet" href="{{ asset('adminlte') }}/bower_components/select2/dist/css/select2.min.css">
@@ -327,16 +356,53 @@
     href="{{ asset('adminlte') }}/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/print/print.css">
 <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/sweetalert2/dist/sweetalert2.css">
+<link rel="stylesheet"
+    href="{{ asset('adminlte') }}/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/jquery-ui/jquery-ui.min.css">
 @endpush
 @push('script')
+<script src="{{ asset('adminlte') }}/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="{{ asset('adminlte') }}/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js">
+</script>
 <script src="{{ asset('adminlte') }}/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js">
 </script>
 <script src="{{ asset('adminlte') }}/bower_components/select2/dist/js/select2.full.min.js"></script>
 <script src="{{ asset('adminlte') }}/plugins/print/print.js"></script>
 <script src="{{ asset('adminlte') }}/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<script src="{{ asset('adminlte') }}/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function(){
-        
+        $("#table-barang-modal").dataTable();
+        $('#showModalBarang').click(function(){
+            $('#modalBarang').modal('show');
+        });
+        var barangData = [];
+        $.ajax({
+            url :  `{{ route('kasir.barang_data') }}`,
+            method : 'GET',
+            dataType:"json",
+            async:false,
+            success:function(response){
+                barangData = response;
+            }
+        });
+        $('#kode_barang').autocomplete({
+            source : barangData,
+            select: function( event, ui ) {
+                $("#kode_barang").val(ui.item.id);
+                return false;
+            },
+        });
+        $(document).on('click','#pilih-barang',function(){
+            $('#kode_barang').val($(this).data('id'));
+            $('#nama_barang').val($(this).data('nama'));
+            $('#harga').val($(this).data('harga'));
+            $('#satuan').val($(this).data('satuan'));
+            $('#stok_hidden').val($(this).data('stok'));
+            $('#harga_hidden').val($(this).data('harga'));
+            $('#kode_barang').val($(this).data('id'));
+            $('#modalBarang').modal('hide');
+        });
         calculate();
         $('.select2').select2();
         $('.select2-data-barang').select2({
@@ -361,20 +427,20 @@
             var data = $(".select2-data-barang option:selected").text();
             getBarangById($(this).val());
         });
-        // $('#kode_barang').keyup(function(){
-        //     this.value = this.value.toUpperCase();
-        //     if($(this).val() != ""){
-        //         getBarangById($(this).val());
-        //     }else{
-        //         clearFormBarang();
-        //     }
-        // });
+        $('#kode_barang').keyup(function(){
+            this.value = this.value.toUpperCase();
+            if($(this).val() != ""){
+                getBarangById($(this).val());
+            }else{
+                clearFormBarang();
+            }
+        });
         
-        // $('#kode_barang').keypress(function(e){           
-        //     if (e.keyCode === 13) {
-        //         // getBarangById($(this).val(),"scanner");
-        //     }
-        // });
+        $('#kode_barang').keypress(function(e){           
+            if (e.keyCode === 13) {
+                // getBarangById($(this).val(),"scanner");
+            }
+        });
         function getBarangById(kode,from="keyup"){
             let url = "{{ route('kasir.getBarangById',':id') }}";
             url = url.replace(":id",kode);
@@ -424,7 +490,7 @@
             }
         });
         function addCart(){
-            let url = "{{ route('kasir.add_to_cart') }}"
+            let url = "{{ route('kasir.add_to_cart') }}";
             $.ajax({
                 type: "POST",
                 url: url,
@@ -467,8 +533,7 @@
             isNaN(subtotal) ? $('#subtotal').val(0) : $('#subtotal').val(subtotal);
 
             var diskon = $('#diskon').val();
-            var cashback = $('#cashback_value').val();
-            var grandtotal = subtotal - diskon - cashback;
+            var grandtotal = subtotal - diskon ;
 
             if(isNaN(grandtotal)){
                 $('#grandtotal').val(0);
@@ -490,44 +555,7 @@
                 $('#grand_total2').text($('#subtotal').val() - result);
             }
         });
-        $('#cek-pph').click(function(){
-            if($(this).prop("checked") == true){
-                const val_pph = $('#pph').val();
-                const percent = val_pph / 100;
-                const pph = $('#subtotal').val() * percent;
-                const gt = $('#grandtotal').val()
-                const pph_value = $('#pph_value').val(pph);
-                $('#grandtotal').val(parseInt(gt) + parseInt(pph));
-                $('#grand_total2').text(parseInt(gt) + parseInt(pph));
-            }else if($(this).prop("checked") == false){
-                const val_pph = $('#pph').val();
-                const percent = val_pph / 100;
-                const pph = $('#subtotal').val() * percent;
-                const gt = $('#grandtotal').val()
-                const pph_value = $('#pph_value').val(0);
-                $('#grandtotal').val(parseInt(gt) - parseInt(pph));
-                $('#grand_total2').text(parseInt(gt) - parseInt(pph));
-            }
-        });
-        $('#cek-ppn').click(function(){
-            if($(this).prop("checked") == true){
-                const val_ppn = $('#ppn').val();
-                const percent = val_ppn / 100;
-                const ppn = $('#subtotal').val() * percent;
-                const gt = $('#grandtotal').val()
-                const ppn_value = $('#ppn_value').val(ppn);
-                $('#grandtotal').val(parseInt(gt) + parseInt(ppn));
-                $('#grand_total2').text(parseInt(gt) + parseInt(ppn));
-            }else if($(this).prop("checked") == false){
-                const val_ppn = $('#ppn').val();
-                const percent = val_ppn / 100;
-                const ppn = $('#subtotal').val() * percent;
-                const gt = $('#grandtotal').val()
-                const ppn_value = $('#ppn_value').val(0);
-                $('#grandtotal').val(parseInt(gt) - parseInt(ppn));
-                $('#grand_total2').text(parseInt(gt) - parseInt(ppn));
-            }
-        });
+        
         $('#pembayaran').change(function(){
             const type = $(this).val();
             if(type == "hutang"){
@@ -610,11 +638,7 @@
                     postTransaksi();
                 }
             }else{
-                if($('#jatuh_tempo').val() == ""){
-                    alert('Tanggal jatuh tempo harus diisi');
-                }else{
-                    postTransaksi();
-                }
+                postTransaksi();
             }
         });
         function postTransaksi(){
@@ -627,18 +651,11 @@
                     pembayaran: $('#pembayaran').val(),
                     tgl_jatuh_tempo : $('#jatuh_tempo').val(),
                     id_pelanggan:$('#pelanggan').val(),
-                    cek_pph : $('#cek_pph').val(),
-                    cek_ppn : $('#cek_ppn').val(),
-                    ppn : $('#ppn').val(),
-                    pph : $('#pph').val(),
-                    pph_value : $('#pph_value').val(),
-                    ppn_value : $('#ppn_value').val(),
                     grandtotal:$('#grandtotal').val(),
                     subtotal : $('#subtotal').val(),
                     diskon_value : $('#diskon_value').val(),
                     bayar : $('#bayar').val(),
                     kembali : $('#kembali').val(),
-                    cashback : $('#cashback_value').val(),
                 },
                 beforeSend:function(){
                     $('.fa-location-arrow').css('display','none');
@@ -678,10 +695,8 @@
                 html += `<tr><td>${item.barang.nama}</td><td>${item.harga}</td><td>${item.jumlah_beli}</td><td>${item.subtotal}</td></tr>`;
                 subtotal += item.subtotal
             });
-            html += `<tr><td colspan="3" align="center">Subtotal Barang</td><td>${subtotal}</td></tr>`
-            html += `<tr><td colspan="3" align="center">Diskon</td><td>${data.diskon}</td></tr>`
-            html += `<tr><td colspan="3" align="center">PPN</td><td>${data.ppn}</td></tr>`
-            html += `<tr><td colspan="3" align="center">PPH</td><td>${data.pph}</td></tr>`
+            html += `<tr><td colspan="3" align="center">Subtotal Barang</td><td>${subtotal}</td></tr>`;
+            html += `<tr><td colspan="3" align="center">Diskon</td><td>${data.diskon}</td></tr>`;
             html += `<tr><td colspan="3" align="center">Grandtotal</td><td>${data.total}</td></tr>`;
             if(data2 != null){
                 html += `<tr><td colspan="3" align="center">Bayar</td><td>${data2.bayar}</td></tr>`;
@@ -701,37 +716,7 @@
             window.open(parsedUrl,'_blank');
             location.reload();
         });
-        $('#cashback_type').change(function(){
-            const value = $(this).val();
-            $('#cashback_value').val(0);
-            console.log(value); 
-        });
-        $('#cashback_show').keyup(function(){
-            const type = $('#cashback_type').val();
-            const gt = $('#grandtotal').val();
-            if(type == "presentase"){
-                if($(this).val()>100){
-                    alert('Presentase cashback melebihi 100%');
-                    calculate();
-                }else{
-                    const presentase_cashback = $(this).val() / 100;
-                    const result  = $('#subtotal').val() * presentase_cashback;
-                    $('#grandtotal').val($('#subtotal').val() - result);
-                    $('#grand_total2').text($('#subtotal').val() - result);
-                    $('#cashback_value').val(result);
-                }
-            }else{
-                if(parseInt($(this).val()) > parseInt(gt)){
-                    alert('Nominal cashback melebihi grandtotal');
-                    calculate();
-                }else{
-                    const nominal_cashback = $(this).val();
-                    $('#grandtotal').val($('#subtotal').val() - nominal_cashback);
-                    $('#grand_total2').text($('#subtotal').val() - nominal_cashback);
-                    $('#cashback_value').val(nominal_cashback);
-                }
-            }
-        });
+        
         function print() {
             printJS({
                 printable: 'printarea',

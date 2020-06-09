@@ -1,6 +1,9 @@
 <?php
 
+use App\Cashback;
+use App\Helpers\Rekap;
 use App\Piutang;
+use App\Return_penjualan;
 use App\Transaksi;
 use Illuminate\Support\Facades\DB;
 
@@ -68,29 +71,36 @@ class Saldo
         }
         return $ret;
     }
+    public static function return_penjualan()
+    {
+        $data = Return_penjualan::whereMonth('tanggal_return_jual', date('m'))->whereYear('tanggal_return_jual', date('Y'))->sum('total_bayar');
+        return $data;
+    }
     public static function getLabaBulanIni()
     {
-        $transaksi = Transaksi::whereMonth('tanggal_transaksi', date('m'))->whereYear('tanggal_transaksi', date('Y'))->get();
-        $total = 0;
-        $hpp = 0;
-        foreach ($transaksi as $row) {
+        $data = Transaksi::whereMonth('tanggal_transaksi', date('m'))->whereYear('tanggal_transaksi', date('Y'))->get();
+        $value_keuntungan = 0;
+        foreach ($data as $row) {
             if ($row->status == "hutang") {
-                if ($row->piutang != null) {
-                    // if ($row->piutang->sisa_piutang == 0) {
-                    // $total += $row->total - ($row->ppn + $row->pph);
-                    foreach ($row->detail_transaksi as $detail) {
-                        $hpp += $detail->jumlah_beli * $detail->barang->harga_beli;
-                    }
-                    // }
-                    $total += $row->piutang->piutang_terbayar;
+                foreach ($row->detail_transaksi as $detail_transaksi) {
+                    $ppn_pph = 11.5;
+                    $keuntungan_persentase = $detail_transaksi->barang->persentase_pph_ppn_keuntungan - $ppn_pph;
+                    $value_keuntungan += (($detail_transaksi->harga / 100) * $keuntungan_persentase) * $detail_transaksi->jumlah_beli;
                 }
+                $value_keuntungan -= $row->piutang->sisa_hutang;
             } else {
-                $total += $row->total - ($row->ppn + $row->pph);
-                foreach ($row->detail_transaksi as $detail) {
-                    $hpp += $detail->jumlah_beli * $detail->barang->harga_beli;
+                foreach ($row->detail_transaksi as $detail_transaksi) {
+                    $ppn_pph = 11.5;
+                    $keuntungan_persentase = $detail_transaksi->barang->persentase_pph_ppn_keuntungan - $ppn_pph;
+                    $value_keuntungan += (($detail_transaksi->harga / 100) * $keuntungan_persentase) * $detail_transaksi->jumlah_beli;
                 }
             }
         }
-        return ['total_penjualan' => $total, 'hpp' => $hpp, 'laba_rugi' => $total - $hpp];
+        return $value_keuntungan - self::return_penjualan() - self::cashback();
+    }
+    public static function cashback()
+    {
+        $data = Cashback::whereMonth('tanggal', date('m'))->whereYear('tanggal', date('Y'))->sum('total');
+        return $data;
     }
 }

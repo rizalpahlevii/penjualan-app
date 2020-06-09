@@ -19,7 +19,7 @@ class CreatePiutangTable extends Migration
             $table->date('tanggal_piutang');
             $table->integer('total_hutang');
             $table->integer('piutang_terbayar');
-            $table->date('tanggal_tempo');
+            $table->date('tanggal_tempo')->nullable();
             $table->integer('sisa_piutang');
             $table->unsignedInteger('pelanggan_id');
             $table->unsignedInteger('transaksi_id');

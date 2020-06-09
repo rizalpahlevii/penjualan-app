@@ -22,6 +22,10 @@ class CreateBarangTable extends Migration
             $table->integer('stok_masuk');
             $table->integer('stok_akhir');
             $table->integer('stok_keluar');
+            $table->integer('ppn')->default(0);
+            $table->integer('pph')->default(0);
+            $table->integer('keuntungan')->default(0);
+            $table->float('persentase_pph_ppn_keuntungan', 5, 2)->default(0);
             $table->unsignedInteger('satuan_id');
             $table->unsignedInteger('kategori_id');
             $table->timestamps();

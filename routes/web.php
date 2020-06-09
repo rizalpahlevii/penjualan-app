@@ -37,9 +37,9 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
     $app->prefix('pegawai')->middleware(['cek:Admin'])->name('pegawai.')->group(function ($app) use ($router) {
         $router->get('/{id}/delete', 'PegawaiController@destroy')->name('destroy');
     });
-    $app->prefix('setting')->middleware(['cek:Admin'])->name('setting.')->group(function($app) use($router){
-        $app->get('/','SettingController@index')->name('index'); 
-        $app->put('/','SettingController@update')->name('update');
+    $app->prefix('setting')->middleware(['cek:Admin'])->name('setting.')->group(function ($app) use ($router) {
+        $app->get('/', 'SettingController@index')->name('index');
+        $app->put('/', 'SettingController@update')->name('update');
     });
     $app->prefix('barang')->middleware(['cek:Admin'])->name('barang.')->group(function ($app) use ($router) {
         $app->get('/', 'BarangController@index')->name('index');
@@ -112,6 +112,9 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
         $app->prefix('penjualan')->name('penjualan.')->group(function ($app) use ($router) {
             $app->get('/', 'PenjualanController@index')->name('all');
             $app->get('/nota/{id}', 'PenjualanController@nota')->name('nota');
+            $app->get('/cashback/nota/{id}', 'PenjualanController@notaCashback')->name('cashback_nota');
+            $app->get('/cashback/{id}', 'PenjualanController@cashback')->name('cashback');
+            $app->post('/cashback/{id}', 'PenjualanController@cashbackPost')->name('cashback_post');
             $app->get('/loadTable', 'PenjualanController@loadTable')->name('load_table');
             $app->prefix('periode')->name('periode.')->group(function ($app) use ($router) {
                 $app->get('/', 'PenjualanController@periode')->name('index');
@@ -243,6 +246,11 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
             $app->get('/print', 'ReportController@piutangPrint')->name('print');
             $app->get('/loadKotakAtas', 'ReportController@piutangLoadKotak')->name('load_kotak');
             $app->get('/excel', 'ExportExcelController@piutangExcel')->name('excel');
+        });
+        $app->prefix('rekap')->name('rekap.')->group(function ($app) use ($router) {
+            $app->get('/', 'RekapController@index')->name('index');
+            $app->get('/loadTable', 'RekapController@loadTable')->name('load_table');
+            $app->get('/print', 'RekapController@print')->name('print');
         });
     });
     $app->prefix('laporan')->middleware(['cek:Admin,Manager,Petugas'])->name('laporan.')->group(function ($app) use ($router) {

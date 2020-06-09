@@ -48,7 +48,8 @@
             "app/Helpers/Helper.php",
             "app/Helpers/Kas.php",
             "app/Helpers/Saldo.php",
-            "app/Helpers/Toko_setting.php"
+            "app/Helpers/Toko_setting.php",
+            "app/Helpers/Rekap.php"
         ]
     },
     "autoload-dev": {

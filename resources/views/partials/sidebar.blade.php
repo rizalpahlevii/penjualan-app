@@ -170,7 +170,7 @@
 
             @if (Auth::user()->level == "Admin" or Auth::user()->level == "Manager")
             <li
-                class="treeview {{ set_active(['report.penjualan.periode.index','report.penjualan.barang.index','report.grafik.index','report.pembelian.pembelian','report.kas.index','report.labarugi.index','report.penjualan.periode','report.penjualan.barang','report.hutang.index','report.piutang.index']) }}">
+                class="treeview {{ set_active(['report.penjualan.periode.index','report.penjualan.barang.index','report.grafik.index','report.pembelian.pembelian','report.kas.index','report.labarugi.index','report.penjualan.periode','report.penjualan.barang','report.hutang.index','report.piutang.index','report.rekap.index']) }}">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
                     <span>Report</span>
@@ -216,6 +216,9 @@
                     </li>
                     <li class="{{ set_active(['report.grafik.index']) }}">
                         <a href="{{ route('report.grafik.index') }}"><i class="fa fa-bar-chart"></i> Grafik</a>
+                    </li>
+                    <li class="{{ set_active(['report.rekap.index']) }}">
+                        <a href="{{ route('report.rekap.index') }}"><i class="fa fa-pie-chart"></i> Rekap</a>
                     </li>
                 </ul>
             </li>

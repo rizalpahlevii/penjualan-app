@@ -23,7 +23,7 @@
         @endphp
         @foreach ($piutang as $key=>$item)
         <tr>
-            <td>{{ $key++ }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $item->transaksi->tanggal_transaksi }}</td>
             <td>{{ $item->transaksi->kode }}</td>
             <td> @rupiah($item->total_hutang) </td>
@@ -32,8 +32,10 @@
             <td>{{ $item->tanggal_tempo }}</td>
             <td>{{ $item->pelanggan->nama }}</td>
             <td>
+                @if ( $item->status_piutang != "lunas")
                 <button class="btn btn-sm btn-success aksi" data-id="{{ $item->id }}"><i
                         class="fa fa-gear"></i></button>
+                @endif
             </td>
         </tr>
         @php

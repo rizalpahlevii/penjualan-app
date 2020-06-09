@@ -48,8 +48,6 @@
                             <th>Tanggal</th>
                             <th>Faktur</th>
                             <th>Pemasukan</th>
-                            <th>PPN</th>
-                            <th>PPH</th>
                             <th>Pembayaran</th>
                             <th>Pelanggan</th>
                         </tr>
@@ -63,12 +61,10 @@
                         @if ($item->piutang != null)
                         @if ($item->piutang->sisa_piutang == 0)
                         <tr>
-                            <td>{{ $key++ }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->tanggal_transaksi }}</td>
                             <td>{{ $item->kode }}</td>
                             <td> @rupiah($item->total - ($item->ppn + $item->pph)) </td>
-                            <td> @rupiah($item->ppn) </td>
-                            <td> @rupiah($item->pph) </td>
                             <td>{{ ucfirst($item->status) }}</td>
                             <td>{{ $item->pelanggan->nama }}</td>
                         </tr>
@@ -76,12 +72,10 @@
                         @endif
                         @else
                         <tr>
-                            <td>{{ $key++ }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->tanggal_transaksi }}</td>
                             <td>{{ $item->kode }}</td>
-                            <td> @rupiah($item->total - ($item->ppn + $item->pph)) </td>
-                            <td> @rupiah($item->ppn) </td>
-                            <td> @rupiah($item->pph) </td>
+                            <td> @rupiah($item->total ) </td>
                             <td>{{ ucfirst($item->status) }}</td>
                             <td>{{ $item->pelanggan->nama }}</td>
                         </tr>
@@ -93,7 +87,7 @@
                     </tbody>
                     <thead>
                         <tr>
-                            <td colspan="7">
+                            <td colspan="5">
                                 <center><b>Total</b></center>
                             </td>
                             <td><b id="ttl">@rupiah($total)</b></td>
