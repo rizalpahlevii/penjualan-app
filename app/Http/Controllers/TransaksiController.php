@@ -38,7 +38,7 @@ class TransaksiController extends Controller
     }
     public function addToCart(Request $request)
     {
-        $cart = Cart_transaksi::where('barang_id', $request->barcode)->where('status', 'cart')->where('user_id', 1)->first();
+        $cart = Cart_transaksi::where('barang_id', $request->barcode)->where('status', 'cart')->where('user_id', auth()->user()->id)->first();
         if ($cart) {
             $cart = Cart_transaksi::where('barang_id', $request->barcode)->first();
             $cart->qty += $request->qty;
