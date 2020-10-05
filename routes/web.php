@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth'], function ($app) use ($router) {
         $app->get('/{id}/edit', 'BarangController@edit')->name('edit');
         $app->get('/{id}/show', 'BarangController@show')->name('show');
         $app->get('/{id}/delete', 'BarangController@destroy')->name('destroy');
-        // stok barang masuk 
+        // stok barang masuk
 
         $app->prefix('masuk')->name('masuk.')->group(function ($app) use ($router) {
             $app->get('/', 'StokMasukController@index')->name('index');

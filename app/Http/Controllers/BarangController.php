@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Satuan;
 use App\Kategori;
 use App\Barang;
+use App\Transaksi;
 use Illuminate\Http\Request;
 use Milon\Barcode\DNS1D;
 

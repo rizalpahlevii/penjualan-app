@@ -10,4 +10,5 @@ class Cashback_detail extends Model
     {
         return $this->belongsTo(Detail_transaksi::class, 'detail_transaksi_id', 'id');
     }
+
 }
